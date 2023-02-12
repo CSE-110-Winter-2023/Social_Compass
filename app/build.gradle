@@ -4,7 +4,7 @@ plugins {
 
 android {
     namespace 'edu.ucsd.cse110.cse110group8_compass'
-    compileSdk 32
+    compileSdk 33
 
     defaultConfig {
         applicationId "edu.ucsd.cse110.cse110group8_compass"

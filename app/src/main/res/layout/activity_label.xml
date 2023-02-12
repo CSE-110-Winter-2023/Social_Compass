@@ -4,15 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".Label">
 
-    <Button
-        android:id="@+id/button"
+    <EditText
+        android:id="@+id/editTextTextPersonName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="48dp"
-        android:onClick="onAddLocationClick"
-        android:text="AddLocation"
+        android:ems="10"
+        android:hint="Label Name"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        tools:layout_editor_absoluteY="658dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:inputType="textPersonName"
+        tools:layout_editor_absoluteX="109dp"
+        tools:layout_editor_absoluteY="326dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
