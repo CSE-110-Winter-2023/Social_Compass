@@ -29,12 +29,12 @@
             tools:layout_editor_absoluteY="0dp" />
 
         <ImageView
-            android:id="@+id/parent_dropdown"
+            android:id="@+id/dropdown_pin"
             android:layout_width="32dp"
             android:layout_height="32dp"
             app:layout_constraintCircle="@+id/compass"
             app:layout_constraintCircleAngle="0"
-            app:layout_constraintCircleRadius="225dp"
+            app:layout_constraintCircleRadius="210dp"
             app:srcCompat="@drawable/pindrop"
             tools:layout_editor_absoluteX="170dp"
             tools:layout_editor_absoluteY="31dp" />
