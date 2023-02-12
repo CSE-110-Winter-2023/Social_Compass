@@ -30,8 +30,8 @@
 
         <ImageView
             android:id="@+id/parent_dropdown"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="14dp"
+            android:layout_height="12dp"
             app:layout_constraintCircle="@+id/compass"
             app:layout_constraintCircleAngle="0"
             app:layout_constraintCircleRadius="225dp"
