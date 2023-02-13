@@ -11,7 +11,7 @@ import android.hardware.SensorManager;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-public class OrientationService implements SensorEventListener {
+public class OrientationService extends Activity implements SensorEventListener {
     private static OrientationService instance;
 
     private final SensorManager sensorManager;
