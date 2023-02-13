@@ -34,21 +34,21 @@ public class MainActivity extends AppCompatActivity {
             System.out.println("FINISHED");
         }
 
-        ImageView pin1 = new ImageView(this);
-        pin1.setImageResource(R.drawable.pindrop);
-
-        ConstraintLayout compassLayout = (ConstraintLayout) findViewById(R.id.compass);
-        ConstraintSet c = new ConstraintSet();
-        c.clone(compassLayout);
-        c.constrainCircle(pin1.getId(), R.id.compass, 40, 180);
-        c.applyTo(compassLayout); // Apply back our ConstraintSet on ConstraintLayout.
-
-        compassLayout.addView(pin1);
-
+//        ImageView pin1 = new ImageView(this);
+//        pin1.setImageResource(R.drawable.pindrop);
+//
+//        ConstraintLayout compassLayout = (ConstraintLayout) findViewById(R.id.compass);
+//
+//        ConstraintSet c = new ConstraintSet();
+//        c.clone(compassLayout);
+//        c.constrainCircle(pin1.getId(), R.id.compass, 40, 90);
+//        c.applyTo(compassLayout); // Apply back our ConstraintSet on ConstraintLayout.
+//
+//        compassLayout.addView(pin1);
     }
     
     public void onEnterLocationClick(View view) {
-        Intent intent = new Intent(this, Location.class);
+        Intent intent = new Intent(this, LocationActivity.class);
         startActivity(intent);
     }
     
