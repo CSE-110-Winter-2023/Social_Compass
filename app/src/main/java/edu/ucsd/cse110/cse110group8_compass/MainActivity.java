@@ -50,7 +50,12 @@ public class MainActivity extends AppCompatActivity {
         compassLayout.addView(pin1);
 
     }
-
+    
+    public void onEnterLocationClick(View view) {
+        Intent intent = new Intent(this, Location.class);
+        startActivity(intent);
+    }
+    
     public void onChangeLabelClick(View view) {
         Intent intent = new Intent(this, Label.class);
         startActivity(intent);
