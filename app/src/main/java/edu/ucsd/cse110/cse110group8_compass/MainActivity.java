@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
             System.out.println("FINISHED");
         }
 
+
 //        ImageView pin1 = new ImageView(this);
 //        pin1.setImageResource(R.drawable.pindrop);
 //
@@ -45,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
 //        c.applyTo(compassLayout); // Apply back our ConstraintSet on ConstraintLayout.
 //
 //        compassLayout.addView(pin1);
+
     }
     
     public void onEnterLocationClick(View view) {

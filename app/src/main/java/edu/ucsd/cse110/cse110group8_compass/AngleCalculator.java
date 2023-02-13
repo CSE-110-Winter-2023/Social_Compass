@@ -63,21 +63,21 @@ public class AngleCalculator {
         return userLocation.bearingTo(NORTH_POLE_LOCATION);
     }
 
-    public Double angleOnCircle(Double target_latitude, Double target_longitude,  Float azimuthRadian ) {
-        Double azimuth = convertToDegree(azimuthRadian);
-
-        System.out.println("lat0: " + target_latitude);
-        System.out.println("long0: " +  target_longitude);
+    private Double calculateBearing(Double target_latitude, Double target_longitude) {
 
         Location targetLocation = new Location(LocationManager.GPS_PROVIDER);
         targetLocation.setMock(true);
         targetLocation.setLatitude(Double.valueOf(target_latitude));
         targetLocation.setLongitude(Double.valueOf(target_longitude));
 
-        System.out.println("lat: " + targetLocation.getLatitude());
-        System.out.println("long: " + targetLocation.getLongitude());
+        return Double.valueOf(userLocation.bearingTo(targetLocation));
+    }
 
-        Double targetBearing = Double.valueOf(userLocation.bearingTo(targetLocation));
+
+    public Double angleOnCircle(Double target_latitude, Double target_longitude,  Float azimuthRadian ) {
+        Double azimuth = convertToDegree(azimuthRadian);
+
+        Double targetBearing = calculateBearing( target_latitude, target_longitude);
 
         System.out.println(azimuth);
         System.out.println(targetBearing);

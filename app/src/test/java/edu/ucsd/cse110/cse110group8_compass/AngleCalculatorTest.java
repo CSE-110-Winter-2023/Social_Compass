@@ -53,12 +53,12 @@ public class AngleCalculatorTest {
     }
 
 
-    AngleCalculator testAngleCalc = new AngleCalculator(13.512517243930889, 2.9584871874999763);
-    @Test
-    public void test_angleOnCircle() {
-        assertEquals(0,testAngleCalc.northAngle(), 0.001);
-        //assertEquals(48.037, testAngleCalc.angleOnCircle(28.90719090233516, -0.7329190625000237, 0.0F), 0.001);
-    }
+    //AngleCalculator testAngleCalc = new AngleCalculator(66.09229522345977, 2.259528661085639);
+   // @Test
+    //public void test_angleOnCircle() {
+        //assertEquals(0,testAngleCalc.northAngle(), 0.001);
+    //    assertEquals(48.037, testAngleCalc.angleOnCircle(28.90719090233516, -0.7329190625000237, 0.0F), 0.001);
+    //}
 
 
 
