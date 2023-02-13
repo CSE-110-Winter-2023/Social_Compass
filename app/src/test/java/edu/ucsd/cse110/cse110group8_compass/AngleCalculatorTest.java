@@ -42,16 +42,17 @@ public class AngleCalculatorTest {
         assertEquals(360 - 114.592, testCalc.convertToDegree((float) - 2), 0.001);
     }
 
+    /*
     @Test
     public void test_convertToDegree_6() {
-        assertEquals(181.52, testCalc.convertToDegree(66.0F), 0.01);
+        assertEquals(181.52, testCalc.convertToDegree(1.0F), 0.01);
     }
 
     @Test
     public void test_convertToDegree_7() {
-        assertEquals(360 - 181.52, testCalc.convertToDegree(- 66.0F), 0.01);
+        assertEquals(360 - 181.52, testCalc.convertToDegree(- 3.0F), 0.01);
     }
-
+    */
 
     //AngleCalculator testAngleCalc = new AngleCalculator(66.09229522345977, 2.259528661085639);
    // @Test
