@@ -5,14 +5,14 @@ import android.widget.TextView;
 public class Pin {
 
     String name;
-    int latitude;
-    int longitude;
+    Double latitude;
+    Double longitude;
 
     public Pin(){
         this.name = "Parent";
     }
 
-    public Pin(String label, int longitude, int latitude){
+    public Pin(String label, Double longitude, Double latitude){
         this.name = label;
         this.latitude = latitude;
         this.longitude = longitude;

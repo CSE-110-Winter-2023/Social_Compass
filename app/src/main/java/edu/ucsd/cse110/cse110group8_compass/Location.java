@@ -46,8 +46,8 @@ public class Location extends AppCompatActivity {
             String lat = latitude.getText().toString();
             String longit = longitude.getText().toString();
             Pin defaultPin = new Pin();
-            Pin parent = new Pin("Testparent",Integer.parseInt(lat),
-                    Integer.parseInt(longit));
+            Pin parent = new Pin("Testparent",Double.parseDouble(lat),
+                    Double.parseDouble(longit));
             intent.putExtra("label", parent.name);
             intent.putExtra("latitude", lat);
             intent.putExtra("longitude", longit);

@@ -11,8 +11,8 @@ public class  DisplayCircle {
      static private ConstraintLayout circle_constraint;
      static private ImageView pin_id;
 
-     //static private pinObject userPin;
-     //static private pinObject northPin;
+     static private Pin userPin;
+     static private Pin northPin;
 
      //should have pin object of north and user already
 
@@ -28,14 +28,14 @@ public class  DisplayCircle {
 
      //should take the pin object as input
      //pin object should have location information
-    /* public void rotatePin(pinObject targetPin,Float targetAzimuth) {
-           AngleCalculator angleCalculator = new AngleCalculator(userPin.getLocation());
-           move(targetPin.getImageView(), angleCalculator.angleOnCircle(targetPin.getLocation(), targetAzimuth));
+     public void rotatePin(ImageView targetPinImageView,Pin targetPin,Float targetAzimuth) {
+           AngleCalculator angleCalculator = new AngleCalculator(userPin.latitude, userPin.longitude);
+           move(targetPinImageView, angleCalculator.angleOnCircle(userPin.latitude, userPin.longitude, targetAzimuth).floatValue());
 
-     }*/
+     }
 
      //These two need to go into its own Rotator class
-          public void move(ImageView pin_m, float angle) {
+          public void move(ImageView pin_m, Float angle) {
                ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) pin_m.getLayoutParams();
                layoutParams.circleAngle = angle;
                pin_id.setLayoutParams(layoutParams);
