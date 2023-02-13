@@ -24,7 +24,7 @@
             android:id="@+id/compass_background"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:srcCompat="@drawable/compass_background"
+            app:srcCompat="@drawable/circle"
             tools:layout_editor_absoluteX="0dp"
             tools:layout_editor_absoluteY="0dp" />
 
