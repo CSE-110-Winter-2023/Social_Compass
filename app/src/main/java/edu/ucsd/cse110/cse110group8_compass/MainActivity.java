@@ -41,13 +41,13 @@ public class MainActivity extends AppCompatActivity {
         ImageView pin1 = new ImageView(this);
         pin1.setImageResource(R.drawable.pindrop);
 
-        ConstraintLayout compassLayout = (ConstraintLayout) findViewById(R.id.compass);
-        ConstraintSet c = new ConstraintSet();
-        c.clone(compassLayout);
-        c.constrainCircle(pin1.getId(), R.id.compass, 40, 180);
-        c.applyTo(compassLayout); // Apply back our ConstraintSet on ConstraintLayout.
+        //ConstraintLayout compassLayout = (ConstraintLayout) findViewById(R.id.compass);
+       // ConstraintSet c = new ConstraintSet();
+       // c.clone(compassLayout);
+       // c.constrainCircle(pin1.getId(), R.id.compass, 40, 180);
+       // c.applyTo(compassLayout); // Apply back our ConstraintSet on ConstraintLayout.
 
-        compassLayout.addView(pin1);
+      //  compassLayout.addView(pin1);
 
     }
 
