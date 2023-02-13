@@ -80,7 +80,7 @@
             app:layout_constraintCircle="@+id/compass"
             app:layout_constraintCircleAngle="180"
             app:layout_constraintCircleRadius="140dp"
-            app:srcCompat="@drawable/pindrop"
+            app:srcCompat="@drawable/north_arrow"
             tools:layout_constraintCircleAngle="90"
             tools:layout_editor_absoluteX="262dp"
             tools:layout_editor_absoluteY="255dp" />

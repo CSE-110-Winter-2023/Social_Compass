@@ -19,10 +19,10 @@ public class OrientationService implements SensorEventListener {
     private float[] magnetometerReading;
     private MutableLiveData<Float> azimuth;
 
-    @SuppressLint("ServiceCast")
+
     protected OrientationService(Activity activity) {
         this.azimuth = new MutableLiveData<>();
-        this.sensorManager = (SensorManager) activity.getSystemService(Context.SEARCH_SERVICE);
+        this.sensorManager = (SensorManager) activity.getSystemService(Context.SENSOR_SERVICE);
         this.registerSensorListeners();
     }
 

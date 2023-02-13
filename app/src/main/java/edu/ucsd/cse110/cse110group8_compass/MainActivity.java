@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Pair;
 import android.view.View;
 import android.widget.TextView;
@@ -36,29 +37,45 @@ public class MainActivity extends AppCompatActivity {
         userCoordinates = locationService.getLocation();
 
         OrientationService orientationService = new OrientationService(this);
-        /*LiveData<Float> azimuth = orientationService.getOrientation();
+        LiveData<Float> azimuth = orientationService.getOrientation();
 
-        /*DisplayCircle displayCircle = new DisplayCircle(findViewById(R.id.compass));
+        DisplayCircle displayCircle = new DisplayCircle(findViewById(R.id.compass));
 
         Pin northPin = new Pin();
         northPin.longitude = 135.0000;
         northPin.latitude = 90.0000;
 
-        /*final Float[] azimuthFloat = new Float[1];
 
-        final Observer<Float> nameObserver = new Observer<Float>() {
+
+        Float azimuthFloat;
+
+        /*final Observer<Float> nameObserver = new Observer<Float>() {
             @Override
             public void onChanged(@Nullable final Float azimuthValue) {
-                azimuthFloat[0] = azimuthValue;
+                azimuthFloat = azimuthValue;
             }
-        };
+        };*/
 
-        azimuth.observe(this,nameObserver );
+        //azimuth.observe(this, new Observer<Float>() {
+        //    @Override
+        //    public void onChanged(Float value) {
+                // Get the data from the LiveData object here
+         //       if(findViewById(R.id.friend_pin) != null ) {
+         //           displayCircle.rotatePin(findViewById(R.id.friend_pin), northPin, value);
+         //       }
 
-        displayCircle.rotatePin(findViewById(R.id.friend_pin), northPin, azimuthFloat[0]);*/
+                //Log.d("LiveDataValue", String.valueOf(value));
+        //    }
+       // });
+
+        //azimuth.observe(this, observer -> {
+       //     azimuthFloat = observer;
+       // });
 
 
-
+        displayCircle.setUserPin(userCoordinates);
+        displayCircle.rotatePin(findViewById(R.id.friend_pin), northPin, azimuth, this);
+        //displayCircle.rotatePin(findViewById(R.id.friend_pin), northPin, azimuth, this);
         Bundle extras = getIntent().getExtras();
         if(extras != null){
             Intent intent = getIntent();
@@ -70,6 +87,16 @@ public class MainActivity extends AppCompatActivity {
             TextView textView = (TextView) findViewById(R.id.Parent);
             textView.setText(name + ": " + latit + ", " + longit);
             System.out.println("FINISHED");
+
+            Pin pinOne = new Pin();
+            pinOne.longitude = Double.valueOf(longit);
+            pinOne.latitude = Double.valueOf(latit);
+
+            System.out.println("long:" + pinOne.longitude);
+            System.out.println("latitude:" +    pinOne.latitude);
+
+            displayCircle.rotatePin(findViewById(R.id.parent_pin), pinOne, azimuth, this);
+
         }
 
 
