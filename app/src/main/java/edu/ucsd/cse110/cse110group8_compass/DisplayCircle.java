@@ -10,11 +10,9 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 public class  DisplayCircle {
      static private ConstraintLayout circle_constraint;
      static private ImageView pin_id;
-<<<<<<< HEAD
-=======
+
      //static private pinObject userPin;
      //static private pinObject northPin;
->>>>>>> e8579b222ff652a522b72e4f7b2acfba72aa72f9
 
      //should have pin object of north and user already
 
