@@ -10,11 +10,9 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 public class  DisplayCircle {
      static private ConstraintLayout circle_constraint;
      static private ImageView pin_id;
-=
 
      //An array of 3 specific pins, need to update based on name
      static private DropdownPin[3] pins;
-
 
      //constructor which takes in the compass constraint
       DisplayCircle (ConstraintLayout circle_m) {
