@@ -2,6 +2,7 @@ package edu.ucsd.cse110.cse110group8_compass;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -23,7 +24,8 @@ public class Location extends AppCompatActivity {
 
         TextView error = findViewById(R.id.ErrorText);
 
-        Intent intent = new Intent(this, Label.class);
+        Intent intent = new Intent(this, MainActivity.class);
+
 
         TextView latitude = findViewById(R.id.latitudeText);
         TextView longitude = findViewById(R.id.longitudeText);
@@ -41,6 +43,14 @@ public class Location extends AppCompatActivity {
         }
         else{
             error.setVisibility(View.INVISIBLE);
+            String lat = latitude.getText().toString();
+            String longit = longitude.getText().toString();
+            Pin defaultPin = new Pin();
+            Pin parent = new Pin("Testparent",Integer.parseInt(lat),
+                    Integer.parseInt(longit));
+            intent.putExtra("label", parent.name);
+            intent.putExtra("latitude", lat);
+            intent.putExtra("longitude", longit);
             startActivity(intent);
         }
 
