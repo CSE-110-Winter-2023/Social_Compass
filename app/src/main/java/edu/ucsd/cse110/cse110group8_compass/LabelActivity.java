@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-public class Label extends AppCompatActivity {
+public class LabelActivity extends AppCompatActivity {
 
     int label;
     @Override
