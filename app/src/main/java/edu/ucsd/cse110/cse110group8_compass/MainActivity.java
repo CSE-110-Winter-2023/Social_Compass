@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
 
         displayCircle.setUserPin(userCoordinates);
         displayCircle.rotatePin(findViewById(R.id.friend_pin), northPin, azimuth, this);
-        //displayCircle.rotatePin(findViewById(R.id.friend_pin), northPin, azimuth, this);
+        displayCircle.rotatePin(findViewById(R.id.friend_pin), northPin, azimuth, this);
         Bundle extras = getIntent().getExtras();
         if(extras != null){
             Intent intent = getIntent();
