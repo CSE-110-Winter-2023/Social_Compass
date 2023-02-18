@@ -26,6 +26,30 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+        Intent intent = getIntent();
+        System.out.println("IN HERE");
+        String name = intent.getStringExtra("label");
+        String latit = intent.getStringExtra("latitude");
+        String longit = intent.getStringExtra("longitude");
+        System.out.println("fromintent: " + name + latit + longit);
+        TextView textView = (TextView) findViewById(R.id.Parent);
+        textView.setText(name + ": " + latit + ", " + longit);
+        System.out.println("FINISHED");
+
+        Pin pinOne = new Pin();
+        if(longit!= null && latit != null){
+            pinOne.longitude = Double.valueOf(longit);
+            pinOne.latitude = Double.valueOf(latit);
+            System.out.println("long:" + pinOne.longitude);
+            System.out.println("latitude:" +    pinOne.latitude);
+            }
+
+
+            //displayCircle.rotatePin(findViewById(R.id.parent_pin), pinOne, azimuth, this);
+
+
+
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
             && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
@@ -76,7 +100,8 @@ public class MainActivity extends AppCompatActivity {
         displayCircle.setUserPin(userCoordinates);
         displayCircle.rotatePin(findViewById(R.id.friend_pin), northPin, azimuth, this);
         displayCircle.rotatePin(findViewById(R.id.friend_pin), northPin, azimuth, this);
-        Bundle extras = getIntent().getExtras();
+
+        /*Bundle extras = getIntent().getExtras();
         if(extras != null){
             Intent intent = getIntent();
             System.out.println("IN HERE");
@@ -98,6 +123,8 @@ public class MainActivity extends AppCompatActivity {
             displayCircle.rotatePin(findViewById(R.id.parent_pin), pinOne, azimuth, this);
 
         }
+
+         */
 
 
 //        ImageView pin1 = new ImageView(this);
