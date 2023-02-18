@@ -15,6 +15,9 @@ public class AngleCalculator {
     protected final Double NORTH_POLE_LATITUDE = 90.0000;
     protected final Location NORTH_POLE_LOCATION;
 
+    private double debugLatSave = 0;
+    private double debugLongSave = 0;
+
     protected Location userLocation;
     private static AngleCalculator instance;
 
@@ -38,10 +41,6 @@ public class AngleCalculator {
     }*/
 
     public double convertToDegree(Float rad) {
-       /// if(Math.abs(rad) > 2 * Math.PI) {
-      //      rad = rad % (2 * (float)(Math.PI));
-      //  }
-        //System.out.println("RAD: "+ rad);
         if(rad < 0) {
             return 360 + Math.toDegrees(rad);
         }
@@ -55,9 +54,6 @@ public class AngleCalculator {
         userLocation.setLatitude(userLatitude);
         userLocation.setLongitude(userLongitude);
 
-        //targetLocation = new Location("");
-        //targetLocation.setLongitude(targetLongitude);
-        //targetLocation.setLatitude(targetLatitude);
     }
 
     public float northAngle() {
@@ -67,17 +63,11 @@ public class AngleCalculator {
     private Double calculateBearing(Double target_latitude, Double target_longitude) {
 
         Location targetLocation = new Location(LocationManager.GPS_PROVIDER);
-        //targetLocation.setMock(true);
 
-       // System.out.println();
-        //System.out.println();
-       // System.out.println("calcBaring Lat" + target_latitude);
-       // System.out.println("calcBaring Lat" + target_longitude);
         targetLocation.setLatitude(Double.valueOf(target_latitude));
         targetLocation.setLongitude(Double.valueOf(target_longitude));
 
 
-        //System.out.println("calcBaring bearing" + userLocation.bearingTo(targetLocation));
 
         return Double.valueOf(userLocation.bearingTo(targetLocation));
     }
@@ -86,25 +76,36 @@ public class AngleCalculator {
     public Double angleOnCircle(Double target_latitude, Double target_longitude,  Float azimuthRadian ) {
         Double azimuth = convertToDegree(azimuthRadian);
 
+
         Double targetBearing = calculateBearing( target_latitude, target_longitude);
 
-        //System.out.println(azimuth);
-       // System.out.println(targetBearing);
+       // System.out.println(azimuth);
+        //System.out.println(targetBearing);
+
+        //System.out.println("target lat: " + target_longitude);
+
 
         if(targetBearing < 0) {
             targetBearing = 360 + targetBearing;
+
         }
 
         if(azimuth > targetBearing) {
-         //   System.out.println("I1: "+ (azimuth - targetBearing));
-            return 360 - azimuth - targetBearing;
+            System.out.println("case1: " + (360 - azimuth + targetBearing));
+            System.out.println("azimuth: " + azimuth);
+            System.out.println("targetBear"+ targetBearing);
+
+            return   360 - azimuth + targetBearing;
+
         }
         else if (azimuth < targetBearing) {
-         //   System.out.println("I2: "+ (360 - targetBearing - azimuth));
+            if(debugLatSave == target_latitude) {
+                System.out.println("case2: " + (targetBearing - azimuth));
+            }
             return targetBearing - azimuth;
         }
         else {
-         //   System.out.println("I3: "+ (0));
+            System.out.println("case3:");
             return 0.0;
         }
     }

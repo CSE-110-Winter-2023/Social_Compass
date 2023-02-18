@@ -14,11 +14,11 @@ import androidx.lifecycle.Observer;
 //DisplayCircile coordiantes all the pins and makes them visible or not
 public class  DisplayCircle {
      static private ConstraintLayout circle_constraint;
-     static private ImageView pin_id;
+     //static private ImageView pin_id;
      static private LiveData<Pair<Double, Double>> userCoordinateLive;
 
-     static private Pin userPin;
-     static private Pin northPin;
+     //static private Pin userPin;
+    // static private Pin northPin;
 
      //should have pin object of north and user already
 
@@ -47,8 +47,6 @@ public class  DisplayCircle {
 
                                move(targetPinImageView, angleCalculator.angleOnCircle(targetPin.latitude, targetPin.longitude, value).floatValue());
 
-
-                               //Log.d("LiveDataValue", String.valueOf(value));
                           }
                      });
                 }

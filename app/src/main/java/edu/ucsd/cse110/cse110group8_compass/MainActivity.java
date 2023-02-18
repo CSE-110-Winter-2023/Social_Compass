@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
         LiveData<Float> azimuth = orientationService.getOrientation();
 
         DisplayCircle displayCircle = new DisplayCircle(findViewById(R.id.compass));
+        DisplayCircle displayCircle2 = new DisplayCircle(findViewById(R.id.compass));
 
         Pin northPin = new Pin();
         northPin.longitude = 135.0000;
@@ -74,8 +75,8 @@ public class MainActivity extends AppCompatActivity {
 
 
         displayCircle.setUserPin(userCoordinates);
-        displayCircle.rotatePin(findViewById(R.id.friend_pin), northPin, azimuth, this);
-        //displayCircle.rotatePin(findViewById(R.id.friend_pin), northPin, azimuth, this);
+        //---displayCircle.rotatePin(findViewById(R.id.friend_pin), northPin, azimuth, this);
+        displayCircle2.rotatePin(findViewById(R.id.friend_pin), northPin, azimuth, this);
         Bundle extras = getIntent().getExtras();
         if(extras != null){
             Intent intent = getIntent();
