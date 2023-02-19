@@ -6,7 +6,10 @@ import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,6 +20,9 @@ import android.Manifest;
 
 
 public class MainActivity extends AppCompatActivity {
+    private boolean reloadNeeded = true;
+    private static final int EDIT_CODE = 31;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +42,9 @@ public class MainActivity extends AppCompatActivity {
         TextView textView = (TextView) findViewById(R.id.Parent);
         textView.setText(name + ": " + latit + ", " + longit);
         System.out.println("FINISHED");
+
+        SharedPreferences prefs = getPreferences(MODE_PRIVATE);
+
 
         Pin pinOne = new Pin();
         if(longit!= null && latit != null){
@@ -140,7 +149,35 @@ public class MainActivity extends AppCompatActivity {
 //        compassLayout.addView(pin1);
 
     }
-    
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        if (this.reloadNeeded) {
+            this.reloadData();
+        }
+        this.reloadNeeded = false;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == Activity.RESULT_OK) {
+            // Yes we did! Let's allow onResume() to reload the data
+            this.reloadNeeded = true;
+        }
+    }
+
+    private void reloadData(){
+        SharedPreferences prefs = getSharedPreferences("mysettings",
+                Context.MODE_PRIVATE);
+        String s = prefs.getString("name", "default");
+        TextView pin = findViewById(R.id.parent_pin);
+        pin.setText(s);
+    }
+
+
     public void onEnterLocationClick(View view) {
         Intent intent = new Intent(this, LocationActivity.class);
         startActivity(intent);
@@ -148,7 +185,7 @@ public class MainActivity extends AppCompatActivity {
     
     public void onChangeLabelClick(View view) {
         Intent intent = new Intent(this, LabelActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent, EDIT_CODE);
     }
 
 }

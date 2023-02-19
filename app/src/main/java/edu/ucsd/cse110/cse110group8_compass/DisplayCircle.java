@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.util.Pair;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.lifecycle.LifecycleOwner;
@@ -14,7 +15,7 @@ import androidx.lifecycle.Observer;
 //DisplayCircile coordiantes all the pins and makes them visible or not
 public class  DisplayCircle {
      static private ConstraintLayout circle_constraint;
-     static private ImageView pin_id;
+     static private TextView pin_id;
      static private LiveData<Pair<Double, Double>> userCoordinateLive;
 
      static private Pin userPin;
@@ -34,7 +35,7 @@ public class  DisplayCircle {
 
      //should take the pin object as input
      //pin object should have location information
-     public void rotatePin(ImageView targetPinImageView, Pin targetPin, LiveData<Float> targetAzimuth, Activity activity) {
+     public void rotatePin(TextView targetPinTextView, Pin targetPin, LiveData<Float> targetAzimuth, Activity activity) {
            userCoordinateLive.observe((LifecycleOwner) activity, new Observer<Pair<Double, Double>>() {
                 @Override
                 public void onChanged(Pair<Double, Double> doubleDoublePair) {
@@ -45,7 +46,7 @@ public class  DisplayCircle {
                           public void onChanged(Float value) {
                                //Get the data from the LiveData object here
 
-                               move(targetPinImageView, angleCalculator.angleOnCircle(targetPin.latitude, targetPin.longitude, value).floatValue());
+                               move(targetPinTextView, angleCalculator.angleOnCircle(targetPin.latitude, targetPin.longitude, value).floatValue());
 
 
                                //Log.d("LiveDataValue", String.valueOf(value));
@@ -59,13 +60,13 @@ public class  DisplayCircle {
      }
 
      //These two need to go into its own Rotator class
-          public void move(ImageView pin_m, Float angle) {
+          public void move(TextView pin_m, Float angle) {
                ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) pin_m.getLayoutParams();
                layoutParams.circleAngle = angle;
                pin_m.setLayoutParams(layoutParams);
           }
 
-          public void rotate2(ImageView pin_m, long animation_time_m , float start_angle_m, float end_angle_m) {
+          public void rotate2(TextView pin_m, long animation_time_m , float start_angle_m, float end_angle_m) {
                ValueAnimator anim = ValueAnimator.ofFloat(start_angle_m, end_angle_m);
                anim.addUpdateListener(valueAnimator -> {
                     int val = (Integer) valueAnimator.getAnimatedValue();
