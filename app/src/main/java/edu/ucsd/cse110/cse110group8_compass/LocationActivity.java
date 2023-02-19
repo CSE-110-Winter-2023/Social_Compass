@@ -2,6 +2,8 @@ package edu.ucsd.cse110.cse110group8_compass;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -18,16 +20,16 @@ public class LocationActivity extends AppCompatActivity {
     }
 
     public void onNextClick(View view) {
-        SharedPreferences preferences = getPreferences(MODE_PRIVATE);
+        SharedPreferences preferences = getSharedPreferences("mysettings", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
 
         TextView error = findViewById(R.id.ErrorText);
 
-        Intent intent = new Intent(this, MainActivity.class);
 
 
         TextView latitude = findViewById(R.id.latitudeText);
         TextView longitude = findViewById(R.id.longitudeText);
+        TextView label = findViewById(R.id.LabelTextView);
 
         System.out.println("latitude: " + latitude.getText().toString());
         System.out.println("longitude: " + longitude.getText().toString());
@@ -44,15 +46,24 @@ public class LocationActivity extends AppCompatActivity {
             error.setVisibility(View.INVISIBLE);
             String lat = latitude.getText().toString();
             String longit = longitude.getText().toString();
+            String name = label.getText().toString();
+
+
             Pin defaultPin = new Pin();
             Pin parent = new Pin("Testparent",Double.parseDouble(lat),
                     Double.parseDouble(longit));
-            intent.putExtra("label", parent.getName());
-            intent.putExtra("latitude", lat);
-            intent.putExtra("longitude", longit);
-            startActivity(intent);
+
         }
 
+            editor.putString("name", name);
+            editor.putString("latitude", lat);
+            editor.putString("longitude", longit);
+            editor.apply();
+
+            Intent returnIntent = new Intent();
+            setResult(Activity.RESULT_OK,returnIntent);
+            finish();
+        }
     }
 
     public void onCancelClick(View view) {

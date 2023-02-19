@@ -14,7 +14,7 @@ import org.robolectric.RobolectricTestRunner;
 public class LocationActivityTest {
 
     @Test
-    public void test_one_plus_equals_two() {
+    public void test_entering_invalid_location() {
         ActivityScenario<LocationActivity> scenario = ActivityScenario.launch(LocationActivity.class);
         scenario.moveToState(Lifecycle.State.CREATED);
         scenario.moveToState(Lifecycle.State.STARTED);

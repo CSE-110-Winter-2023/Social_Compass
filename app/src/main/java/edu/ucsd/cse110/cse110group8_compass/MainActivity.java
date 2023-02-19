@@ -4,8 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.LiveData;
 
+
+import android.app.Activity;
+import android.content.Context;
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Pair;
@@ -15,6 +19,9 @@ import android.Manifest;
 
 
 public class MainActivity extends AppCompatActivity {
+    private boolean reloadNeeded = true;
+    private static final int EDIT_CODE = 31;
+
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -24,6 +31,33 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        Intent intent = getIntent();
+        System.out.println("IN HERE");
+        String name = intent.getStringExtra("label");
+        String latit = intent.getStringExtra("latitude");
+        String longit = intent.getStringExtra("longitude");
+        System.out.println("fromintent: " + name + latit + longit);
+        TextView textView = (TextView) findViewById(R.id.Parent);
+        textView.setText(name + ": " + latit + ", " + longit);
+        System.out.println("FINISHED");
+
+        SharedPreferences prefs = getPreferences(MODE_PRIVATE);
+
+
+        Pin pinOne = new Pin();
+        if(longit!= null && latit != null){
+            pinOne.longitude = Double.valueOf(longit);
+            pinOne.latitude = Double.valueOf(latit);
+            System.out.println("long:" + pinOne.longitude);
+            System.out.println("latitude:" +    pinOne.latitude);
+            }
+
+
+            //displayCircle.rotatePin(findViewById(R.id.parent_pin), pinOne, azimuth, this);
+
+
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
             && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -46,6 +80,38 @@ public class MainActivity extends AppCompatActivity {
 
         //displayCircle.rotateAllPins();
 
+
+        Float azimuthFloat;
+
+        /*final Observer<Float> nameObserver = new Observer<Float>() {
+            @Override
+            public void onChanged(@Nullable final Float azimuthValue) {
+                azimuthFloat = azimuthValue;
+            }
+        };*/
+
+        //azimuth.observe(this, new Observer<Float>() {
+        //    @Override
+        //    public void onChanged(Float value) {
+                // Get the data from the LiveData object here
+         //       if(findViewById(R.id.friend_pin) != null ) {
+         //           displayCircle.rotatePin(findViewById(R.id.friend_pin), northPin, value);
+         //       }
+
+                //Log.d("LiveDataValue", String.valueOf(value));
+        //    }
+       // });
+
+        //azimuth.observe(this, observer -> {
+       //     azimuthFloat = observer;
+       // });
+
+
+        displayCircle.setUserPin(userCoordinates);
+        displayCircle.rotatePin(findViewById(R.id.friend_pin), northPin, azimuth, this);
+        displayCircle.rotatePin(findViewById(R.id.friend_pin), northPin, azimuth, this);
+
+        /*Bundle extras = getIntent().getExtras();
         Bundle extras = getIntent().getExtras();
         if(extras != null){
             Intent intent = getIntent();
@@ -70,9 +136,53 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
+
+         */
+
+
+//        ImageView pin1 = new ImageView(this);
+//        pin1.setImageResource(R.drawable.pindrop);
+//
+//        ConstraintLayout compassLayout = (ConstraintLayout) findViewById(R.id.compass);
+//
+//        ConstraintSet c = new ConstraintSet();
+//        c.clone(compassLayout);
+//        c.constrainCircle(pin1.getId(), R.id.compass, 40, 90);
+//        c.applyTo(compassLayout); // Apply back our ConstraintSet on ConstraintLayout.
+//
+//        compassLayout.addView(pin1);
+
     }
-    
-    public void onEnterLocationClick(View view) {
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        if (this.reloadNeeded) {
+            this.reloadData();
+        }
+        //this.reloadNeeded = false;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == Activity.RESULT_OK) {
+            // Yes we did! Let's allow onResume() to reload the data
+            this.reloadNeeded = true;
+        }
+    }
+
+    private void reloadData(){
+        SharedPreferences prefs = getSharedPreferences("mysettings",
+                Context.MODE_PRIVATE);
+        String s = prefs.getString("name", "default");
+        TextView pin = findViewById(R.id.parent_pin);
+        pin.setText(s);
+    }
+
+
+    public void onCreateLocationClick(View view) {
         Intent intent = new Intent(this, LocationActivity.class);
         startActivity(intent);
     }

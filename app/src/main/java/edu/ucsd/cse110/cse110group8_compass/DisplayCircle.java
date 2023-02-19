@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.util.Pair;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.lifecycle.LifecycleOwner;
@@ -14,6 +15,7 @@ import androidx.lifecycle.Observer;
 //DisplayCircle coordinates all the pins and makes them visible or not
 public class  DisplayCircle {
      static private ConstraintLayout circle_constraint;
+
      static private LiveData<Pair<Double, Double>> userCoordinateLive;
      static private Pin pinList[];
      static private LiveData<Float> azimuth;
@@ -63,6 +65,7 @@ public class  DisplayCircle {
           }
      }
 
+
      private void rotatePin(Pin targetPin, LiveData<Float> targetAzimuth, Activity activity) {
            userCoordinateLive.observe((LifecycleOwner) activity, new Observer<Pair<Double, Double>>() {
                 @Override
@@ -72,16 +75,16 @@ public class  DisplayCircle {
                      targetAzimuth.observe((LifecycleOwner) activity, new Observer<Float>() {
                           @Override
                           public void onChanged(Float value) {
+
                                Float pinAngle = angleCalculator.angleOnCircle(targetPin.getLatitude(), targetPin.getLongitude(), value).floatValue();
                                Rotator rotator = new Rotator();
                                rotator.move(targetPin.getPinImageView(), pinAngle );
+
 
                           }
                      });
                 }
            });
      }
-
-     //These two need to go into its own Rotator class
 
 }
