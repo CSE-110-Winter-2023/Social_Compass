@@ -47,7 +47,7 @@ public class LocationActivity extends AppCompatActivity {
             Pin defaultPin = new Pin();
             Pin parent = new Pin("Testparent",Double.parseDouble(lat),
                     Double.parseDouble(longit));
-            intent.putExtra("label", parent.name);
+            intent.putExtra("label", parent.getName());
             intent.putExtra("latitude", lat);
             intent.putExtra("longitude", longit);
             startActivity(intent);
