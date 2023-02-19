@@ -120,7 +120,7 @@
             app:layout_constraintCircle="@+id/compass"
             app:layout_constraintCircleAngle="90"
             app:layout_constraintCircleRadius="140dp"
-            android:background="@drawable/pindrop"
+            android:background="@drawable/pindrop_purple"
             tools:layout_constraintCircleAngle="90"
             tools:layout_editor_absoluteX="111dp"
             tools:layout_editor_absoluteY="170dp" />
@@ -133,7 +133,7 @@
             app:layout_constraintCircle="@+id/compass"
             app:layout_constraintCircleAngle="90"
             app:layout_constraintCircleRadius="140dp"
-            android:background="@drawable/pindrop"
+            android:background="@drawable/pindrop_orange"
             tools:layout_constraintCircleAngle="120"
             tools:layout_editor_absoluteX="111dp"
             tools:layout_editor_absoluteY="170dp" />

@@ -8,7 +8,7 @@ public class Pin {
     private String name;
     private Double latitude;
     private Double longitude;
-    private ImageView pinImageView;
+    private TextView pinTextView;
 
 
     public Pin(){
@@ -20,12 +20,12 @@ public class Pin {
         this.longitude = longitude;
     }
 
-    public void setPinImageView(ImageView imageView) {
-        this.pinImageView = imageView;
+    public void setPinImageView(TextView textView) {
+        this.pinTextView = textView;
     }
 
-    public ImageView getPinImageView() {
-        return pinImageView;
+    public TextView getPinTextView() {
+        return pinTextView;
     }
 
     public Double getLatitude() {

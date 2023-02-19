@@ -91,7 +91,7 @@ public class  DisplayCircle {
 
                                Float pinAngle = angleCalculator.angleOnCircle(targetPin.getLatitude(), targetPin.getLongitude(), value).floatValue();
                                Rotator rotator = new Rotator();
-                               rotator.move(targetPin.getPinImageView(), pinAngle );
+                               rotator.move(targetPin.getPinTextView(), pinAngle );
 
 
                           }

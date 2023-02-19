@@ -3,12 +3,13 @@ package edu.ucsd.cse110.cse110group8_compass;
 import android.animation.ValueAnimator;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 public class Rotator {
 
-    public void move(ImageView pin_m, Float angle) {
+    public void move(TextView pin_m, Float angle) {
         ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) pin_m.getLayoutParams();
         layoutParams.circleAngle = angle;
         pin_m.setLayoutParams(layoutParams);
