@@ -156,7 +156,7 @@ public class MainActivity extends AppCompatActivity {
         if (this.reloadNeeded) {
             this.reloadData();
         }
-        this.reloadNeeded = false;
+        //this.reloadNeeded = false;
     }
 
     @Override
@@ -178,14 +178,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void onEnterLocationClick(View view) {
+    public void onCreateLocationClick(View view) {
         Intent intent = new Intent(this, LocationActivity.class);
         startActivity(intent);
     }
     
     public void onChangeLabelClick(View view) {
         Intent intent = new Intent(this, LabelActivity.class);
-        startActivityForResult(intent, EDIT_CODE);
+        startActivity(intent);
     }
 
 }
