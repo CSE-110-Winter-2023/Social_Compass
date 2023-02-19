@@ -48,10 +48,10 @@ public class MainActivity extends AppCompatActivity {
 
         Pin pinOne = new Pin();
         if(longit!= null && latit != null){
-            pinOne.longitude = Double.valueOf(longit);
-            pinOne.latitude = Double.valueOf(latit);
-            System.out.println("long:" + pinOne.longitude);
-            System.out.println("latitude:" +    pinOne.latitude);
+            pinOne.setLocation(Double.valueOf(latit), Double.valueOf(longit)); //ongitude = Double.valueOf(longit);
+           // pinOne.latitude = Double.valueOf(latit);
+            System.out.println("long:" + pinOne.getLongitude());
+            System.out.println("latitude:" +    pinOne.getLatitude());
             }
 
 
@@ -107,9 +107,8 @@ public class MainActivity extends AppCompatActivity {
        // });
 
 
-        displayCircle.setUserPin(userCoordinates);
-        displayCircle.rotatePin(findViewById(R.id.friend_pin), northPin, azimuth, this);
-        displayCircle.rotatePin(findViewById(R.id.friend_pin), northPin, azimuth, this);
+        //displayCircle.setUserPin(userCoordinates);
+       // displayCircle.addPin(northPin);
 
         /*Bundle extras = getIntent().getExtras();
         Bundle extras = getIntent().getExtras();

@@ -53,7 +53,6 @@ public class LocationActivity extends AppCompatActivity {
             Pin parent = new Pin("Testparent",Double.parseDouble(lat),
                     Double.parseDouble(longit));
 
-        }
 
             editor.putString("name", name);
             editor.putString("latitude", lat);
@@ -63,6 +62,10 @@ public class LocationActivity extends AppCompatActivity {
             Intent returnIntent = new Intent();
             setResult(Activity.RESULT_OK,returnIntent);
             finish();
+
+
+
+
         }
     }
 
