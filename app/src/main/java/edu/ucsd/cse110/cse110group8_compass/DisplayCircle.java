@@ -15,19 +15,57 @@ import androidx.lifecycle.Observer;
 public class  DisplayCircle {
      static private ConstraintLayout circle_constraint;
      static private LiveData<Pair<Double, Double>> userCoordinateLive;
-     //static private Pin[3] pins;
+     static private Pin pinList[];
+     static private LiveData<Float> azimuth;
+     static private Activity activity;
+     static private boolean validPins[];
+     static private int numOfPins;
 
-
-      DisplayCircle (ConstraintLayout circle_m) {
+     DisplayCircle (ConstraintLayout circle_m, Activity activity, LiveData<Float> azimuth, LiveData<Pair<Double, Double>> userCoordinateLive) {
           this.circle_constraint = circle_m;
-     }
-
-     public void setUserPin(LiveData<Pair<Double, Double>> userCoordinateLive) {
+          this.activity = activity;
+          this.azimuth = azimuth;
           this.userCoordinateLive = userCoordinateLive;
+          numOfPins = 0;
+          pinList = new Pin[4];
+          validPins = new boolean[]{false, false, false, false};
+     }
+
+     public boolean addPin(Pin newPin) {
+          if(numOfPins < 4 && validPins[0] == true ) {
+               pinList[numOfPins] = newPin;
+               validPins[numOfPins] = true;
+               rotateAllPins();
+               return true;
+          }
+          else {
+               return false;
+          }
+     }
+
+     public void setNorthPin(Pin northPin) {
+          pinList[0] = northPin;
+          validPins[0] = true;
+          numOfPins = 1;
+          rotateAllPins();
      }
 
 
-     public void rotatePin(Pin targetPin, LiveData<Float> targetAzimuth, Activity activity) {
+
+
+     /*private void setUserCoordinate(LiveData<Pair<Double, Double>> userCoordinateLive) {
+          this.userCoordinateLive = userCoordinateLive;
+     }*/
+
+     private void rotateAllPins() {
+          for(int i = 0; i < 4;i++ ) {
+               if(validPins[i] == true) {
+                    rotatePin(pinList[i], azimuth, activity);
+               }
+          }
+     }
+
+     private void rotatePin(Pin targetPin, LiveData<Float> targetAzimuth, Activity activity) {
            userCoordinateLive.observe((LifecycleOwner) activity, new Observer<Pair<Double, Double>>() {
                 @Override
                 public void onChanged(Pair<Double, Double> doubleDoublePair) {
@@ -37,7 +75,8 @@ public class  DisplayCircle {
                           @Override
                           public void onChanged(Float value) {
                                Float pinAngle = angleCalculator.angleOnCircle(targetPin.getLatitude(), targetPin.getLongitude(), value).floatValue();
-                               move(targetPin.getPinImageView(), pinAngle );
+                               Rotator rotator = new Rotator();
+                               rotator.move(targetPin.getPinImageView(), pinAngle );
 
                           }
                      });
@@ -46,22 +85,5 @@ public class  DisplayCircle {
      }
 
      //These two need to go into its own Rotator class
-     public void move(ImageView pin_m, Float angle) {
-          ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) pin_m.getLayoutParams();
-          layoutParams.circleAngle = angle;
-          pin_m.setLayoutParams(layoutParams);
-     }
 
-     public void rotate(ImageView pin_m, long animation_time_m , float start_angle_m, float end_angle_m) {
-          ValueAnimator anim = ValueAnimator.ofFloat(start_angle_m, end_angle_m);
-          anim.addUpdateListener(valueAnimator -> {
-               int val = (Integer) valueAnimator.getAnimatedValue();
-               ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) pin_m.getLayoutParams();
-               layoutParams.circleAngle = val;
-               pin_m.setLayoutParams(layoutParams);
-          });
-          anim.setDuration(animation_time_m);
-          anim.setInterpolator(new LinearInterpolator());
-          anim.start();
-     }
 }

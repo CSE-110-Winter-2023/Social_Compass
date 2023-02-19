@@ -38,13 +38,14 @@ public class MainActivity extends AppCompatActivity {
         OrientationService orientationService = new OrientationService(this);
         LiveData<Float> azimuth = orientationService.getOrientation();
 
-        DisplayCircle displayCircle = new DisplayCircle(findViewById(R.id.compass));
-        displayCircle.setUserPin(userCoordinates);
+        DisplayCircle displayCircle = new DisplayCircle(findViewById(R.id.compass), this, azimuth, userCoordinates);
+        //displayCircle.setUserCoordinate(userCoordinates);
 
         Pin northPin = new Pin("North Pin",135.00, 90.00);
         northPin.setPinImageView(findViewById(R.id.north_pin));
 
-        displayCircle.rotatePin(northPin, azimuth, this);
+        displayCircle.setNorthPin(northPin);
+        //displayCircle.rotateAllPins();
 
         Bundle extras = getIntent().getExtras();
         if(extras != null){
@@ -65,7 +66,8 @@ public class MainActivity extends AppCompatActivity {
             System.out.println("long:" + pinOne.getLongitude());
             System.out.println("latitude:" +    pinOne.getLatitude());
 
-            displayCircle.rotatePin(pinOne, azimuth, this);
+            displayCircle.addPin(pinOne);
+            //displayCircle.rotatePin(pinOne, azimuth, this);
 
         }
 
