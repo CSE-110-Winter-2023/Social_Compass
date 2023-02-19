@@ -73,18 +73,18 @@
             tools:layout_editor_absoluteX="0dp"
             tools:layout_editor_absoluteY="0dp" />
 
-
-        <ImageView
+        <TextView
             android:id="@+id/north_pin"
+            android:text=""
             android:layout_width="34dp"
             android:layout_height="72dp"
-            android:background="@drawable/north_arrow"
             app:layout_constraintCircle="@+id/compass"
-            app:layout_constraintCircleAngle="180"
+            app:layout_constraintCircleAngle="90"
             app:layout_constraintCircleRadius="140dp"
-            tools:layout_constraintCircleAngle="90"
-            tools:layout_editor_absoluteX="262dp"
-            tools:layout_editor_absoluteY="255dp" />
+            android:background="@drawable/north_arrow"
+            tools:layout_constraintCircleAngle="45"
+            tools:layout_editor_absoluteX="111dp"
+            tools:layout_editor_absoluteY="170dp" />
 
        <!-- <ImageView
             android:id="@+id/friend_pin"
@@ -101,7 +101,7 @@
 
         <TextView
             android:id="@+id/parent_pin"
-            android:text="Parents"
+            android:text="null"
             android:layout_width="34dp"
             android:layout_height="72dp"
             app:layout_constraintCircle="@+id/compass"
@@ -109,6 +109,45 @@
             app:layout_constraintCircleRadius="140dp"
             android:background="@drawable/pindrop"
             tools:layout_constraintCircleAngle="90"
+            tools:layout_editor_absoluteX="111dp"
+            tools:layout_editor_absoluteY="170dp" />
+
+        <TextView
+            android:id="@+id/pin_one"
+            android:text="null"
+            android:layout_width="34dp"
+            android:layout_height="72dp"
+            app:layout_constraintCircle="@+id/compass"
+            app:layout_constraintCircleAngle="90"
+            app:layout_constraintCircleRadius="140dp"
+            android:background="@drawable/pindrop"
+            tools:layout_constraintCircleAngle="90"
+            tools:layout_editor_absoluteX="111dp"
+            tools:layout_editor_absoluteY="170dp" />
+
+        <TextView
+            android:id="@+id/pin_two"
+            android:text="null"
+            android:layout_width="34dp"
+            android:layout_height="72dp"
+            app:layout_constraintCircle="@+id/compass"
+            app:layout_constraintCircleAngle="90"
+            app:layout_constraintCircleRadius="140dp"
+            android:background="@drawable/pindrop"
+            tools:layout_constraintCircleAngle="120"
+            tools:layout_editor_absoluteX="111dp"
+            tools:layout_editor_absoluteY="170dp" />
+
+        <TextView
+            android:id="@+id/pin_three"
+            android:text="null"
+            android:layout_width="34dp"
+            android:layout_height="72dp"
+            app:layout_constraintCircle="@+id/compass"
+            app:layout_constraintCircleAngle="90"
+            app:layout_constraintCircleRadius="140dp"
+            android:background="@drawable/pindrop"
+            tools:layout_constraintCircleAngle="140"
             tools:layout_editor_absoluteX="111dp"
             tools:layout_editor_absoluteY="170dp" />
 
