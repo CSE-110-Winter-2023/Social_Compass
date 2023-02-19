@@ -38,13 +38,12 @@ public class MainActivity extends AppCompatActivity {
         OrientationService orientationService = new OrientationService(this);
         LiveData<Float> azimuth = orientationService.getOrientation();
 
-        DisplayCircle displayCircle = new DisplayCircle(findViewById(R.id.compass), this, azimuth, userCoordinates);
-        //displayCircle.setUserCoordinate(userCoordinates);
-
         Pin northPin = new Pin("North Pin",135.00, 90.00);
         northPin.setPinImageView(findViewById(R.id.north_pin));
 
-        displayCircle.setNorthPin(northPin);
+        DisplayCircle displayCircle = new DisplayCircle(findViewById(R.id.compass),northPin,  this, azimuth, userCoordinates);
+        //displayCircle.setUserCoordinate(userCoordinates);
+
         //displayCircle.rotateAllPins();
 
         Bundle extras = getIntent().getExtras();

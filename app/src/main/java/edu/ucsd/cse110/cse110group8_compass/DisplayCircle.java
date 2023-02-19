@@ -21,14 +21,18 @@ public class  DisplayCircle {
      static private boolean validPins[];
      static private int numOfPins;
 
-     DisplayCircle (ConstraintLayout circle_m, Activity activity, LiveData<Float> azimuth, LiveData<Pair<Double, Double>> userCoordinateLive) {
+     DisplayCircle (ConstraintLayout circle_m, Pin northPin,Activity activity, LiveData<Float> azimuth, LiveData<Pair<Double, Double>> userCoordinateLive) {
           this.circle_constraint = circle_m;
           this.activity = activity;
           this.azimuth = azimuth;
           this.userCoordinateLive = userCoordinateLive;
-          numOfPins = 0;
+
           pinList = new Pin[4];
           validPins = new boolean[]{false, false, false, false};
+          pinList[0] = northPin;
+          validPins[0] = true;
+          numOfPins = 1;
+          rotateAllPins();
      }
 
      public boolean addPin(Pin newPin) {
@@ -36,18 +40,12 @@ public class  DisplayCircle {
                pinList[numOfPins] = newPin;
                validPins[numOfPins] = true;
                rotateAllPins();
+               numOfPins++;
                return true;
           }
           else {
                return false;
           }
-     }
-
-     public void setNorthPin(Pin northPin) {
-          pinList[0] = northPin;
-          validPins[0] = true;
-          numOfPins = 1;
-          rotateAllPins();
      }
 
 
