@@ -74,7 +74,7 @@
             tools:layout_editor_absoluteY="0dp" />
 
         <ImageView
-            android:id="@+id/friend_pin"
+            android:id="@+id/north_pin"
             android:layout_width="34dp"
             android:layout_height="72dp"
             app:layout_constraintCircle="@+id/compass"
