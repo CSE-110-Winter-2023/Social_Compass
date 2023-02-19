@@ -73,8 +73,9 @@
             tools:layout_editor_absoluteX="0dp"
             tools:layout_editor_absoluteY="0dp" />
 
-        <TextView
-            android:id="@+id/friend_pin"
+
+        <ImageView
+            android:id="@+id/north_pin"
             android:layout_width="34dp"
             android:layout_height="72dp"
             android:background="@drawable/north_arrow"

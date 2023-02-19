@@ -1,18 +1,17 @@
 package edu.ucsd.cse110.cse110group8_compass;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
+
 
 import android.app.Activity;
 import android.content.Context;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.util.Pair;
 import android.view.View;
 import android.widget.TextView;
@@ -24,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int EDIT_CODE = 31;
 
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -72,12 +72,13 @@ public class MainActivity extends AppCompatActivity {
         OrientationService orientationService = new OrientationService(this);
         LiveData<Float> azimuth = orientationService.getOrientation();
 
-        DisplayCircle displayCircle = new DisplayCircle(findViewById(R.id.compass));
+        Pin northPin = new Pin("North Pin",135.00, 90.00);
+        northPin.setPinImageView(findViewById(R.id.north_pin));
 
-        Pin northPin = new Pin();
-        northPin.longitude = 135.0000;
-        northPin.latitude = 90.0000;
+        DisplayCircle displayCircle = new DisplayCircle(findViewById(R.id.compass),northPin,  this, azimuth, userCoordinates);
+        //displayCircle.setUserCoordinate(userCoordinates);
 
+        //displayCircle.rotateAllPins();
 
 
         Float azimuthFloat;
@@ -111,6 +112,7 @@ public class MainActivity extends AppCompatActivity {
         displayCircle.rotatePin(findViewById(R.id.friend_pin), northPin, azimuth, this);
 
         /*Bundle extras = getIntent().getExtras();
+        Bundle extras = getIntent().getExtras();
         if(extras != null){
             Intent intent = getIntent();
             System.out.println("IN HERE");
@@ -123,15 +125,17 @@ public class MainActivity extends AppCompatActivity {
             System.out.println("FINISHED");
 
             Pin pinOne = new Pin();
-            pinOne.longitude = Double.valueOf(longit);
-            pinOne.latitude = Double.valueOf(latit);
+            pinOne.setLocation(Double.valueOf(latit), Double.valueOf(longit));
+            pinOne.setPinImageView(findViewById(R.id.parent_pin));
 
-            System.out.println("long:" + pinOne.longitude);
-            System.out.println("latitude:" +    pinOne.latitude);
+            System.out.println("long:" + pinOne.getLongitude());
+            System.out.println("latitude:" +    pinOne.getLatitude());
 
-            displayCircle.rotatePin(findViewById(R.id.parent_pin), pinOne, azimuth, this);
+            displayCircle.addPin(pinOne);
+            //displayCircle.rotatePin(pinOne, azimuth, this);
 
         }
+
 
          */
 
