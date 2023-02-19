@@ -56,7 +56,7 @@ public class LocationActivity extends AppCompatActivity {
             editor.putString("name", name);
             editor.putString("latitude", lat);
             editor.putString("longitude", longit);
-            editor.commit();
+            editor.apply();
 
             Intent returnIntent = new Intent();
             setResult(Activity.RESULT_OK,returnIntent);
