@@ -12,16 +12,25 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.util.Log;
 import android.util.Pair;
 import android.view.View;
 import android.widget.TextView;
 import android.Manifest;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class MainActivity extends AppCompatActivity {
-    private boolean reloadNeeded = true;
+    private boolean reloadNeeded = false;
     private static final int EDIT_CODE = 31;
-
+    DisplayCircle displayCircle;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -32,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
+        /*
         Intent intent = getIntent();
         System.out.println("IN HERE");
         String name = intent.getStringExtra("label");
@@ -54,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
             System.out.println("latitude:" +    pinOne.getLatitude());
             }
 
-
+        */
             //displayCircle.rotatePin(findViewById(R.id.parent_pin), pinOne, azimuth, this);
 
 
@@ -75,11 +84,20 @@ public class MainActivity extends AppCompatActivity {
         Pin northPin = new Pin("North Pin",135.00, 90.00);
         northPin.setPinImageView(findViewById(R.id.north_pin));
 
-        DisplayCircle displayCircle = new DisplayCircle(findViewById(R.id.compass),northPin,  this, azimuth, userCoordinates);
+        displayCircle = new DisplayCircle(findViewById(R.id.compass),northPin,  this, azimuth, userCoordinates);
         //displayCircle.setUserCoordinate(userCoordinates);
 
         //displayCircle.rotateAllPins();
 
+
+        SharedPreferences testPreferences = PreferenceManager
+                .getDefaultSharedPreferences(this.getApplicationContext());
+        Gson gson = new Gson();
+        String json = testPreferences.getString("pinList", "");
+        Type type = new TypeToken<List<Pin>>(){}.getType();
+        ArrayList<Pin> p = gson.fromJson(json, type);
+        Log.i("pinlist size", ""+p.size());
+        ((TextView)findViewById(R.id.pin_three)).setText(p.get(0).getName());
 
         Float azimuthFloat;
 
@@ -173,11 +191,29 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void reloadData(){
+
+        /*
         SharedPreferences prefs = getSharedPreferences("mysettings",
                 Context.MODE_PRIVATE);
         String s = prefs.getString("name", "default");
         TextView pin = findViewById(R.id.parent_pin);
-        pin.setText(s);
+         */
+
+        SharedPreferences prefs = PreferenceManager
+                .getDefaultSharedPreferences(this.getApplicationContext());
+        Gson gson = new Gson();
+        String json = prefs.getString("pinList", "");
+        Type type = new TypeToken<List<Pin>>(){}.getType();
+        ArrayList<Pin> p = gson.fromJson(json, type);
+
+        if(p == null){
+            p = new ArrayList<Pin>();
+        }
+
+        // reload all pins
+        boolean flag = displayCircle.setPinList(p);
+        System.out.println(p.get(1).getName());
+        System.out.println(flag);
     }
 
 
