@@ -90,60 +90,7 @@ public class MainActivity extends AppCompatActivity {
 
         updatePins();
 
-        /*final Observer<Float> nameObserver = new Observer<Float>() {
-            @Override
-            public void onChanged(@Nullable final Float azimuthValue) {
-                azimuthFloat = azimuthValue;
-            }
-        };
-
-        azimuth.observe(this, new Observer<Float>() {
-            @Override
-            public void onChanged(Float value) {
-                 Get the data from the LiveData object here
-                if(findViewById(R.id.friend_pin) != null ) {
-                    displayCircle.rotatePin(findViewById(R.id.friend_pin), northPin, value);
-                }
-
-                Log.d("LiveDataValue", String.valueOf(value));
-            }
-        });
-
-        azimuth.observe(this, observer -> {
-            azimuthFloat = observer;
-        });
-
-       displayCircle.setUserPin(userCoordinates);
-       displayCircle.addPin(northPin);
-
-        Bundle extras = getIntent().getExtras();
-        Bundle extras = getIntent().getExtras();
-        if(extras != null){
-            Intent intent = getIntent();
-            System.out.println("IN HERE");
-            String name = intent.getStringExtra("label");
-            String latit = intent.getStringExtra("latitude");
-            String longit = intent.getStringExtra("longitude");
-            System.out.println("fromintent: " + name + latit + longit);
-            TextView textView = (TextView) findViewById(R.id.Parent);
-            textView.setText(name + ": " + latit + ", " + longit);
-            System.out.println("FINISHED");
-
-            Pin pinOne = new Pin();
-            pinOne.setLocation(Double.valueOf(latit), Double.valueOf(longit));
-            pinOne.setPinImageView(findViewById(R.id.parent_pin));
-
-            System.out.println("long:" + pinOne.getLongitude());
-            System.out.println("latitude:" +    pinOne.getLatitude());
-
-            displayCircle.addPin(pinOne);
-            //displayCircle.rotatePin(pinOne, azimuth, this);
-
-        }
-         */
-
     }
-
     @Override
     public void onResume(){
         super.onResume();
