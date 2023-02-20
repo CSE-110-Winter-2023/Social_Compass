@@ -39,6 +39,20 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // reset pinList
+        if (false){
+            Gson gson = new Gson();
+            SharedPreferences appSharedPrefs = PreferenceManager
+                    .getDefaultSharedPreferences(this.getApplicationContext());
+
+            List<Pin> pinList = new ArrayList<>();
+            SharedPreferences.Editor prefsEditor = appSharedPrefs.edit();
+            String jsonToRet = gson.toJson(pinList);
+            prefsEditor.putString("pinList", jsonToRet);
+            prefsEditor.commit();
+        }
+//        updatePins();
+
         /*
         Intent intent = getIntent();
         System.out.println("IN HERE");
@@ -224,6 +238,10 @@ public class MainActivity extends AppCompatActivity {
         TextView pin = findViewById(R.id.parent_pin);
          */
         Log.i("on reloaddata", "on reload data");
+        updatePins();
+    }
+
+    public void updatePins(){
         SharedPreferences prefs = PreferenceManager
                 .getDefaultSharedPreferences(this.getApplicationContext());
         Gson gson = new Gson();
@@ -231,6 +249,7 @@ public class MainActivity extends AppCompatActivity {
         Type type = new TypeToken<List<Pin>>(){}.getType();
         ArrayList<Pin> p = gson.fromJson(json, type);
 
+        if (p == null){return;}
 
         for ( int i = 0; i < p.size(); i++ ){
             if(i == 0){
