@@ -11,6 +11,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.util.Pair;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,6 +29,8 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
     private boolean reloadNeeded = false;
     private static final int EDIT_CODE = 31;
+    private boolean useUserOrientation = false;
+    private Activity activity = this;
     DisplayCircle displayCircle;
 
     @SuppressLint("MissingInflatedId")
@@ -38,6 +41,8 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
 
         // reset pinList
         if (false){
@@ -64,11 +69,13 @@ public class MainActivity extends AppCompatActivity {
         userCoordinates = locationService.getLocation();
 
         OrientationService orientationService = new OrientationService(this);
+        Button orientationButton = findViewById(R.id.orientation_activity_button);
+
         // if user wants to manually input orientation data
-        //Float userAzimuthInput = 3.14159F;
+       // Float userAzimuthInput = 3.14159F;
         //MutableLiveData<Float> userAzimuth = new MutableLiveData<>();
         //userAzimuth.setValue(userAzimuthInput);
-        //orientationService.setMockOrientationSource(userAzimuth);
+       // orientationService.setMockOrientationSource(userAzimuth);
         // this ^ needs to be in the onclick of the set degree
         LiveData<Float> azimuth = orientationService.getOrientation();
 
@@ -197,6 +204,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void onUserOrientationClick(View view) {
+        Intent intent = new Intent(this, OrientationActivity.class);
+        startActivity(intent);
+    }
 
     public void onCreateLocationClick(View view) {
         Intent intent = new Intent(this, LocationActivity.class);

@@ -6,20 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <Button
-        android:id="@+id/location"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="48dp"
-        android:onClick="onCreateLocationClick"
-        android:text="Create Location"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.639"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.879" />
-<!--
+    <!--
     <Button
         android:id="@+id/button"
         android:layout_width="wrap_content"
@@ -50,6 +37,21 @@
             app:layout_constraintVertical_bias="0.023" />
 
         -->
+
+    <Button
+        android:id="@+id/location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="48dp"
+        android:onClick="onCreateLocationClick"
+        android:text="Create Location"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.623"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.836" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/compass"
         android:layout_width="0dp"
@@ -144,4 +146,17 @@
             tools:layout_editor_absoluteY="170dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <Button
+        android:id="@+id/orientation_activity_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Change Orientation"
+        android:onClick="onUserOrientationClick"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/location"
+        app:layout_constraintVertical_bias="0.484" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

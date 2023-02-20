@@ -1,6 +1,5 @@
 package edu.ucsd.cse110.cse110group8_compass;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.hardware.Sensor;
@@ -37,6 +36,12 @@ public class OrientationService extends Activity implements SensorEventListener 
             instance = new OrientationService(activity);
         }
         return instance;
+    }
+
+    public  void switchToLiveData() {
+        this.azimuth = new MutableLiveData<>();
+        registerSensorListeners();
+
     }
 
 
