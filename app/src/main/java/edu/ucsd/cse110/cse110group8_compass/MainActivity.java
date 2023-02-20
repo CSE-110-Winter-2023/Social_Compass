@@ -51,32 +51,7 @@ public class MainActivity extends AppCompatActivity {
             prefsEditor.putString("pinList", jsonToRet);
             prefsEditor.commit();
         }
-//        updatePins();
 
-        /*
-        Intent intent = getIntent();
-        System.out.println("IN HERE");
-        String name = intent.getStringExtra("label");
-        String latit = intent.getStringExtra("latitude");
-        String longit = intent.getStringExtra("longitude");
-        System.out.println("fromintent: " + name + latit + longit);
-        TextView textView = (TextView) findViewById(R.id.Parent);
-        textView.setText(name + ": " + latit + ", " + longit);
-        System.out.println("FINISHED");
-
-        SharedPreferences prefs = getPreferences(MODE_PRIVATE);
-
-
-        Pin pinOne = new Pin();
-        if(longit!= null && latit != null){
-            pinOne.setLocation(Double.valueOf(latit), Double.valueOf(longit)); //ongitude = Double.valueOf(longit);
-           // pinOne.latitude = Double.valueOf(latit);
-            System.out.println("long:" + pinOne.getLongitude());
-            System.out.println("latitude:" +    pinOne.getLatitude());
-            }
-
-        */
-            //displayCircle.rotatePin(findViewById(R.id.parent_pin), pinOne, azimuth, this);
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
             && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -105,68 +80,36 @@ public class MainActivity extends AppCompatActivity {
         northPin.setPinTextView(findViewById(R.id.north_pin));
 
         displayCircle = new DisplayCircle(findViewById(R.id.compass),northPin,  this, azimuth, userCoordinates);
-        //displayCircle.setUserCoordinate(userCoordinates);
 
-        //displayCircle.rotateAllPins();
-
-
-        SharedPreferences testPreferences = PreferenceManager
-                .getDefaultSharedPreferences(this.getApplicationContext());
-        Gson gson = new Gson();
-        String json = testPreferences.getString("pinList", "");
-        Type type = new TypeToken<List<Pin>>(){}.getType();
-        ArrayList<Pin> p = gson.fromJson(json, type);
-        //Log.i("pinlist size", ""+p.size());
-
-        for ( int i = 0; i < p.size(); i++ ){
-            if(i == 0){
-                p.get(i).setPinTextView((TextView)findViewById(R.id.pin_one));
-            }
-            if(i == 1){
-                p.get(i).setPinTextView((TextView)findViewById(R.id.pin_two));
-            }
-            if(i == 2) {
-                p.get(i).setPinTextView((TextView) findViewById(R.id.pin_three));
-            }
-        }
-
-        for(Pin curPin : p) {
-            if (curPin.getPinTextView() != null) {
-                curPin.getPinTextView().setVisibility(View.VISIBLE);
-                curPin.getPinTextView().setText(curPin.getName());
-            }
-        }
-
-        Float azimuthFloat;
+        updatePins();
 
         /*final Observer<Float> nameObserver = new Observer<Float>() {
             @Override
             public void onChanged(@Nullable final Float azimuthValue) {
                 azimuthFloat = azimuthValue;
             }
-        };*/
+        };
 
-        //azimuth.observe(this, new Observer<Float>() {
-        //    @Override
-        //    public void onChanged(Float value) {
-                // Get the data from the LiveData object here
-         //       if(findViewById(R.id.friend_pin) != null ) {
-         //           displayCircle.rotatePin(findViewById(R.id.friend_pin), northPin, value);
-         //       }
+        azimuth.observe(this, new Observer<Float>() {
+            @Override
+            public void onChanged(Float value) {
+                 Get the data from the LiveData object here
+                if(findViewById(R.id.friend_pin) != null ) {
+                    displayCircle.rotatePin(findViewById(R.id.friend_pin), northPin, value);
+                }
 
-                //Log.d("LiveDataValue", String.valueOf(value));
-        //    }
-       // });
+                Log.d("LiveDataValue", String.valueOf(value));
+            }
+        });
 
-        //azimuth.observe(this, observer -> {
-       //     azimuthFloat = observer;
-       // });
+        azimuth.observe(this, observer -> {
+            azimuthFloat = observer;
+        });
 
+       displayCircle.setUserPin(userCoordinates);
+       displayCircle.addPin(northPin);
 
-        //displayCircle.setUserPin(userCoordinates);
-       // displayCircle.addPin(northPin);
-
-        /*Bundle extras = getIntent().getExtras();
+        Bundle extras = getIntent().getExtras();
         Bundle extras = getIntent().getExtras();
         if(extras != null){
             Intent intent = getIntent();
@@ -190,22 +133,7 @@ public class MainActivity extends AppCompatActivity {
             //displayCircle.rotatePin(pinOne, azimuth, this);
 
         }
-
-
          */
-
-
-//        ImageView pin1 = new ImageView(this);
-//        pin1.setImageResource(R.drawable.pindrop);
-//
-//        ConstraintLayout compassLayout = (ConstraintLayout) findViewById(R.id.compass);
-//
-//        ConstraintSet c = new ConstraintSet();
-//        c.clone(compassLayout);
-//        c.constrainCircle(pin1.getId(), R.id.compass, 40, 90);
-//        c.applyTo(compassLayout); // Apply back our ConstraintSet on ConstraintLayout.
-//
-//        compassLayout.addView(pin1);
 
     }
 
@@ -230,17 +158,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void reloadData(){
-
-        /*
-        SharedPreferences prefs = getSharedPreferences("mysettings",
-                Context.MODE_PRIVATE);
-        String s = prefs.getString("name", "default");
-        TextView pin = findViewById(R.id.parent_pin);
-         */
         Log.i("on reloaddata", "on reload data");
         updatePins();
     }
 
+    /**
+     * Reads in shared preferences
+     */
     public void updatePins(){
         SharedPreferences prefs = PreferenceManager
                 .getDefaultSharedPreferences(this.getApplicationContext());
