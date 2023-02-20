@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-        Intent intent = getIntent();
+       /* Intent intent = getIntent();
         System.out.println("IN HERE");
         String name = intent.getStringExtra("label");
         String latit = intent.getStringExtra("latitude");
@@ -41,18 +41,18 @@ public class MainActivity extends AppCompatActivity {
         System.out.println("fromintent: " + name + latit + longit);
         TextView textView = (TextView) findViewById(R.id.Parent);
         textView.setText(name + ": " + latit + ", " + longit);
-        System.out.println("FINISHED");
+        System.out.println("FINISHED");*/
 
         SharedPreferences prefs = getPreferences(MODE_PRIVATE);
 
 
-        Pin pinOne = new Pin();
+     /*   Pin pinOne = new Pin();
         if(longit!= null && latit != null){
             pinOne.setLocation(Double.valueOf(latit), Double.valueOf(longit)); //ongitude = Double.valueOf(longit);
            // pinOne.latitude = Double.valueOf(latit);
             System.out.println("long:" + pinOne.getLongitude());
             System.out.println("latitude:" +    pinOne.getLatitude());
-            }
+            }*/
 
 
             //displayCircle.rotatePin(findViewById(R.id.parent_pin), pinOne, azimuth, this);
@@ -74,6 +74,8 @@ public class MainActivity extends AppCompatActivity {
 
         Pin northPin = new Pin("North Pin",135.00, 90.00);
         northPin.setPinImageView(findViewById(R.id.north_pin));
+       // findViewById(R.id.pin_one);
+      //  findViewById(R.id.pin_two);
 
         DisplayCircle displayCircle = new DisplayCircle(findViewById(R.id.compass),northPin,  this, azimuth, userCoordinates);
         //displayCircle.setUserCoordinate(userCoordinates);

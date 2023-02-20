@@ -108,7 +108,7 @@
             app:layout_constraintCircleAngle="90"
             app:layout_constraintCircleRadius="140dp"
             android:background="@drawable/pindrop"
-            tools:layout_constraintCircleAngle="90"
+            tools:layout_constraintCircleAngle="160"
             tools:layout_editor_absoluteX="111dp"
             tools:layout_editor_absoluteY="170dp" />
 
@@ -138,18 +138,6 @@
             tools:layout_editor_absoluteX="111dp"
             tools:layout_editor_absoluteY="170dp" />
 
-        <TextView
-            android:id="@+id/pin_three"
-            android:text="null"
-            android:layout_width="34dp"
-            android:layout_height="72dp"
-            app:layout_constraintCircle="@+id/compass"
-            app:layout_constraintCircleAngle="90"
-            app:layout_constraintCircleRadius="140dp"
-            android:background="@drawable/pindrop"
-            tools:layout_constraintCircleAngle="140"
-            tools:layout_editor_absoluteX="111dp"
-            tools:layout_editor_absoluteY="170dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
