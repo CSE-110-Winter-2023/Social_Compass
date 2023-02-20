@@ -116,9 +116,11 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        for(Pin curPin : p){
-            curPin.getPinTextView().setVisibility(View.VISIBLE);
-            curPin.getPinTextView().setText(curPin.getName());
+        for(Pin curPin : p) {
+            if (curPin.getPinTextView() != null) {
+                curPin.getPinTextView().setVisibility(View.VISIBLE);
+                curPin.getPinTextView().setText(curPin.getName());
+            }
         }
 
         Float azimuthFloat;
@@ -245,11 +247,11 @@ public class MainActivity extends AppCompatActivity {
         boolean flag = displayCircle.setPinList(p);
 
         for(Pin curPin : p){
-            curPin.getPinTextView().setVisibility(View.VISIBLE);
-            curPin.getPinTextView().setText(curPin.getName());
+            if (curPin.getPinTextView() != null){
+                curPin.getPinTextView().setVisibility(View.VISIBLE);
+                curPin.getPinTextView().setText(curPin.getName());
+            }
         }
-
-
     }
 
 

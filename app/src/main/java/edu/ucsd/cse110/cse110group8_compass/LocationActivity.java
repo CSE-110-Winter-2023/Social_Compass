@@ -64,6 +64,7 @@ public class LocationActivity extends AppCompatActivity {
             List<Pin> pinList = gson.fromJson(json, type);
 
 
+
             // create new pin object to be added to pinList
             Pin p = new Pin(lab,longt,latt);
             // add newly created pin to pinList
