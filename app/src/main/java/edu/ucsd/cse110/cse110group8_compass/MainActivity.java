@@ -1,13 +1,8 @@
 package edu.ucsd.cse110.cse110group8_compass;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.lifecycle.LiveData;
-
-
-import android.app.Activity;
-import android.content.Context;
+import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -16,8 +11,10 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.util.Pair;
 import android.view.View;
-import android.widget.TextView;
-import android.Manifest;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.lifecycle.LiveData;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -77,6 +74,12 @@ public class MainActivity extends AppCompatActivity {
         userCoordinates = locationService.getLocation();
 
         OrientationService orientationService = new OrientationService(this);
+        // if user wants to manually input orientation data
+        //Float userAzimuthInput = 3.14159F;
+        //MutableLiveData<Float> userAzimuth = new MutableLiveData<>();
+        //userAzimuth.setValue(userAzimuthInput);
+        //orientationService.setMockOrientationSource(userAzimuth);
+        // this ^ needs to be in the onclick of the set degree
         LiveData<Float> azimuth = orientationService.getOrientation();
 
         Pin northPin = new Pin(
@@ -177,7 +180,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onResume(){
         super.onResume();
+        System.out.println("onResume");
         if (this.reloadNeeded) {
+            System.out.println("onResume: TRUE LOOP");
             this.reloadData();
         }
         //this.reloadNeeded = false;
@@ -186,7 +191,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
+        System.out.println("onActivityResult");
         if (resultCode == Activity.RESULT_OK) {
             // Yes we did! Let's allow onResume() to reload the data
             this.reloadNeeded = true;

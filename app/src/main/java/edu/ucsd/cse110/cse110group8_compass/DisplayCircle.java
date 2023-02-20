@@ -1,11 +1,7 @@
 package edu.ucsd.cse110.cse110group8_compass;
 
-import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.util.Pair;
-import android.view.animation.LinearInterpolator;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.lifecycle.LifecycleOwner;
@@ -38,6 +34,9 @@ public class  DisplayCircle {
           numOfPins = 1;
           rotateAllPins();
      }
+
+
+
 
      public boolean setPinList(ArrayList<Pin> pinArray) {
           numOfPins = 0;
@@ -77,10 +76,6 @@ public class  DisplayCircle {
           return pinList;
      }
 
-
-     /*private void setUserCoordinate(LiveData<Pair<Double, Double>> userCoordinateLive) {
-          this.userCoordinateLive = userCoordinateLive;
-     }*/
 
      private void rotateAllPins() {
           for(int i = 0; i < 4;i++ ) {

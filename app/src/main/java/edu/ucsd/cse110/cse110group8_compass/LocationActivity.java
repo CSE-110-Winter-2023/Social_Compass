@@ -1,9 +1,6 @@
 package edu.ucsd.cse110.cse110group8_compass;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -13,13 +10,12 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import org.w3c.dom.Text;
-
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.List;
 
 public class LocationActivity extends AppCompatActivity {
@@ -68,6 +64,10 @@ public class LocationActivity extends AppCompatActivity {
             List<Pin> pinList = gson.fromJson(json, type);
 
             TextView pinView;
+
+            if(pinList == null) {
+                pinView = findViewById(R.id.pin_one);
+            }
 
             switch ( pinList.size() ){
                 case 1:
