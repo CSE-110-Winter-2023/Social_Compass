@@ -1,27 +1,37 @@
 package edu.ucsd.cse110.cse110group8_compass;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.lifecycle.LiveData;
-
-
-import android.app.Activity;
-import android.content.Context;
+import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.util.Log;
 import android.util.Pair;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
-import android.Manifest;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.lifecycle.LiveData;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity {
-    private boolean reloadNeeded = true;
+    private boolean reloadNeeded = false;
     private static final int EDIT_CODE = 31;
-
+    private boolean useUserOrientation = false;
+    private Activity activity = this;
+    DisplayCircle displayCircle;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -33,30 +43,19 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-        Intent intent = getIntent();
-        System.out.println("IN HERE");
-        String name = intent.getStringExtra("label");
-        String latit = intent.getStringExtra("latitude");
-        String longit = intent.getStringExtra("longitude");
-        System.out.println("fromintent: " + name + latit + longit);
-        TextView textView = (TextView) findViewById(R.id.Parent);
-        textView.setText(name + ": " + latit + ", " + longit);
-        System.out.println("FINISHED");
 
-        SharedPreferences prefs = getPreferences(MODE_PRIVATE);
+        // reset pinList
+        if (false){
+            Gson gson = new Gson();
+            SharedPreferences appSharedPrefs = PreferenceManager
+                    .getDefaultSharedPreferences(this.getApplicationContext());
 
-
-        Pin pinOne = new Pin();
-        if(longit!= null && latit != null){
-            pinOne.setLocation(Double.valueOf(latit), Double.valueOf(longit)); //ongitude = Double.valueOf(longit);
-           // pinOne.latitude = Double.valueOf(latit);
-            System.out.println("long:" + pinOne.getLongitude());
-            System.out.println("latitude:" +    pinOne.getLatitude());
-            }
-
-
-            //displayCircle.rotatePin(findViewById(R.id.parent_pin), pinOne, azimuth, this);
-
+            List<Pin> pinList = new ArrayList<>();
+            SharedPreferences.Editor prefsEditor = appSharedPrefs.edit();
+            String jsonToRet = gson.toJson(pinList);
+            prefsEditor.putString("pinList", jsonToRet);
+            prefsEditor.commit();
+        }
 
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
@@ -70,47 +69,54 @@ public class MainActivity extends AppCompatActivity {
         userCoordinates = locationService.getLocation();
 
         OrientationService orientationService = new OrientationService(this);
+        Button orientationButton = findViewById(R.id.orientation_activity_button);
+
+        // if user wants to manually input orientation data
+       // Float userAzimuthInput = 3.14159F;
+        //MutableLiveData<Float> userAzimuth = new MutableLiveData<>();
+        //userAzimuth.setValue(userAzimuthInput);
+       // orientationService.setMockOrientationSource(userAzimuth);
+        // this ^ needs to be in the onclick of the set degree
         LiveData<Float> azimuth = orientationService.getOrientation();
 
-        Pin northPin = new Pin("North Pin",135.00, 90.00);
-        northPin.setPinImageView(findViewById(R.id.north_pin));
+        Pin northPin = new Pin(
+                "North Pin",
+                135.00,
+                90.00
+            );
+        northPin.setPinTextView(findViewById(R.id.north_pin));
 
-        DisplayCircle displayCircle = new DisplayCircle(findViewById(R.id.compass),northPin,  this, azimuth, userCoordinates);
-        //displayCircle.setUserCoordinate(userCoordinates);
+        displayCircle = new DisplayCircle(findViewById(R.id.compass),northPin,  this, azimuth, userCoordinates);
 
-        //displayCircle.rotateAllPins();
-
-
-        Float azimuthFloat;
+        updatePins();
 
         /*final Observer<Float> nameObserver = new Observer<Float>() {
             @Override
             public void onChanged(@Nullable final Float azimuthValue) {
                 azimuthFloat = azimuthValue;
             }
-        };*/
+        };
 
-        //azimuth.observe(this, new Observer<Float>() {
-        //    @Override
-        //    public void onChanged(Float value) {
-                // Get the data from the LiveData object here
-         //       if(findViewById(R.id.friend_pin) != null ) {
-         //           displayCircle.rotatePin(findViewById(R.id.friend_pin), northPin, value);
-         //       }
+        azimuth.observe(this, new Observer<Float>() {
+            @Override
+            public void onChanged(Float value) {
+                 Get the data from the LiveData object here
+                if(findViewById(R.id.friend_pin) != null ) {
+                    displayCircle.rotatePin(findViewById(R.id.friend_pin), northPin, value);
+                }
 
-                //Log.d("LiveDataValue", String.valueOf(value));
-        //    }
-       // });
+                Log.d("LiveDataValue", String.valueOf(value));
+            }
+        });
 
-        //azimuth.observe(this, observer -> {
-       //     azimuthFloat = observer;
-       // });
+        azimuth.observe(this, observer -> {
+            azimuthFloat = observer;
+        });
 
+       displayCircle.setUserPin(userCoordinates);
+       displayCircle.addPin(northPin);
 
-        //displayCircle.setUserPin(userCoordinates);
-       // displayCircle.addPin(northPin);
-
-        /*Bundle extras = getIntent().getExtras();
+        Bundle extras = getIntent().getExtras();
         Bundle extras = getIntent().getExtras();
         if(extras != null){
             Intent intent = getIntent();
@@ -134,31 +140,18 @@ public class MainActivity extends AppCompatActivity {
             //displayCircle.rotatePin(pinOne, azimuth, this);
 
         }
-
-
          */
-
-
-//        ImageView pin1 = new ImageView(this);
-//        pin1.setImageResource(R.drawable.pindrop);
-//
-//        ConstraintLayout compassLayout = (ConstraintLayout) findViewById(R.id.compass);
-//
-//        ConstraintSet c = new ConstraintSet();
-//        c.clone(compassLayout);
-//        c.constrainCircle(pin1.getId(), R.id.compass, 40, 90);
-//        c.applyTo(compassLayout); // Apply back our ConstraintSet on ConstraintLayout.
-//
-//        compassLayout.addView(pin1);
 
     }
 
     @Override
     public void onResume(){
         super.onResume();
-        if (this.reloadNeeded) {
+        Log.i("on resume", ""+this.reloadNeeded);
+        if(this.reloadNeeded){
             this.reloadData();
         }
+        this.reloadNeeded = true;
         //this.reloadNeeded = false;
     }
 
@@ -166,24 +159,59 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (resultCode == Activity.RESULT_OK) {
             // Yes we did! Let's allow onResume() to reload the data
-            this.reloadNeeded = true;
-        }
+        this.reloadNeeded = true;
+
     }
 
     private void reloadData(){
-        SharedPreferences prefs = getSharedPreferences("mysettings",
-                Context.MODE_PRIVATE);
-        String s = prefs.getString("name", "default");
-        TextView pin = findViewById(R.id.parent_pin);
-        pin.setText(s);
+        Log.i("on reloaddata", "on reload data");
+        updatePins();
     }
 
+    /**
+     * Reads in shared preferences
+     */
+    public void updatePins(){
+        SharedPreferences prefs = PreferenceManager
+                .getDefaultSharedPreferences(this.getApplicationContext());
+        Gson gson = new Gson();
+        String json = prefs.getString("pinList", "");
+        Type type = new TypeToken<List<Pin>>(){}.getType();
+        ArrayList<Pin> p = gson.fromJson(json, type);
+
+        if (p == null){return;}
+
+        for ( int i = 0; i < p.size(); i++ ){
+            if(i == 0){
+                p.get(i).setPinTextView((TextView)findViewById(R.id.pin_one));
+            }
+            if(i == 1){
+                p.get(i).setPinTextView((TextView)findViewById(R.id.pin_two));
+            }
+            if(i == 2) {
+                p.get(i).setPinTextView((TextView) findViewById(R.id.pin_three));
+            }
+        }
+
+        boolean flag = displayCircle.setPinList(p);
+
+        for(Pin curPin : p){
+            if (curPin.getPinTextView() != null){
+                curPin.getPinTextView().setVisibility(View.VISIBLE);
+                curPin.getPinTextView().setText(curPin.getName());
+            }
+        }
+    }
+
+    public void onUserOrientationClick(View view) {
+        Intent intent = new Intent(this, OrientationActivity.class);
+        startActivity(intent);
+    }
 
     public void onCreateLocationClick(View view) {
         Intent intent = new Intent(this, LocationActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent, Activity.RESULT_OK);
     }
     
     public void onChangeLabelClick(View view) {

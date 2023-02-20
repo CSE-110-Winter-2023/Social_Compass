@@ -6,20 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <Button
-        android:id="@+id/location"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="48dp"
-        android:onClick="onCreateLocationClick"
-        android:text="Create Location"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.639"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.879" />
-
+    <!--
     <Button
         android:id="@+id/button"
         android:layout_width="wrap_content"
@@ -32,21 +19,38 @@
         app:layout_constraintHorizontal_bias="0.612"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.961" />
+        app:layout_constraintVertical_bias="0.961"
+     />
+-->
+    <!--
+        <TextView
+            android:id="@+id/Parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Parent"
+            android:textSize="30sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.594"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.023" />
 
-    <TextView
-        android:id="@+id/Parent"
+        -->
+
+    <Button
+        android:id="@+id/location"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Parent"
-        android:textSize="30sp"
+        android:layout_marginEnd="48dp"
+        android:onClick="onCreateLocationClick"
+        android:text="Create Location"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.594"
+        app:layout_constraintHorizontal_bias="0.623"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.023" />
-
+        app:layout_constraintVertical_bias="0.836" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/compass"
@@ -100,23 +104,11 @@
 
 
         <TextView
-            android:id="@+id/parent_pin"
-            android:text="null"
-            android:layout_width="34dp"
-            android:layout_height="72dp"
-            app:layout_constraintCircle="@+id/compass"
-            app:layout_constraintCircleAngle="90"
-            app:layout_constraintCircleRadius="140dp"
-            android:background="@drawable/pindrop"
-            tools:layout_constraintCircleAngle="90"
-            tools:layout_editor_absoluteX="111dp"
-            tools:layout_editor_absoluteY="170dp" />
-
-        <TextView
             android:id="@+id/pin_one"
             android:text="null"
             android:layout_width="34dp"
             android:layout_height="72dp"
+            android:visibility="gone"
             app:layout_constraintCircle="@+id/compass"
             app:layout_constraintCircleAngle="90"
             app:layout_constraintCircleRadius="140dp"
@@ -127,6 +119,7 @@
 
         <TextView
             android:id="@+id/pin_two"
+            android:visibility="gone"
             android:text="null"
             android:layout_width="34dp"
             android:layout_height="72dp"
@@ -140,6 +133,7 @@
 
         <TextView
             android:id="@+id/pin_three"
+            android:visibility="gone"
             android:text="null"
             android:layout_width="34dp"
             android:layout_height="72dp"
@@ -152,4 +146,17 @@
             tools:layout_editor_absoluteY="170dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <Button
+        android:id="@+id/orientation_activity_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Change Orientation"
+        android:onClick="onUserOrientationClick"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/location"
+        app:layout_constraintVertical_bias="0.484" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

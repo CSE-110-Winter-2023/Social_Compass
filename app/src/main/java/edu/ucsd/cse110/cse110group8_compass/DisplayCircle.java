@@ -1,16 +1,15 @@
 package edu.ucsd.cse110.cse110group8_compass;
 
-import android.animation.ValueAnimator;
 import android.app.Activity;
+import android.util.Log;
 import android.util.Pair;
-import android.view.animation.LinearInterpolator;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
+
+import java.util.ArrayList;
 
 //DisplayCircle coordinates all the pins and makes them visible or not
 public class  DisplayCircle {
@@ -21,6 +20,7 @@ public class  DisplayCircle {
      static private LiveData<Float> azimuth;
      static private Activity activity;
      static private boolean validPins[];
+     static private boolean populatedPins[];
      static private int numOfPins;
 
      DisplayCircle (ConstraintLayout circle_m, Pin northPin,Activity activity, LiveData<Float> azimuth, LiveData<Pair<Double, Double>> userCoordinateLive) {
@@ -31,17 +31,45 @@ public class  DisplayCircle {
 
           pinList = new Pin[4];
           validPins = new boolean[]{false, false, false, false};
+          populatedPins = new boolean[]{false, false, false, false};
           pinList[0] = northPin;
-          validPins[0] = true;
+          populatedPins[0] = true;
           numOfPins = 1;
           rotateAllPins();
      }
 
-     public boolean setPinList(Pin[] pinArray) {
-          if(pinArray.length <= 4 ) {
-               for(int i = 0; i < pinArray.length; i++) {
-                    pinList[i] = pinArray[i];
+     private boolean checkNullPins() {
+          boolean valid = true;
+
+          for(int i = 0; i < 4; i++) {
+               if(populatedPins[i] == true){
+                    if(pinList[i].getPinTextView() == null) {
+                         valid = false;
+                         System.out.println("NULL VALUE:" + i);
+                         validPins[i] = false;
+                    }
+                    else {
+                         valid = true;
+                         validPins[i] = true;
+                    }
                }
+          }
+          return valid;
+     }
+
+
+
+     public boolean setPinList(ArrayList<Pin> pinArray) {
+          numOfPins = 0;
+          if(pinArray.size() <= 4 ) {
+               for(int i = 0; i < pinArray.size(); i++) {
+                    pinList[i] = pinArray.get(i);
+                    populatedPins[i] = true;
+                    numOfPins++;
+               }
+               Log.i("inside setPinList", ""+pinList[0].getPinTextView());
+               Log.i("inside setPinList, ", ""+validPins[0]);
+               rotateAllPins();
                return true;
           }
           else {
@@ -51,9 +79,9 @@ public class  DisplayCircle {
      }
 
      public boolean addPin(Pin newPin) {
-          if(numOfPins < 4 && validPins[0] == true ) {
+          if(numOfPins < 4 && populatedPins[0] == true ) {
                pinList[numOfPins] = newPin;
-               validPins[numOfPins] = true;
+               populatedPins[numOfPins] = true;
                rotateAllPins();
                numOfPins++;
                return true;
@@ -63,14 +91,17 @@ public class  DisplayCircle {
           }
      }
 
+     public int size(){
+          return numOfPins;
+     }
 
+     public Pin[] getPinList(){
+          return pinList;
+     }
 
-
-     /*private void setUserCoordinate(LiveData<Pair<Double, Double>> userCoordinateLive) {
-          this.userCoordinateLive = userCoordinateLive;
-     }*/
 
      private void rotateAllPins() {
+          checkNullPins();
           for(int i = 0; i < 4;i++ ) {
                if(validPins[i] == true) {
                     rotatePin(pinList[i], azimuth, activity);
