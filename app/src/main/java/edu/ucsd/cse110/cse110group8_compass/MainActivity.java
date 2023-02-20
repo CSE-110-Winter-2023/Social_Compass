@@ -66,8 +66,6 @@ public class MainActivity extends AppCompatActivity {
         */
             //displayCircle.rotatePin(findViewById(R.id.parent_pin), pinOne, azimuth, this);
 
-
-
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
             && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
@@ -81,7 +79,12 @@ public class MainActivity extends AppCompatActivity {
         OrientationService orientationService = new OrientationService(this);
         LiveData<Float> azimuth = orientationService.getOrientation();
 
-        Pin northPin = new Pin("North Pin",135.00, 90.00);
+        Pin northPin = new Pin(
+                "North Pin",
+                135.00,
+                90.00,
+                findViewById(R.id.north_pin)
+            );
         northPin.setPinImageView(findViewById(R.id.north_pin));
 
         displayCircle = new DisplayCircle(findViewById(R.id.compass),northPin,  this, azimuth, userCoordinates);
@@ -89,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
 
         //displayCircle.rotateAllPins();
 
-
+/*
         SharedPreferences testPreferences = PreferenceManager
                 .getDefaultSharedPreferences(this.getApplicationContext());
         Gson gson = new Gson();
@@ -98,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
         ArrayList<Pin> p = gson.fromJson(json, type);
         Log.i("pinlist size", ""+p.size());
         ((TextView)findViewById(R.id.pin_three)).setText(p.get(0).getName());
-
+*/
         Float azimuthFloat;
 
         /*final Observer<Float> nameObserver = new Observer<Float>() {
@@ -206,12 +209,23 @@ public class MainActivity extends AppCompatActivity {
         Type type = new TypeToken<List<Pin>>(){}.getType();
         ArrayList<Pin> p = gson.fromJson(json, type);
 
+        for ( Pin old_pin : p ){
+            Log.i("Old_pin", old_pin.getName());
+        }
+
+
         if(p == null){
             p = new ArrayList<Pin>();
         }
 
         // reload all pins
         boolean flag = displayCircle.setPinList(p);
+
+        for ( Pin currPin : displayCircle.getPinList() ){
+            currPin.getPinTextView().setVisibility(View.VISIBLE);
+        }
+
+
         System.out.println(p.get(1).getName());
         System.out.println(flag);
     }

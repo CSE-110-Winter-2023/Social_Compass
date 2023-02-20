@@ -3,6 +3,8 @@ package edu.ucsd.cse110.cse110group8_compass;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 public class Pin {
 
     private String name;
@@ -40,10 +42,11 @@ public class Pin {
         return name;
     }
 
-    public Pin(String label, Double longitude, Double latitude){
+    public Pin(String label, Double longitude, Double latitude, TextView pinTextView){
         this.name = label;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.pinTextView = pinTextView;
     }
 
     public void setLabel(String label){
