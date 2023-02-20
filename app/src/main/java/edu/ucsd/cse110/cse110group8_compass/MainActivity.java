@@ -116,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
         String json = testPreferences.getString("pinList", "");
         Type type = new TypeToken<List<Pin>>(){}.getType();
         ArrayList<Pin> p = gson.fromJson(json, type);
-        Log.i("pinlist size", ""+p.size());
+        //Log.i("pinlist size", ""+p.size());
 
         for ( int i = 0; i < p.size(); i++ ){
             if(i == 0){
