@@ -37,10 +37,10 @@ public class  DisplayCircle {
           rotateAllPins();
      }
 
-     public boolean setPinList(Pin[] pinArray) {
-          if(pinArray.length <= 4 ) {
-               for(int i = 0; i < pinArray.length; i++) {
-                    pinList[i] = pinArray[i];
+     public boolean setPinList(ArrayList<Pin> pinArray) {
+          if(pinArray.size() <= 4 ) {
+               for(int i = 0; i < pinArray.size(); i++) {
+                    pinList[i] = pinArray.get(i);
                }
                return true;
           }
