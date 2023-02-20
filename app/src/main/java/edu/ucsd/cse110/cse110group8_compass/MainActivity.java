@@ -90,32 +90,7 @@ public class MainActivity extends AppCompatActivity {
 
         updatePins();
 
-        /*final Observer<Float> nameObserver = new Observer<Float>() {
-            @Override
-            public void onChanged(@Nullable final Float azimuthValue) {
-                azimuthFloat = azimuthValue;
-            }
-        };
-
-        azimuth.observe(this, new Observer<Float>() {
-            @Override
-            public void onChanged(Float value) {
-                 Get the data from the LiveData object here
-                if(findViewById(R.id.friend_pin) != null ) {
-                    displayCircle.rotatePin(findViewById(R.id.friend_pin), northPin, value);
-                }
-
-                Log.d("LiveDataValue", String.valueOf(value));
-            }
-        });
-
-        azimuth.observe(this, observer -> {
-            azimuthFloat = observer;
-        });
-
-
-    }
-
+        
     @Override
     public void onResume(){
         super.onResume();
