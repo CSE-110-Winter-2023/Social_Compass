@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
 
         updatePins();
 
-        
+    }
     @Override
     public void onResume(){
         super.onResume();
