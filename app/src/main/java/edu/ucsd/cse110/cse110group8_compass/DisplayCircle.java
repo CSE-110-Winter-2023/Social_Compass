@@ -12,6 +12,8 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 
+import java.util.ArrayList;
+
 //DisplayCircle coordinates all the pins and makes them visible or not
 public class  DisplayCircle {
      static private ConstraintLayout circle_constraint;
@@ -37,11 +39,15 @@ public class  DisplayCircle {
           rotateAllPins();
      }
 
-     public boolean setPinList(Pin[] pinArray) {
-          if(pinArray.length <= 4 ) {
-               for(int i = 0; i < pinArray.length; i++) {
-                    pinList[i] = pinArray[i];
+     public boolean setPinList(ArrayList<Pin> pinArray) {
+          numOfPins = 0;
+          if(pinArray.size() <= 4 ) {
+               for(int i = 0; i < pinArray.size(); i++) {
+                    pinList[i] = pinArray.get(i);
+                    validPins[i] = true;
+                    numOfPins++;
                }
+               rotateAllPins();
                return true;
           }
           else {
@@ -63,7 +69,13 @@ public class  DisplayCircle {
           }
      }
 
+     public int size(){
+          return numOfPins;
+     }
 
+     public Pin[] getPinList(){
+          return pinList;
+     }
 
 
      /*private void setUserCoordinate(LiveData<Pair<Double, Double>> userCoordinateLive) {
