@@ -113,34 +113,6 @@ public class MainActivity extends AppCompatActivity {
             azimuthFloat = observer;
         });
 
-       displayCircle.setUserPin(userCoordinates);
-       displayCircle.addPin(northPin);
-
-        Bundle extras = getIntent().getExtras();
-        Bundle extras = getIntent().getExtras();
-        if(extras != null){
-            Intent intent = getIntent();
-            System.out.println("IN HERE");
-            String name = intent.getStringExtra("label");
-            String latit = intent.getStringExtra("latitude");
-            String longit = intent.getStringExtra("longitude");
-            System.out.println("fromintent: " + name + latit + longit);
-            TextView textView = (TextView) findViewById(R.id.Parent);
-            textView.setText(name + ": " + latit + ", " + longit);
-            System.out.println("FINISHED");
-
-            Pin pinOne = new Pin();
-            pinOne.setLocation(Double.valueOf(latit), Double.valueOf(longit));
-            pinOne.setPinImageView(findViewById(R.id.parent_pin));
-
-            System.out.println("long:" + pinOne.getLongitude());
-            System.out.println("latitude:" +    pinOne.getLatitude());
-
-            displayCircle.addPin(pinOne);
-            //displayCircle.rotatePin(pinOne, azimuth, this);
-
-        }
-         */
 
     }
 
