@@ -20,11 +20,10 @@ public class LocationActivity extends AppCompatActivity {
     }
 
     public void onNextClick(View view) {
-        SharedPreferences preferences = getSharedPreferences("mysettings", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
+        // SharedPreferences preferences = getSharedPreferences("mysettings", Context.MODE_PRIVATE);
+        // SharedPreferences.Editor editor = preferences.edit();
 
         TextView error = findViewById(R.id.ErrorText);
-
 
 
         TextView latitude = findViewById(R.id.latitudeText);
@@ -44,25 +43,34 @@ public class LocationActivity extends AppCompatActivity {
         }
         else{
             error.setVisibility(View.INVISIBLE);
-            String lat = latitude.getText().toString();
-            String longit = longitude.getText().toString();
-            String name = label.getText().toString();
+
+            double longt = Double.parseDouble(((EditText)findViewById(R.id.longitudeText)).getText().toString());
+            double latt = Double.parseDouble(((EditText)findViewById(R.id.latitudeText)).getText().toString());
+            String lab = ((EditText) findViewById(R.id.LabelTextView)).getText().toString();
+
+            Pin p = new Pin(lab,longt,latt);
+            Gson gson = new Gson();
+
+            SharedPreferences appSharedPrefs = PreferenceManager
+                    .getDefaultSharedPreferences(this.getApplicationContext());
+            String json = appSharedPrefs.getString("pinList", "");
+            Type type = new TypeToken<List<Pin>>(){}.getType();
+            List<Pin> pinList = gson.fromJson(json, type);
 
 
-            Pin defaultPin = new Pin();
-            Pin parent = new Pin("Testparent",Double.parseDouble(lat),
-                    Double.parseDouble(longit));
+            pinList = new ArrayList<Pin>();
 
 
-            editor.putString("name", name);
-            editor.putString("latitude", lat);
-            editor.putString("longitude", longit);
-            editor.apply();
+            pinList.add(p);
+            Log.i("pinlist size", ""+pinList.size());
+            SharedPreferences.Editor prefsEditor = appSharedPrefs.edit();
+            String jsonToRet = gson.toJson(pinList);
+            prefsEditor.putString("pinList", jsonToRet);
+            prefsEditor.commit();
 
             Intent returnIntent = new Intent();
             setResult(Activity.RESULT_OK,returnIntent);
             finish();
-
 
 
 
