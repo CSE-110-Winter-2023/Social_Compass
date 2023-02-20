@@ -22,7 +22,7 @@ public class Pin {
         this.longitude = longitude;
     }
 
-    public void setPinImageView(TextView textView) {
+    public void setPinTextView(TextView textView) {
         this.pinTextView = textView;
     }
 
@@ -42,11 +42,10 @@ public class Pin {
         return name;
     }
 
-    public Pin(String label, Double longitude, Double latitude, TextView pinTextView){
+    public Pin(String label, Double longitude, Double latitude){
         this.name = label;
         this.latitude = latitude;
         this.longitude = longitude;
-        this.pinTextView = pinTextView;
     }
 
     public void setLabel(String label){

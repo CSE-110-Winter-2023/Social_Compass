@@ -2,6 +2,7 @@ package edu.ucsd.cse110.cse110group8_compass;
 
 import android.animation.ValueAnimator;
 import android.app.Activity;
+import android.util.Log;
 import android.util.Pair;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
@@ -47,6 +48,8 @@ public class  DisplayCircle {
                     validPins[i] = true;
                     numOfPins++;
                }
+               Log.i("inside setPinList", ""+pinList[0].getPinTextView());
+               Log.i("inside setPinList, ", ""+validPins[0]);
                rotateAllPins();
                return true;
           }

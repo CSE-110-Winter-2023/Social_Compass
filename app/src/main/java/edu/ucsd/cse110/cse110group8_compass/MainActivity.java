@@ -82,17 +82,16 @@ public class MainActivity extends AppCompatActivity {
         Pin northPin = new Pin(
                 "North Pin",
                 135.00,
-                90.00,
-                findViewById(R.id.north_pin)
+                90.00
             );
-        northPin.setPinImageView(findViewById(R.id.north_pin));
+        northPin.setPinTextView(findViewById(R.id.north_pin));
 
         displayCircle = new DisplayCircle(findViewById(R.id.compass),northPin,  this, azimuth, userCoordinates);
         //displayCircle.setUserCoordinate(userCoordinates);
 
         //displayCircle.rotateAllPins();
 
-/*
+
         SharedPreferences testPreferences = PreferenceManager
                 .getDefaultSharedPreferences(this.getApplicationContext());
         Gson gson = new Gson();
@@ -100,8 +99,24 @@ public class MainActivity extends AppCompatActivity {
         Type type = new TypeToken<List<Pin>>(){}.getType();
         ArrayList<Pin> p = gson.fromJson(json, type);
         Log.i("pinlist size", ""+p.size());
-        ((TextView)findViewById(R.id.pin_three)).setText(p.get(0).getName());
-*/
+
+        for ( int i = 0; i < p.size(); i++ ){
+            if(i == 0){
+                p.get(i).setPinTextView((TextView)findViewById(R.id.pin_one));
+            }
+            if(i == 1){
+                p.get(i).setPinTextView((TextView)findViewById(R.id.pin_two));
+            }
+            if(i == 2) {
+                p.get(i).setPinTextView((TextView) findViewById(R.id.pin_three));
+            }
+        }
+
+        for(Pin curPin : p){
+            curPin.getPinTextView().setVisibility(View.VISIBLE);
+            curPin.getPinTextView().setText(curPin.getName());
+        }
+
         Float azimuthFloat;
 
         /*final Observer<Float> nameObserver = new Observer<Float>() {
@@ -177,9 +192,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onResume(){
         super.onResume();
-        if (this.reloadNeeded) {
+        Log.i("on resume", ""+this.reloadNeeded);
+        if(this.reloadNeeded){
             this.reloadData();
         }
+        this.reloadNeeded = true;
         //this.reloadNeeded = false;
     }
 
@@ -187,10 +204,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (resultCode == Activity.RESULT_OK) {
+
             // Yes we did! Let's allow onResume() to reload the data
-            this.reloadNeeded = true;
-        }
+        this.reloadNeeded = true;
+
     }
 
     private void reloadData(){
@@ -201,7 +218,7 @@ public class MainActivity extends AppCompatActivity {
         String s = prefs.getString("name", "default");
         TextView pin = findViewById(R.id.parent_pin);
          */
-
+        Log.i("on reloaddata", "on reload data");
         SharedPreferences prefs = PreferenceManager
                 .getDefaultSharedPreferences(this.getApplicationContext());
         Gson gson = new Gson();
@@ -209,31 +226,33 @@ public class MainActivity extends AppCompatActivity {
         Type type = new TypeToken<List<Pin>>(){}.getType();
         ArrayList<Pin> p = gson.fromJson(json, type);
 
-        for ( Pin old_pin : p ){
-            Log.i("Old_pin", old_pin.getName());
+
+        for ( int i = 0; i < p.size(); i++ ){
+            if(i == 0){
+                p.get(i).setPinTextView((TextView)findViewById(R.id.pin_one));
+            }
+            if(i == 1){
+                p.get(i).setPinTextView((TextView)findViewById(R.id.pin_two));
+            }
+            if(i == 2) {
+                p.get(i).setPinTextView((TextView) findViewById(R.id.pin_three));
+            }
         }
 
-
-        if(p == null){
-            p = new ArrayList<Pin>();
-        }
-
-        // reload all pins
         boolean flag = displayCircle.setPinList(p);
 
-        for ( Pin currPin : displayCircle.getPinList() ){
-            currPin.getPinTextView().setVisibility(View.VISIBLE);
+        for(Pin curPin : p){
+            curPin.getPinTextView().setVisibility(View.VISIBLE);
+            curPin.getPinTextView().setText(curPin.getName());
         }
 
 
-        System.out.println(p.get(1).getName());
-        System.out.println(flag);
     }
 
 
     public void onCreateLocationClick(View view) {
         Intent intent = new Intent(this, LocationActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent, Activity.RESULT_OK);
     }
     
     public void onChangeLabelClick(View view) {

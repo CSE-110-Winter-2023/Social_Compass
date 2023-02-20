@@ -67,22 +67,9 @@ public class LocationActivity extends AppCompatActivity {
             Type type = new TypeToken<List<Pin>>(){}.getType();
             List<Pin> pinList = gson.fromJson(json, type);
 
-            TextView pinView;
-
-            switch ( pinList.size() ){
-                case 1:
-                    pinView = findViewById(R.id.pin_one);
-                case 2:
-                    pinView = findViewById(R.id.pin_two);
-                case 3:
-                    pinView = findViewById(R.id.pin_three);
-                default:
-                    pinView = findViewById(R.id.north_pin);
-            }
 
             // create new pin object to be added to pinList
-            Pin p = new Pin(lab,longt,latt,pinView);
-
+            Pin p = new Pin(lab,longt,latt);
             // add newly created pin to pinList
             pinList.add(p);
             Log.i("pinlist size", ""+pinList.size());
