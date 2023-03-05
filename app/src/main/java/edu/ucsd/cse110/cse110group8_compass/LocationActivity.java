@@ -10,13 +10,19 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 public class LocationActivity extends AppCompatActivity {
 
@@ -31,7 +37,6 @@ public class LocationActivity extends AppCompatActivity {
         // SharedPreferences.Editor editor = preferences.edit();
 
         TextView error = findViewById(R.id.ErrorText);
-
 
         TextView latitude = findViewById(R.id.latitudeText);
         TextView longitude = findViewById(R.id.longitudeText);
@@ -61,8 +66,12 @@ public class LocationActivity extends AppCompatActivity {
                     .getDefaultSharedPreferences(this.getApplicationContext());
             String json = appSharedPrefs.getString("pinList", "");
             Type type = new TypeToken<List<Pin>>(){}.getType();
+
             List<Pin> pinList = gson.fromJson(json, type);
 
+            if(pinList == null){
+                pinList = new ArrayList<Pin>();
+            }
 
 
             // create new pin object to be added to pinList
@@ -88,4 +97,6 @@ public class LocationActivity extends AppCompatActivity {
         // Do nothing and return to main
         finish();
     }
+
+
 }
