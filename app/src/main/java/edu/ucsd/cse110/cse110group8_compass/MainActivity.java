@@ -170,6 +170,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    public int getCurrentZoomLevel(){
+        return this.currentZoomLevel;
+    }
+
+     public void setCurrentZoomLevel(int level){
+            this.currentZoomLevel = level;
+    }
+
     public void setValidZoomLevel(){
         if(currentZoomLevel >= 4){
             currentZoomLevel = 4;
@@ -184,21 +192,29 @@ public class MainActivity extends AppCompatActivity {
             findViewById(R.id.compass_background_2).setVisibility(View.INVISIBLE);
             findViewById(R.id.compass_background_3).setVisibility(View.INVISIBLE);
             findViewById(R.id.compass_background_4).setVisibility(View.INVISIBLE);
+            findViewById(R.id.zoom_out_button).setEnabled(true);
+            findViewById(R.id.zoom_in_button).setEnabled(false);
         }else if(currentZoomLevel == 2){
             findViewById(R.id.compass_background_2).setVisibility(View.VISIBLE);
             findViewById(R.id.compass_background).setVisibility(View.INVISIBLE);
             findViewById(R.id.compass_background_3).setVisibility(View.INVISIBLE);
             findViewById(R.id.compass_background_4).setVisibility(View.INVISIBLE);
+            findViewById(R.id.zoom_out_button).setEnabled(true);
+            findViewById(R.id.zoom_in_button).setEnabled(true);
         }else if(currentZoomLevel == 3){
             findViewById(R.id.compass_background_3).setVisibility(View.VISIBLE);
             findViewById(R.id.compass_background).setVisibility(View.INVISIBLE);
             findViewById(R.id.compass_background_2).setVisibility(View.INVISIBLE);
             findViewById(R.id.compass_background_4).setVisibility(View.INVISIBLE);
+            findViewById(R.id.zoom_out_button).setEnabled(true);
+            findViewById(R.id.zoom_in_button).setEnabled(true);
         }else if(currentZoomLevel == 4){
             findViewById(R.id.compass_background_4).setVisibility(View.VISIBLE);
             findViewById(R.id.compass_background).setVisibility(View.INVISIBLE);
             findViewById(R.id.compass_background_2).setVisibility(View.INVISIBLE);
             findViewById(R.id.compass_background_3).setVisibility(View.INVISIBLE);
+            findViewById(R.id.zoom_out_button).setEnabled(false);
+            findViewById(R.id.zoom_in_button).setEnabled(true);
         }
     }
 
