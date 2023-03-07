@@ -19,8 +19,10 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+
 import java.util.Collection;
 import java.util.Iterator;
+
 import java.util.List;
 import java.util.ListIterator;
 
@@ -68,6 +70,9 @@ public class LocationActivity extends AppCompatActivity {
             Type type = new TypeToken<List<Pin>>(){}.getType();
 
             List<Pin> pinList = gson.fromJson(json, type);
+            if (pinList == null) {
+                pinList = new ArrayList<Pin>();
+            }
 
             if(pinList == null){
                 pinList = new ArrayList<Pin>();
