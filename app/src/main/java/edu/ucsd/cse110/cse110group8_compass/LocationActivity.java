@@ -16,6 +16,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
 public class LocationActivity extends AppCompatActivity {
@@ -61,6 +62,9 @@ public class LocationActivity extends AppCompatActivity {
             String json = appSharedPrefs.getString("pinList", "");
             Type type = new TypeToken<List<Pin>>(){}.getType();
             List<Pin> pinList = gson.fromJson(json, type);
+            if (pinList == null) {
+                pinList = new ArrayList<Pin>();
+            }
 
 
 
