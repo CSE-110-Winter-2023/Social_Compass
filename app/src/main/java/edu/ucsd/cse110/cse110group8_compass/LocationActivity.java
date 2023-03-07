@@ -32,7 +32,6 @@ public class LocationActivity extends AppCompatActivity {
 
         TextView error = findViewById(R.id.ErrorText);
 
-
         TextView latitude = findViewById(R.id.latitudeText);
         TextView longitude = findViewById(R.id.longitudeText);
         TextView label = findViewById(R.id.LabelTextView);
