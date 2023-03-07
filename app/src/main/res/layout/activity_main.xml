@@ -47,10 +47,10 @@
         android:text="Create Location"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.623"
+        app:layout_constraintHorizontal_bias="0.319"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.836" />
+        app:layout_constraintVertical_bias="0.843" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/compass"
@@ -74,18 +74,46 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:srcCompat="@drawable/compass_background"
+            android:visibility="visible"
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="0dp" />
+
+        <ImageView
+            android:id="@+id/compass_background_2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:srcCompat="@drawable/compass_background_2"
+            android:visibility="invisible"
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="0dp" />
+
+        <ImageView
+            android:id="@+id/compass_background_3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:srcCompat="@drawable/compass_background_3"
+            android:visibility="invisible"
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="0dp" />
+
+        <ImageView
+            android:id="@+id/compass_background_4"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:srcCompat="@drawable/compass_background_4"
+            android:visibility="invisible"
             tools:layout_editor_absoluteX="0dp"
             tools:layout_editor_absoluteY="0dp" />
 
         <TextView
             android:id="@+id/north_pin"
-            android:text=""
             android:layout_width="34dp"
             android:layout_height="72dp"
+            android:background="@drawable/north_arrow"
+            android:text=""
             app:layout_constraintCircle="@+id/compass"
             app:layout_constraintCircleAngle="90"
             app:layout_constraintCircleRadius="140dp"
-            android:background="@drawable/north_arrow"
             tools:layout_constraintCircleAngle="45"
             tools:layout_editor_absoluteX="111dp"
             tools:layout_editor_absoluteY="170dp" />
@@ -133,14 +161,14 @@
 
         <TextView
             android:id="@+id/pin_three"
-            android:visibility="gone"
-            android:text="null"
             android:layout_width="34dp"
             android:layout_height="72dp"
+            android:background="@drawable/pindrop"
+            android:text="null"
+            android:visibility="gone"
             app:layout_constraintCircle="@+id/compass"
             app:layout_constraintCircleAngle="90"
             app:layout_constraintCircleRadius="140dp"
-            android:background="@drawable/pindrop"
             tools:layout_constraintCircleAngle="140"
             tools:layout_editor_absoluteX="111dp"
             tools:layout_editor_absoluteY="170dp" />
@@ -151,12 +179,41 @@
         android:id="@+id/orientation_activity_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Change Orientation"
         android:onClick="onUserOrientationClick"
+        android:text="Change Orientation"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.153"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/location"
-        app:layout_constraintVertical_bias="0.484" />
+        app:layout_constraintVertical_bias="0.44" />
+
+    <Button
+        android:id="@+id/zoom_in_button"
+        android:layout_width="37dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="109dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="32dp"
+        android:text="+"
+        android:onClick="ZoomInClick"
+        app:layout_constraintBottom_toTopOf="@+id/zoom_out_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/location"
+        app:layout_constraintTop_toBottomOf="@+id/compass" />
+
+    <Button
+        android:id="@+id/zoom_out_button"
+        android:layout_width="36dp"
+        android:layout_height="41dp"
+        android:layout_marginStart="107dp"
+        android:layout_marginEnd="33dp"
+        android:layout_marginBottom="66dp"
+        android:text="-"
+        android:onClick="ZoomOutClick"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/orientation_activity_button"
+        app:layout_constraintTop_toBottomOf="@+id/zoom_in_button" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,12 +6,14 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.media.Image;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.util.Pair;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -33,6 +35,8 @@ public class MainActivity extends AppCompatActivity {
     private Activity activity = this;
     DisplayCircle displayCircle;
 
+    private int currentZoomLevel = 1;
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +45,6 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
 
 
         // reset pinList
@@ -164,6 +167,67 @@ public class MainActivity extends AppCompatActivity {
     public void onChangeLabelClick(View view) {
         Intent intent = new Intent(this, LabelActivity.class);
         startActivity(intent);
+    }
+
+
+    public int getCurrentZoomLevel(){
+        return this.currentZoomLevel;
+    }
+
+     public void setCurrentZoomLevel(int level){
+            this.currentZoomLevel = level;
+    }
+
+    public void setValidZoomLevel(){
+        if(currentZoomLevel >= 4){
+            currentZoomLevel = 4;
+        }else if(currentZoomLevel <= 1){
+            currentZoomLevel = 1;
+        }
+    }
+
+    public void setZoomLevel(){
+        if(currentZoomLevel == 1){
+            findViewById(R.id.compass_background).setVisibility(View.VISIBLE);
+            findViewById(R.id.compass_background_2).setVisibility(View.INVISIBLE);
+            findViewById(R.id.compass_background_3).setVisibility(View.INVISIBLE);
+            findViewById(R.id.compass_background_4).setVisibility(View.INVISIBLE);
+            findViewById(R.id.zoom_out_button).setEnabled(true);
+            findViewById(R.id.zoom_in_button).setEnabled(false);
+        }else if(currentZoomLevel == 2){
+            findViewById(R.id.compass_background_2).setVisibility(View.VISIBLE);
+            findViewById(R.id.compass_background).setVisibility(View.INVISIBLE);
+            findViewById(R.id.compass_background_3).setVisibility(View.INVISIBLE);
+            findViewById(R.id.compass_background_4).setVisibility(View.INVISIBLE);
+            findViewById(R.id.zoom_out_button).setEnabled(true);
+            findViewById(R.id.zoom_in_button).setEnabled(true);
+        }else if(currentZoomLevel == 3){
+            findViewById(R.id.compass_background_3).setVisibility(View.VISIBLE);
+            findViewById(R.id.compass_background).setVisibility(View.INVISIBLE);
+            findViewById(R.id.compass_background_2).setVisibility(View.INVISIBLE);
+            findViewById(R.id.compass_background_4).setVisibility(View.INVISIBLE);
+            findViewById(R.id.zoom_out_button).setEnabled(true);
+            findViewById(R.id.zoom_in_button).setEnabled(true);
+        }else if(currentZoomLevel == 4){
+            findViewById(R.id.compass_background_4).setVisibility(View.VISIBLE);
+            findViewById(R.id.compass_background).setVisibility(View.INVISIBLE);
+            findViewById(R.id.compass_background_2).setVisibility(View.INVISIBLE);
+            findViewById(R.id.compass_background_3).setVisibility(View.INVISIBLE);
+            findViewById(R.id.zoom_out_button).setEnabled(false);
+            findViewById(R.id.zoom_in_button).setEnabled(true);
+        }
+    }
+
+    public void ZoomInClick(View view){
+        currentZoomLevel--;
+        setValidZoomLevel();
+        setZoomLevel();
+    }
+
+    public void ZoomOutClick(View view){
+        currentZoomLevel++;
+        setValidZoomLevel();
+        setZoomLevel();
     }
 
 }
