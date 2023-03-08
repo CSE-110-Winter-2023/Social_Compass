@@ -74,7 +74,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:srcCompat="@drawable/compass_background"
-            android:visibility="visible"
+            android:visibility="invisible"
             tools:layout_editor_absoluteX="0dp"
             tools:layout_editor_absoluteY="0dp" />
 
@@ -101,7 +101,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:srcCompat="@drawable/compass_background_4"
-            android:visibility="invisible"
+            android:visibility="visible"
             tools:layout_editor_absoluteX="0dp"
             tools:layout_editor_absoluteY="0dp" />
 
@@ -141,7 +141,7 @@
             app:layout_constraintCircleAngle="90"
             app:layout_constraintCircleRadius="140dp"
             android:background="@drawable/pindrop_purple"
-            tools:layout_constraintCircleAngle="90"
+            tools:layout_constraintCircleAngle="125"
             tools:layout_editor_absoluteX="111dp"
             tools:layout_editor_absoluteY="170dp" />
 

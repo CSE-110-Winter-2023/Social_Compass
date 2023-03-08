@@ -1,11 +1,8 @@
 package edu.ucsd.cse110.cse110group8_compass;
 /*
     Zone 1: [0-1 mile)
-
     Zone 2: [1-10 miles)
-
     Zone 3: [10-500 miles)
-
     Zone 4: [500 miles, 500 miles +)
  */
 
