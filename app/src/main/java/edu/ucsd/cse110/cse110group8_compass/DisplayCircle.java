@@ -34,7 +34,8 @@ public class  DisplayCircle {
           this.pinList = new PinList();
           this.pinList.addPin(northPin);
 
-
+          ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) circle_constraint.getLayoutParams();
+          int val = layoutParams.circleRadius;
           //pinList = new Pin[4];
          // validPins = new boolean[]{false, false, false, false};
          // populatedPins = new boolean[]{false, false, false, false};
@@ -92,13 +93,19 @@ public class  DisplayCircle {
                @Override
                public void onChanged(Pair<Double, Double> doubleDoublePair) {
                     DistanceCalculator distanceCalculator = new DistanceCalculator(doubleDoublePair.first, doubleDoublePair.second);
+                    //DistanceCalculator distanceCalculator = new DistanceCalculator(32.8801, -117.2340);
                     Double miles = distanceCalculator.calculateDistance(targetPin.getLatitude(), targetPin.getLongitude());
+                    //Double miles = distanceCalculator.calculateDistance(32.596280, -115.870056);
+
+                    //miles = 0.5;
+                    System.out.println("For: " + targetPin.getName() + " miles: "+ miles);
 
                     int radiusConstraint = zoomLevel.getRadius(miles);
+                    System.out.println("For: " + targetPin.getName() + " rad: "+ radiusConstraint);
                     //System.out.println("radC: " + radiusConstraint);
 
                     ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) targetPin.getPinTextView().getLayoutParams();
-                    layoutParams.circleRadius= radiusConstraint;
+                    layoutParams.circleRadius = (int) (radiusConstraint * activity.getResources().getDisplayMetrics().density);
                     targetPin.getPinTextView().setLayoutParams(layoutParams);
 
 

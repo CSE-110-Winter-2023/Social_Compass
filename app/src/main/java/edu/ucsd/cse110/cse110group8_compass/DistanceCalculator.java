@@ -14,10 +14,11 @@ public class DistanceCalculator {
 
     public Double calculateDistance(double targetLatitude, double targetLongitude) {
         Location targetLocation = new Location("provider");
-        userLocation.setLatitude(targetLatitude);
-        userLocation.setLongitude(targetLongitude);
+        targetLocation.setLatitude(targetLatitude);
+        targetLocation.setLongitude(targetLongitude);
 
         Float distance = userLocation.distanceTo(targetLocation);
+        System.out.print("VAL:" + distance);
         return metersToMiles(distance.doubleValue());
     }
 

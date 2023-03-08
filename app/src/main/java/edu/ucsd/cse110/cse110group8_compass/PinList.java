@@ -43,6 +43,13 @@ public class PinList {
         return pinList.size();
     }
 
+    public void printList() {
+        for(int i = 0; i < pinList.size(); i++){
+            pinList.get(i).print();
+        }
+    }
+
+
     public Pin getPin(int i) {
         return pinList.get(i);
     }

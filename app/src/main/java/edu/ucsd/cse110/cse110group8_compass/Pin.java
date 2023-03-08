@@ -64,4 +64,10 @@ public class Pin {
         }
     }
 
+    void print() {
+        System.out.println("Name:" + name);
+        System.out.println("TextView:" + getPinTextView());
+    }
+
+
 }
