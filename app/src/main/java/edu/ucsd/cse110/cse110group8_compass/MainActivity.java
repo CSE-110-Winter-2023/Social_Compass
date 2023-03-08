@@ -177,6 +177,7 @@ public class MainActivity extends AppCompatActivity {
 
      public void setCurrentZoomLevel(int level){
             this.currentZoomLevel = level;
+            this.setZoomLevel();
     }
 
     public void setValidZoomLevel(){
