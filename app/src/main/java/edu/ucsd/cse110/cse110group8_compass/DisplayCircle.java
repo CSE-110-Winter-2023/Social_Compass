@@ -1,7 +1,6 @@
 package edu.ucsd.cse110.cse110group8_compass;
 
 import android.app.Activity;
-import android.util.Log;
 import android.util.Pair;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -9,104 +8,102 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 
+
 import java.util.ArrayList;
 
 //DisplayCircle coordinates all the pins and makes them visible or not
 public class  DisplayCircle {
-     static private ConstraintLayout circle_constraint;
+     private ConstraintLayout circle_constraint;
 
-     static private LiveData<Pair<Double, Double>> userCoordinateLive;
-     static private Pin pinList[];
-     static private LiveData<Float> azimuth;
-     static private Activity activity;
-     static private boolean validPins[];
-     static private boolean populatedPins[];
-     static private int numOfPins;
+
+     private LiveData<Pair<Double, Double>> userCoordinateLive;
+     //private Pin pinList[];
+     private LiveData<Float> azimuth;
+     private Activity activity;
+     private boolean validPins[];
+     private boolean populatedPins[];
+     private int numOfPins;
+
+     private PinList pinList;
 
      DisplayCircle (ConstraintLayout circle_m, Pin northPin,Activity activity, LiveData<Float> azimuth, LiveData<Pair<Double, Double>> userCoordinateLive) {
           this.circle_constraint = circle_m;
           this.activity = activity;
           this.azimuth = azimuth;
           this.userCoordinateLive = userCoordinateLive;
+          this.pinList = new PinList();
+          this.pinList.addPin(northPin);
 
-          pinList = new Pin[4];
-          validPins = new boolean[]{false, false, false, false};
-          populatedPins = new boolean[]{false, false, false, false};
-          pinList[0] = northPin;
-          populatedPins[0] = true;
-          numOfPins = 1;
+
+          //pinList = new Pin[4];
+         // validPins = new boolean[]{false, false, false, false};
+         // populatedPins = new boolean[]{false, false, false, false};
+          //pinList.addPin(northPin);
+          //populatedPins[0] = true;
+         // numOfPins = 1;
           rotateAllPins();
      }
 
-     private boolean checkNullPins() {
-          boolean valid = true;
 
-          for(int i = 0; i < 4; i++) {
-               if(populatedPins[i] == true){
-                    if(pinList[i].getPinTextView() == null) {
-                         valid = false;
-                         System.out.println("NULL VALUE:" + i);
-                         validPins[i] = false;
-                    }
-                    else {
-                         valid = true;
-                         validPins[i] = true;
-                    }
-               }
-          }
-          return valid;
+     public void setPinList(ArrayList<Pin> pinArray) {
+          pinList.setPinList(pinArray);
+          rotateAllPins();
      }
 
-
-
-     public boolean setPinList(ArrayList<Pin> pinArray) {
-          numOfPins = 0;
-          if(pinArray.size() <= 4 ) {
-               for(int i = 0; i < pinArray.size(); i++) {
-                    pinList[i] = pinArray.get(i);
-                    populatedPins[i] = true;
-                    numOfPins++;
-               }
-               Log.i("inside setPinList", ""+pinList[0].getPinTextView());
-               Log.i("inside setPinList, ", ""+validPins[0]);
-               rotateAllPins();
-               return true;
-          }
-          else {
-               System.out.println("too many values");
-               return false;
-          }
+     public void setPinList(PinList newPinList) {
+          pinList = newPinList;
      }
 
-     public boolean addPin(Pin newPin) {
-          if(numOfPins < 4 && populatedPins[0] == true ) {
-               pinList[numOfPins] = newPin;
-               populatedPins[numOfPins] = true;
-               rotateAllPins();
-               numOfPins++;
-               return true;
-          }
-          else {
-               return false;
-          }
-     }
 
      public int size(){
-          return numOfPins;
+          return pinList.size();
      }
 
-     public Pin[] getPinList(){
+     public PinList getPinList(){
           return pinList;
      }
 
 
      private void rotateAllPins() {
-          checkNullPins();
-          for(int i = 0; i < 4;i++ ) {
-               if(validPins[i] == true) {
-                    rotatePin(pinList[i], azimuth, activity);
+          for(int i = 0; i < pinList.size();i++ ) {
+               if(pinList.getPin(i).checkValid() == true) {
+                    rotatePin(pinList.getPin(i), azimuth, activity);
                }
           }
+     }
+
+     public void setAllPinZones(ZoomLevel zoom) {
+          for(int i = 0; i < pinList.size();i++ ) {
+               if(pinList.getPin(i).checkValid() == true) {
+                    setPinZone(pinList.getPin(i), zoom, activity);
+               }
+          }
+     }
+
+     public void restartObservers( ZoomLevel zoomLevel) {
+          userCoordinateLive.removeObservers((LifecycleOwner) activity);
+          setAllPinZones(zoomLevel);
+          rotateAllPins();
+     }
+
+
+     private void setPinZone(Pin targetPin, ZoomLevel zoomLevel, Activity activity) {
+          userCoordinateLive.observe((LifecycleOwner) activity, new Observer<Pair<Double, Double>>() {
+               @Override
+               public void onChanged(Pair<Double, Double> doubleDoublePair) {
+                    DistanceCalculator distanceCalculator = new DistanceCalculator(doubleDoublePair.first, doubleDoublePair.second);
+                    Double miles = distanceCalculator.calculateDistance(targetPin.getLatitude(), targetPin.getLongitude());
+
+                    int radiusConstraint = zoomLevel.getRadius(miles);
+                    //System.out.println("radC: " + radiusConstraint);
+
+                    ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) targetPin.getPinTextView().getLayoutParams();
+                    layoutParams.circleRadius= radiusConstraint;
+                    targetPin.getPinTextView().setLayoutParams(layoutParams);
+
+
+               }
+          });
      }
 
 

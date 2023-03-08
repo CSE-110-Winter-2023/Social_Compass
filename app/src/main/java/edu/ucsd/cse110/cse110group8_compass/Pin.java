@@ -1,9 +1,6 @@
 package edu.ucsd.cse110.cse110group8_compass;
 
-import android.widget.ImageView;
 import android.widget.TextView;
-
-import org.w3c.dom.Text;
 
 public class Pin {
 
@@ -51,4 +48,20 @@ public class Pin {
     public void setLabel(String label){
         this.name = label;
     }
+
+    public boolean checkValid() {
+        if(this.name == null) {
+            return false;
+        }
+        else if(this.pinTextView == null) {
+            return false;
+        }
+        else if(this.latitude == null || this.longitude == null) {
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+
 }

@@ -136,7 +136,7 @@
             android:text="null"
             android:layout_width="34dp"
             android:layout_height="72dp"
-            android:visibility="gone"
+            android:visibility="visible"
             app:layout_constraintCircle="@+id/compass"
             app:layout_constraintCircleAngle="90"
             app:layout_constraintCircleRadius="140dp"
