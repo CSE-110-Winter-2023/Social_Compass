@@ -2,13 +2,14 @@ package edu.ucsd.cse110.cse110group8_compass;
 
 
 import android.location.Location;
+import android.location.LocationManager;
 
 public class DistanceCalculator {
 
     protected Location userLocation;
     protected boolean mock;
     DistanceCalculator(double userLatitude, double userLongitude) {
-        userLocation = new Location("provider");
+        userLocation = new Location(LocationManager.GPS_PROVIDER);
         userLocation.setLatitude(userLatitude);
         userLocation.setLongitude(userLongitude);
     }
@@ -23,11 +24,15 @@ public class DistanceCalculator {
     }
 
     public Double calculateMockDistance(double targetLatitude, double targetLongitude) {
-        Location targetLocation = new Location("provider");
+        Location targetLocation = new Location(LocationManager.GPS_PROVIDER);
         targetLocation.setMock(true);
         targetLocation.setLatitude(targetLatitude);
         targetLocation.setLongitude(targetLongitude);
 
+
+        System.out.println("USERLAT: " + userLocation.getLatitude());
+        System.out.println("USERLONG: " + userLocation.getLongitude());
+        System.out.println("TARGETLAT: " + targetLocation.getLatitude());
         Float distance = userLocation.distanceTo(targetLocation);
         System.out.print("VAL:" + distance);
         return metersToMiles(distance.doubleValue());
