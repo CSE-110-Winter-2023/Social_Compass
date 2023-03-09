@@ -6,14 +6,12 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.media.Image;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.util.Pair;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -33,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int EDIT_CODE = 31;
     private boolean useUserOrientation = false;
     private Activity activity = this;
+
     DisplayCircle displayCircle;
 
     private int currentZoomLevel = 1;
@@ -45,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
 
         // reset pinList
@@ -90,6 +90,7 @@ public class MainActivity extends AppCompatActivity {
         northPin.setPinTextView(findViewById(R.id.north_pin));
 
         displayCircle = new DisplayCircle(findViewById(R.id.compass),northPin,  this, azimuth, userCoordinates);
+        displayCircle.setAllPinZones(new ZoomLevel(1));
 
         updatePins();
 
@@ -144,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        boolean flag = displayCircle.setPinList(p);
+        displayCircle.setPinList(p);
 
         for(Pin curPin : p){
             if (curPin.getPinTextView() != null){
@@ -176,6 +177,7 @@ public class MainActivity extends AppCompatActivity {
 
      public void setCurrentZoomLevel(int level){
             this.currentZoomLevel = level;
+            this.setZoomLevel();
     }
 
     public void setValidZoomLevel(){
@@ -222,12 +224,16 @@ public class MainActivity extends AppCompatActivity {
         currentZoomLevel--;
         setValidZoomLevel();
         setZoomLevel();
+        System.out.println("ZoomInClick: " + currentZoomLevel);
+        displayCircle.restartObservers(new ZoomLevel(currentZoomLevel));
     }
 
     public void ZoomOutClick(View view){
         currentZoomLevel++;
         setValidZoomLevel();
         setZoomLevel();
+        System.out.println("ZoomOutClick: " + currentZoomLevel);
+        displayCircle.restartObservers(new ZoomLevel(currentZoomLevel));
     }
 
 }
