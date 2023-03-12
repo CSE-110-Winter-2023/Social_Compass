@@ -2,11 +2,13 @@ package edu.ucsd.cse110.cse110group8_compass;
 
 import android.widget.TextView;
 
+import androidx.lifecycle.MutableLiveData;
+
 public class Pin {
 
     private String name;
-    private Double latitude;
-    private Double longitude;
+    private MutableLiveData<Double> latitude;
+    private MutableLiveData<Double> longitude;
     private TextView pinTextView;
 
 
@@ -15,8 +17,8 @@ public class Pin {
     }
 
     public void setLocation( Double latitude , Double longitude) {
-        this.latitude = latitude;
-        this.longitude = longitude;
+        this.latitude.setValue(latitude);
+        this.longitude.setValue(longitude);
     }
 
     public void setPinTextView(TextView textView) {
@@ -26,13 +28,25 @@ public class Pin {
     public TextView getPinTextView() {
         return pinTextView;
     }
+    public void setLiveData(MutableLiveData<Double> latitude, MutableLiveData<Double> longitude) {
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
+
+    public MutableLiveData<Double> getLiveDataLongitude() {
+        return longitude;
+    }
+    public MutableLiveData<Double> getLiveDataLatitude() {
+        return latitude;
+
+    }
 
     public Double getLatitude() {
-        return latitude;
+        return this.latitude.getValue();
     }
 
     public Double getLongitude() {
-        return longitude;
+        return this.longitude.getValue();
     }
 
     public String getName() {
@@ -41,8 +55,8 @@ public class Pin {
 
     public Pin(String label, Double longitude, Double latitude){
         this.name = label;
-        this.latitude = latitude;
-        this.longitude = longitude;
+        this.latitude.setValue(latitude);
+        this.longitude.setValue(longitude);
     }
 
     public void setLabel(String label){
