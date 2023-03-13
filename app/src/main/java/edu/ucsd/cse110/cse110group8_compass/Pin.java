@@ -2,19 +2,23 @@ package edu.ucsd.cse110.cse110group8_compass;
 
 import android.widget.TextView;
 
+
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
+import androidx.lifecycle.MutableLiveData;
 
 @Entity(tableName = "pins")
+
 public class Pin {
 
     private String label;
-    private Double latitude;
-    private Double longitude;
+    private MutableLiveData<Double> latitude;
+    private MutableLiveData<Double> longitude;
+
     private TextView pinTextView;
     public long updatedAt;
 
@@ -44,8 +48,8 @@ public class Pin {
     }
 
     public void setLocation( Double latitude , Double longitude) {
-        this.latitude = latitude;
-        this.longitude = longitude;
+        this.latitude.setValue(latitude);
+        this.longitude.setValue(longitude);
     }
 
     public void setPinTextView(TextView textView) {
@@ -55,13 +59,25 @@ public class Pin {
     public TextView getPinTextView() {
         return pinTextView;
     }
+    public void setLiveData(MutableLiveData<Double> latitude, MutableLiveData<Double> longitude) {
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
+
+    public MutableLiveData<Double> getLiveDataLongitude() {
+        return longitude;
+    }
+    public MutableLiveData<Double> getLiveDataLatitude() {
+        return latitude;
+
+    }
 
     public Double getLatitude() {
-        return latitude;
+        return this.latitude.getValue();
     }
 
     public Double getLongitude() {
-        return longitude;
+        return this.longitude.getValue();
     }
 
     public String getLabel() {
@@ -70,8 +86,8 @@ public class Pin {
 
     public Pin(String label, Double longitude, Double latitude){
         this.label = label;
-        this.latitude = latitude;
-        this.longitude = longitude;
+        this.latitude.setValue(latitude);
+        this.longitude.setValue(longitude);
     }
 
     public void setLabel(String label){
