@@ -1,6 +1,7 @@
 package edu.ucsd.cse110.cse110group8_compass.model;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -38,6 +39,7 @@ public class PinViewModel extends AndroidViewModel {
      * @return a LiveData object that will be updated when this note changes.
      */
     public LiveData<UUID> getOrCreateUUID(String publicId) {
+        Log.i("PinViewModel", "public ID: "+ repo.existsLocal(publicId));
         if (!repo.existsLocal(publicId)) {
             var uuid = new UUID("null", 0.0, 0.0, publicId);
             repo.upsertLocal(uuid, false);

@@ -13,11 +13,9 @@ import android.util.Log;
 import android.util.Pair;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
@@ -99,7 +97,9 @@ public class MainActivity extends AppCompatActivity {
             );
         northPin.setPinTextView(findViewById(R.id.north_pin));
 
-
+        ConstraintLayout layout = (ConstraintLayout)findViewById(R.id.compass);
+        float density = activity.getResources().getDisplayMetrics().density;
+        /*
         //starting dynamic pin creation
         ConstraintLayout layout = (ConstraintLayout)findViewById(R.id.compass);
         ConstraintSet set = new ConstraintSet();
@@ -128,9 +128,13 @@ public class MainActivity extends AppCompatActivity {
                 -70.00
         );
         testPin.setPinTextView(view);
+        */
+
+        // fetching from local database
+        LiveData<UUID> uuids = pinViewModel.getOrCreateUUID("38946729");
 
 
-
+        Pin testPin = new PinBuilder(this, layout, density).config().withCoordinates(35.00, -70.00).withLabel("Test Pin").build();
         displayCircle = new DisplayCircle(findViewById(R.id.compass),northPin,  this, azimuth, userCoordinates);
         ArrayList<Pin> arrPin = new ArrayList<Pin>();
         arrPin.add(testPin);
@@ -145,6 +149,8 @@ public class MainActivity extends AppCompatActivity {
         updatePins();
 
     }
+
+
     @Override
     public void onResume(){
         super.onResume();
