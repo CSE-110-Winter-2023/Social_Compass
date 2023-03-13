@@ -2,23 +2,22 @@ package edu.ucsd.cse110.cse110group8_compass;
 
 import android.widget.TextView;
 
-
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
-import androidx.lifecycle.MutableLiveData;
+
+import edu.ucsd.cse110.cse110group8_compass.model.UUID;
 
 @Entity(tableName = "pins")
 
-public class Pin {
+public class Pin extends UUID {
 
-    private String label;
-    private MutableLiveData<Double> latitude;
-    private MutableLiveData<Double> longitude;
-
+   //private String label;
+    //private Double latitude;
+    //private Double longitude;
     private TextView pinTextView;
     public long updatedAt;
 
@@ -45,11 +44,12 @@ public class Pin {
 
     public Pin(){
         this.label = "Parent";
+
     }
 
     public void setLocation( Double latitude , Double longitude) {
-        this.latitude.setValue(latitude);
-        this.longitude.setValue(longitude);
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
     public void setPinTextView(TextView textView) {
@@ -59,25 +59,25 @@ public class Pin {
     public TextView getPinTextView() {
         return pinTextView;
     }
-    public void setLiveData(MutableLiveData<Double> latitude, MutableLiveData<Double> longitude) {
+    public void setLiveData(Double latitude, Double longitude) {
         this.latitude = latitude;
         this.longitude = longitude;
     }
 
-    public MutableLiveData<Double> getLiveDataLongitude() {
+    public Double getLiveDataLongitude() {
         return longitude;
     }
-    public MutableLiveData<Double> getLiveDataLatitude() {
+    public Double getLiveDataLatitude() {
         return latitude;
 
     }
 
     public Double getLatitude() {
-        return this.latitude.getValue();
+        return this.latitude;
     }
 
     public Double getLongitude() {
-        return this.longitude.getValue();
+        return this.longitude;
     }
 
     public String getLabel() {
@@ -86,8 +86,8 @@ public class Pin {
 
     public Pin(String label, Double longitude, Double latitude){
         this.label = label;
-        this.latitude.setValue(latitude);
-        this.longitude.setValue(longitude);
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
     public void setLabel(String label){

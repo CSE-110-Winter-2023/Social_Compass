@@ -1,15 +1,11 @@
 package edu.ucsd.cse110.cse110group8_compass.model;
 
-import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
-
-import edu.ucsd.cse110.cse110group8_compass.Pin;
 
 @Entity(tableName = "uuid")
 public class UUID {
@@ -24,6 +20,11 @@ public class UUID {
     @NonNull
     public String public_code;
     public UUID(){}
+
+    public UUID(String public_code){
+        this.public_code = public_code;
+
+    }
     public UUID(String label, Double latitude, Double longitude, String public_code){
         this.label = label;
         this.latitude = latitude;

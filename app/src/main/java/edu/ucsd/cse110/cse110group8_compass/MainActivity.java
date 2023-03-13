@@ -16,26 +16,21 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MediatorLiveData;
-import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.TimeUnit;
 
-import edu.ucsd.cse110.cse110group8_compass.model.UUIDAPI;
+import edu.ucsd.cse110.cse110group8_compass.model.PinViewModel;
 import edu.ucsd.cse110.cse110group8_compass.model.UUID;
 import edu.ucsd.cse110.cse110group8_compass.model.UUIDAPI;
-import edu.ucsd.cse110.cse110group8_compass.model.UUIDDao;
-import edu.ucsd.cse110.cse110group8_compass.model.UUIDRepository;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -43,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int EDIT_CODE = 31;
     private boolean useUserOrientation = false;
     private Activity activity = this;
+    private PinViewModel pinViewModel;
     ScheduledFuture<?> poller;
 
     DisplayCircle displayCircle;
@@ -58,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        pinViewModel = new ViewModelProvider(this).get(PinViewModel.class);
 
 
         // reset pinList
@@ -102,8 +99,48 @@ public class MainActivity extends AppCompatActivity {
             );
         northPin.setPinTextView(findViewById(R.id.north_pin));
 
+
+        //starting dynamic pin creation
+        ConstraintLayout layout = (ConstraintLayout)findViewById(R.id.compass);
+        ConstraintSet set = new ConstraintSet();
+
+        TextView view = new TextView(this);
+
+
+        view.setId(View.generateViewId());  // cannot set id after add
+        layout.addView(view,0);
+        set.clone(layout);
+        set.connect(view.getId(), ConstraintSet.TOP, layout.getId(), ConstraintSet.TOP, 60);
+        set.applyTo(layout);
+
+        ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) view.getLayoutParams();
+        layoutParams.circleRadius = (int) (20 * activity.getResources().getDisplayMetrics().density);
+        layoutParams.circleConstraint=R.id.compass;
+        view.setLayoutParams(layoutParams);
+        view.setText("hello");
+        view.bringToFront();
+
+
+
+        Pin testPin = new Pin(
+                "Test Pin",
+                35.00,
+                -70.00
+        );
+        testPin.setPinTextView(view);
+
+
+
         displayCircle = new DisplayCircle(findViewById(R.id.compass),northPin,  this, azimuth, userCoordinates);
+        ArrayList<Pin> arrPin = new ArrayList<Pin>();
+        arrPin.add(testPin);
+        displayCircle.setPinList(arrPin);
+
+        //^set the pin and add it to an pinList
+
         displayCircle.setAllPinZones(new ZoomLevel(1));
+
+
 
         updatePins();
 
@@ -133,11 +170,15 @@ public class MainActivity extends AppCompatActivity {
         updatePins();
     }
 
-    /**
+    /**Double
      * Reads in shared preferences
      */
     public void updatePins(){
-        SharedPreferences prefs = PreferenceManager
+
+        pinViewModel.getOrCreateUUID("38946729");
+        pinViewModel.getOrCreateUUID("89347878");
+        pinViewModel.getOrCreateUUID("09393999");
+        /*SharedPreferences prefs = PreferenceManager
                 .getDefaultSharedPreferences(this.getApplicationContext());
         Gson gson = new Gson();
         String json = prefs.getString("pinList", "");
@@ -165,17 +206,23 @@ public class MainActivity extends AppCompatActivity {
                 curPin.getPinTextView().setVisibility(View.VISIBLE);
                 curPin.getPinTextView().setText(curPin.getLabel());
             }
-        }
+        }*/
+        int i = 0;
     }
 
     public void onUserOrientationClick(View view) {
         // Intent intent = new Intent(this, OrientationActivity.class);
         // startActivity(intent);
+
+
         StrictMode.ThreadPolicy gfgPolicy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(gfgPolicy);
 
         UUIDAPI api = new UUIDAPI();
         api.put(new UUID("this is a test bruh", 10.123, 10.123, "122-122-123"));
+
+
+
         /*
         UUIDAPI api = new UUIDAPI();
         MutableLiveData<UUID> realTimeData = new MutableLiveData<>();
