@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.util.Pair;
@@ -17,6 +18,8 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MediatorLiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -24,6 +27,15 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
+
+import edu.ucsd.cse110.cse110group8_compass.model.UUIDAPI;
+import edu.ucsd.cse110.cse110group8_compass.model.UUID;
+import edu.ucsd.cse110.cse110group8_compass.model.UUIDAPI;
+import edu.ucsd.cse110.cse110group8_compass.model.UUIDDao;
+import edu.ucsd.cse110.cse110group8_compass.model.UUIDRepository;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -31,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int EDIT_CODE = 31;
     private boolean useUserOrientation = false;
     private Activity activity = this;
+    ScheduledFuture<?> poller;
 
     DisplayCircle displayCircle;
 
@@ -150,14 +163,39 @@ public class MainActivity extends AppCompatActivity {
         for(Pin curPin : p){
             if (curPin.getPinTextView() != null){
                 curPin.getPinTextView().setVisibility(View.VISIBLE);
-                curPin.getPinTextView().setText(curPin.getName());
+                curPin.getPinTextView().setText(curPin.getLabel());
             }
         }
     }
 
     public void onUserOrientationClick(View view) {
-        Intent intent = new Intent(this, OrientationActivity.class);
-        startActivity(intent);
+        // Intent intent = new Intent(this, OrientationActivity.class);
+        // startActivity(intent);
+        StrictMode.ThreadPolicy gfgPolicy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(gfgPolicy);
+
+        UUIDAPI api = new UUIDAPI();
+        api.put(new UUID("this is a test bruh", 10.123, 10.123, "122-122-123"));
+        /*
+        UUIDAPI api = new UUIDAPI();
+        MutableLiveData<UUID> realTimeData = new MutableLiveData<>();
+        var executor = Executors.newSingleThreadScheduledExecutor();
+        poller = executor.scheduleAtFixedRate(() -> {
+            UUID n = api.get("testing");
+            realTimeData.postValue(n);
+        }, 0, 3000, TimeUnit.MILLISECONDS);
+        MediatorLiveData<UUID> noteData = new MediatorLiveData<>();
+        noteData.addSource(realTimeData, noteData::postValue);
+        Log.i("checking connection", "longitude and latitude: " + noteData.toString());
+        */
+        // Start by fetching the note from the server ONCE.
+        // Then, set up a background thread that will poll the server every 3 seconds.
+
+        // You may (but don't have to) want to cache the LiveData's for each public_code, so that
+        // you don't create a new polling thread every time you call getRemote with the same public_code.
+        // You don't need to worry about killing background threads.
+
+        // throw new UnsupportedOperationException("Not implemented yet");
     }
 
     public void onCreateLocationClick(View view) {

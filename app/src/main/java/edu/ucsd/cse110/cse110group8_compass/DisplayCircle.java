@@ -98,10 +98,10 @@ public class  DisplayCircle {
                     //Double miles = distanceCalculator.calculateDistance(32.596280, -115.870056);
 
                     //miles = 0.5;
-                    System.out.println("For: " + targetPin.getName() + " miles: "+ miles);
+                    System.out.println("For: " + targetPin.getLabel() + " miles: "+ miles);
 
                     int radiusConstraint = zoomLevel.getRadius(miles);
-                    System.out.println("For: " + targetPin.getName() + " rad: "+ radiusConstraint);
+                    System.out.println("For: " + targetPin.getLabel() + " rad: "+ radiusConstraint);
                     //System.out.println("radC: " + radiusConstraint);
 
                     ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) targetPin.getPinTextView().getLayoutParams();
