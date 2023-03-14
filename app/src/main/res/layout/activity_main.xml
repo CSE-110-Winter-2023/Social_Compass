@@ -227,4 +227,24 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <ImageView
+        android:id="@+id/online"
+        android:layout_width="104dp"
+        android:layout_height="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/online" />
+
+    <ImageView
+        android:id="@+id/offline"
+        android:layout_width="104dp"
+        android:layout_height="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/offline2" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -14,12 +14,15 @@ import android.util.Log;
 import android.util.Pair;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MediatorLiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -27,9 +30,13 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.gson.Gson;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 
 import edu.ucsd.cse110.cse110group8_compass.model.PinViewModel;
 import edu.ucsd.cse110.cse110group8_compass.model.UUID;
@@ -43,6 +50,9 @@ public class MainActivity extends AppCompatActivity {
     private Activity activity = this;
     private PinViewModel pinViewModel;
     private FusedLocationProviderClient fusedLocationClient;
+    private Long timeOnline;
+    private LocationService ourLocationService;
+    MutableLiveData<Long> realTimeData = new MutableLiveData<>();
     ScheduledFuture<?> poller;
 
     DisplayCircle displayCircle;
@@ -86,10 +96,11 @@ public class MainActivity extends AppCompatActivity {
         LocationService locationService = new LocationService(this);
         LiveData<Pair<Double, Double>> userCoordinates;
         userCoordinates = locationService.getLocation();
-        long milliSecsSinceGPS = locationService.lastFix();
-        int minSinceGPS = (int) milliSecsSinceGPS / 60000;
-        TextView status = findViewById(R.id.timeOffline);
-        status.setText("" + minSinceGPS + " min" + " (" + milliSecsSinceGPS + " millisecs)");
+
+
+        checkGPSStatus().observe(this, this::GPSTime);
+
+
 
 
 
@@ -161,6 +172,23 @@ public class MainActivity extends AppCompatActivity {
 
         updatePins();
 
+    }
+
+    public void GPSTime(Long longNum){
+        TextView gpsView = findViewById(R.id.timeOffline);
+
+        ImageView onlineButton = findViewById(R.id.online);
+        ImageView offlineButton = findViewById(R.id.offline);
+        gpsView.setText("" + longNum);
+        if(longNum < 60000){
+            onlineButton.setVisibility(View.VISIBLE);
+            offlineButton.setVisibility(View.INVISIBLE);
+
+        }
+        if(longNum > 60000){
+            onlineButton.setVisibility(View.INVISIBLE);
+            offlineButton.setVisibility(View.VISIBLE);
+        }
     }
 
 
@@ -338,6 +366,26 @@ public class MainActivity extends AppCompatActivity {
         setZoomLevel();
         System.out.println("ZoomOutClick: " + currentZoomLevel);
         displayCircle.restartObservers(new ZoomLevel(currentZoomLevel));
+    }
+
+
+    public LiveData<Long> checkGPSStatus() {
+        ourLocationService = new LocationService(this);
+
+        var executor = Executors.newSingleThreadScheduledExecutor();
+        MutableLiveData<Long> timeOnlineData = new MutableLiveData<>();
+        poller = executor.scheduleAtFixedRate(() -> {
+            long milliSecsSinceGPS = ourLocationService.lastFix();
+            System.out.println(milliSecsSinceGPS);
+            int minSinceGPS = (int) milliSecsSinceGPS / 60000;
+            timeOnlineData.postValue(milliSecsSinceGPS);
+        }, 0, 3000, TimeUnit.MILLISECONDS);
+
+        MediatorLiveData<Long> timeData = new MediatorLiveData<>();
+        timeData.addSource(timeOnlineData, timeData::postValue);
+
+        return timeData;
+
     }
 
     public void startLocationUpdates(){
