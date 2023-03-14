@@ -43,6 +43,8 @@ public class MainActivity extends AppCompatActivity {
 
     private int currentZoomLevel = 1;
 
+
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
