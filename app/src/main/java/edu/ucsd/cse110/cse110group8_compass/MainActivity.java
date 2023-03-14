@@ -17,18 +17,24 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ScheduledFuture;
 
 import edu.ucsd.cse110.cse110group8_compass.model.PinViewModel;
 import edu.ucsd.cse110.cse110group8_compass.model.UUID;
 import edu.ucsd.cse110.cse110group8_compass.model.UUIDAPI;
+import edu.ucsd.cse110.cse110group8_compass.model.UUIDRepository;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -38,9 +44,11 @@ public class MainActivity extends AppCompatActivity {
     private Activity activity = this;
     private PinViewModel pinViewModel;
     ScheduledFuture<?> poller;
+    private HashMap<String, Pin> pinHashMap = new HashMap<>();
 
     DisplayCircle displayCircle;
 
+    UUIDRepository uuidRep;
     private int currentZoomLevel = 1;
 
     @SuppressLint("MissingInflatedId")
@@ -53,6 +61,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         pinViewModel = new ViewModelProvider(this).get(PinViewModel.class);
+
+
 
 
         // reset pinList
@@ -142,9 +152,67 @@ public class MainActivity extends AppCompatActivity {
 
         //^set the pin and add it to an pinList
 
+        LiveData<List<UUID>> uuidList = pinViewModel.getUUID();
+        List<UUID> uuidList1 = new ArrayList<>();
+        ArrayList<Pin> updatedPinArrList = new ArrayList<Pin>();
+        uuidList.observe((LifecycleOwner) activity, new Observer<List<UUID>>() {
+
+            @Override
+            public void onChanged(List<UUID> uuids) {
+                for(int i = 0; i < uuids.size(); i++){
+                    if(pinHashMap.get(uuids.get(i).public_code) == null) {
+                        Pin newPin = new PinBuilder(activity, layout, density).config()
+                                                                              .withCoordinates(uuids.get(i).getLongitude(), uuids.get(i).getLatitude())
+                                                                              .withLabel(uuids.get(i).getLabel()).build();
+                        pinHashMap.put(uuids.get(i).getPublic_code(), newPin);
+                        arrPin.add(newPin);
+
+
+                    }
+                    else {
+                        Pin updatePin = pinHashMap.get(uuids.get(i).public_code);
+                        updatePin.setLatitude(uuids.get(i).latitude);
+                        updatePin.setLongitude(uuids.get(i).longitude);
+                        pinHashMap.put(uuids.get(i).public_code, updatePin);
+                    }
+                }
+
+                Iterator hmIterator = pinHashMap.entrySet().iterator();
+                while(hmIterator.hasNext()) {
+                    Map.Entry mapElement
+                            = (Map.Entry)hmIterator.next();
+                    updatedPinArrList.add((Pin) mapElement.getValue());
+                }
+
+
+                //Pin n = new Pin();
+               // n.setLabel(uuids.get(0).getLabel());
+                //pinHashMap.put("342", n);
+                System.out.println("________________________________ UUIDS2");
+            }
+        });
+
+        ArrayList<LiveData<UUID>> liveDataUUIDs = new ArrayList<>();
+        liveDataUUIDs = (ArrayList<LiveData<UUID>>) pinViewModel.getAllUUID(updatedPinArrList);
+
+        ArrayList<Pin> finalPinArr = new ArrayList<>();
+
+        for(int i = 0; i < liveDataUUIDs.size(); i++){
+            liveDataUUIDs.get(i).observe((LifecycleOwner) activity, new Observer<UUID>() {
+
+                @Override
+                public void onChanged(UUID uuid) {
+                    Pin newPin = new PinBuilder(activity, layout, density).config()
+                            .withCoordinates(uuid.getLongitude(), uuid.getLatitude())
+                            .withLabel(uuid.getLabel()).build();
+                    finalPinArr.add(newPin);
+                }
+            });
+        }
+
+
+
         displayCircle.setAllPinZones(new ZoomLevel(1));
-
-
 
         updatePins();
 
@@ -181,9 +249,8 @@ public class MainActivity extends AppCompatActivity {
      */
     public void updatePins(){
 
-        pinViewModel.getOrCreateUUID("38946729");
-        pinViewModel.getOrCreateUUID("89347878");
-        pinViewModel.getOrCreateUUID("09393999");
+        pinViewModel.getOrCreateUUID("111");
+        pinViewModel.getOrCreateUUID("222");
         /*SharedPreferences prefs = PreferenceManager
                 .getDefaultSharedPreferences(this.getApplicationContext());
         Gson gson = new Gson();

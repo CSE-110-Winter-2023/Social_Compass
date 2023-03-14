@@ -48,7 +48,7 @@ public class UUIDRepository {
             // Log.i("UpdateFromRemote", "remote note: " + theirNote.version);
 
             if (theirPin == null) return; // do nothing
-            if (ourPin == null || ourPin.updatedAt < theirPin.updatedAt) {
+            if (ourPin == null) {
                 upsertLocal(theirPin, false);
             }
         };
