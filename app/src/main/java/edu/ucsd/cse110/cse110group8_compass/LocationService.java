@@ -33,16 +33,39 @@ public class LocationService implements LocationListener {
 
     private void registerLocationService() {
         if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-            && ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ){
-                throw new IllegalStateException("App needs location permission to get latest location");
+                && ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            throw new IllegalStateException("App needs location permission to get latest location");
         }
 
         this.locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
     }
 
 
+    public boolean isOnline() {
+        if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            throw new IllegalStateException("App needs location permission to get latest location");
+        }
+        this.locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+
+    }
+
+    public long lastFix(){
+        if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            throw new IllegalStateException("App needs location permission to get latest location");
+        }
+        Location loc = this.locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+        long lastFixTime = loc.getTime();
+        long currTime = System.currentTimeMillis();
+        return currTime - lastFixTime;
+    }
+
+
     public static LocationService singleton(Activity activity) {
-        if(instance == null) {
+        if (instance == null) {
             instance = new LocationService(activity);
         }
         return instance;
@@ -52,6 +75,8 @@ public class LocationService implements LocationListener {
     public void onLocationChanged(@NonNull Location location) {
         this.locationValue.postValue(new Pair<Double, Double>(location.getLatitude(), location.getLongitude()));
     }
+
+
 
     private void unregisterLocationListener() {
         locationManager.removeUpdates(this);
