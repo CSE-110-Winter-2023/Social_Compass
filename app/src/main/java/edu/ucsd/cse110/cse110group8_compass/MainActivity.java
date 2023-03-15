@@ -179,13 +179,15 @@ public class MainActivity extends AppCompatActivity {
 
         ImageView onlineButton = findViewById(R.id.online);
         ImageView offlineButton = findViewById(R.id.offline);
-        gpsView.setText("" + offlineMins + " min");
+
         if(offlineMins < 1){
+            gpsView.setText("online");
             onlineButton.setVisibility(View.VISIBLE);
             offlineButton.setVisibility(View.INVISIBLE);
 
         }
         else{
+            gpsView.setText("" + offlineMins + " min");
             onlineButton.setVisibility(View.INVISIBLE);
             offlineButton.setVisibility(View.VISIBLE);
         }
