@@ -13,32 +13,24 @@ import android.util.Log;
 import android.util.Pair;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
-import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import java.lang.reflect.Array;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
-
-import java.util.List;
-import java.util.Map;
 import java.util.concurrent.ScheduledFuture;
 
 import edu.ucsd.cse110.cse110group8_compass.model.PinViewModel;
 import edu.ucsd.cse110.cse110group8_compass.model.UUID;
 import edu.ucsd.cse110.cse110group8_compass.model.UUIDAPI;
-import edu.ucsd.cse110.cse110group8_compass.model.UUIDRepository;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -189,7 +181,7 @@ public class MainActivity extends AppCompatActivity {
             Pin pin = new PinBuilder(this, layout, density).config().withCoordinates(uuid.longitude, uuid.latitude).withLabel(uuid.label).build();
             currPins.put(uuid.public_code, pin);
             pinList.add(pin);
-            displayCircle.setPinList(pinList);
+            displayCircle.setPinList(pinList, new ZoomLevel(currentZoomLevel));
         }else {
             currPins.get(uuid.public_code).setLocation(uuid.latitude, uuid.longitude);
         }
