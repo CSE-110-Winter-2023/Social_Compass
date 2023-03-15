@@ -18,7 +18,9 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.gson.Gson;
@@ -28,12 +30,15 @@ import java.lang.reflect.Array;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
+
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ScheduledFuture;
 
 import edu.ucsd.cse110.cse110group8_compass.model.PinViewModel;
 import edu.ucsd.cse110.cse110group8_compass.model.UUID;
 import edu.ucsd.cse110.cse110group8_compass.model.UUIDAPI;
+import edu.ucsd.cse110.cse110group8_compass.model.UUIDRepository;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -43,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
     private Activity activity = this;
     private PinViewModel pinViewModel;
     ScheduledFuture<?> poller;
+    private HashMap<String, Pin> pinHashMap = new HashMap<>();
 
     DisplayCircle displayCircle;
 
@@ -52,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<Pin> pinList = new ArrayList<>();
     ArrayList<String> publicCodeList;
     ArrayList<LiveData<UUID>> uuids = new ArrayList<>();
+
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -63,6 +70,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         pinViewModel = new ViewModelProvider(this).get(PinViewModel.class);
+
+
 
 
         // reset pinList
@@ -169,10 +178,6 @@ public class MainActivity extends AppCompatActivity {
         //displayCircle.setPinList(arrPin);
 
         //^set the pin and add it to an pinList
-
-        //displayCircle.setAllPinZones(new ZoomLevel(1));
-
-        //updatePins();
 
     }
 

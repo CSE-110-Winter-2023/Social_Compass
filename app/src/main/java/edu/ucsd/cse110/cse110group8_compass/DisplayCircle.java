@@ -47,9 +47,11 @@ public class  DisplayCircle {
 
 
      public void setPinList(ArrayList<Pin> pinArray) {
-          pinList.setPinList(pinArray);
+          pinList.setPinList( pinArray);
           rotateAllPins();
      }
+
+
 
      public void setPinList(PinList newPinList) {
           pinList = newPinList;

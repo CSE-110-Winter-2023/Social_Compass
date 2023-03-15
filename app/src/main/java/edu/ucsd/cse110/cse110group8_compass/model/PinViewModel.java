@@ -10,6 +10,8 @@ import androidx.lifecycle.LiveData;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.ucsd.cse110.cse110group8_compass.Pin;
+
 public class PinViewModel extends AndroidViewModel {
     private LiveData<List<UUID>> uuids;
     private final UUIDRepository repo;
@@ -25,18 +27,22 @@ public class PinViewModel extends AndroidViewModel {
 
     /**
      * Load all notes from the database.
+     * Load all notes from the database.
      * @return a LiveData object that will be updated when any notes change.
      */
     public LiveData<List<UUID>> getUUID() {
         if (uuids == null) {
-            uuids = repo.getAllLocal();
+            uuids = repo.getAllLocal(); //should just return from getSynced()
         }
         return uuids;
     }
 
+
     public LiveData<UUID> getUUIDFromRemote(String public_code) {
         return repo.getRemote(public_code);
     }
+
+
 
     /**
      * Open a note in the database. If the note does not exist, create it.
