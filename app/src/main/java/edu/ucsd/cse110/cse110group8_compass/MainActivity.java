@@ -174,18 +174,18 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void GPSTime(Long longNum){
+    public void GPSTime(Integer offlineMins){
         TextView gpsView = findViewById(R.id.timeOffline);
 
         ImageView onlineButton = findViewById(R.id.online);
         ImageView offlineButton = findViewById(R.id.offline);
-        gpsView.setText("" + longNum);
-        if(longNum < 60000){
+        gpsView.setText("" + offlineMins + " min");
+        if(offlineMins < 1){
             onlineButton.setVisibility(View.VISIBLE);
             offlineButton.setVisibility(View.INVISIBLE);
 
         }
-        if(longNum > 60000){
+        else{
             onlineButton.setVisibility(View.INVISIBLE);
             offlineButton.setVisibility(View.VISIBLE);
         }
@@ -369,19 +369,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public LiveData<Long> checkGPSStatus() {
+    public LiveData<Integer> checkGPSStatus() {
         ourLocationService = new LocationService(this);
 
         var executor = Executors.newSingleThreadScheduledExecutor();
-        MutableLiveData<Long> timeOnlineData = new MutableLiveData<>();
+        MutableLiveData<Integer> timeOnlineData = new MutableLiveData<>();
         poller = executor.scheduleAtFixedRate(() -> {
             long milliSecsSinceGPS = ourLocationService.lastFix();
             System.out.println(milliSecsSinceGPS);
             int minSinceGPS = (int) milliSecsSinceGPS / 60000;
-            timeOnlineData.postValue(milliSecsSinceGPS);
+            timeOnlineData.postValue(minSinceGPS);
         }, 0, 3000, TimeUnit.MILLISECONDS);
 
-        MediatorLiveData<Long> timeData = new MediatorLiveData<>();
+        MediatorLiveData<Integer> timeData = new MediatorLiveData<>();
         timeData.addSource(timeOnlineData, timeData::postValue);
 
         return timeData;
