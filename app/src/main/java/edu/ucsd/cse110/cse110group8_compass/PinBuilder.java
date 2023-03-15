@@ -37,8 +37,8 @@ public class PinBuilder {
         layoutParams.circleRadius = (int) (20 * density);
         layoutParams.circleConstraint=R.id.compass;
         this.view.bringToFront();
+        // this.view.setBackgroundResource(R.drawable.pindrop);
         this.view.setLayoutParams(layoutParams);
-
         return this;
     }
 

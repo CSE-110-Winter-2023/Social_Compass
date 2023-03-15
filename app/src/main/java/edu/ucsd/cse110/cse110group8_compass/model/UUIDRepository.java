@@ -104,10 +104,11 @@ public class UUIDRepository {
         // TODO: Refer to TimerService from https://github.com/DylanLukes/CSE-110-WI23-Demo5-V2.
 
         // Cancel any previous poller if it exists.
+        /*
         if (this.poller != null && !this.poller.isCancelled()) {
             poller.cancel(true);
         }
-
+        */
         // Start by fetching the note from the server _once_ and feeding it into MutableLiveData.
 
         Log.i("Trying response", public_code);
@@ -117,6 +118,7 @@ public class UUIDRepository {
         poller = executor.scheduleAtFixedRate(() -> {
             UUID n = api.get(public_code);
             realTimeData.postValue(n);
+            Log.i("getRemote", "printing current location " + n.longitude);
         }, 0, 3000, TimeUnit.MILLISECONDS);
         MediatorLiveData<UUID> noteData = new MediatorLiveData<>();
         noteData.addSource(realTimeData, noteData::postValue);

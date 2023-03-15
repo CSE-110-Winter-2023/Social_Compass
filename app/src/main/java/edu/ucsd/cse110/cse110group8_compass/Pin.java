@@ -43,7 +43,7 @@ public class Pin extends UUID {
     }
 
     public Pin(){
-        this.label = "Parent";
+        this.label = null;
 
     }
 

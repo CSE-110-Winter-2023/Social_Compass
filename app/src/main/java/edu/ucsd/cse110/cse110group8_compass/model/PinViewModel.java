@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PinViewModel extends AndroidViewModel {
@@ -31,6 +32,10 @@ public class PinViewModel extends AndroidViewModel {
             uuids = repo.getAllLocal();
         }
         return uuids;
+    }
+
+    public LiveData<UUID> getUUIDFromRemote(String public_code) {
+        return repo.getRemote(public_code);
     }
 
     /**
