@@ -202,14 +202,15 @@ public class MainActivity extends AppCompatActivity {
         float density = activity.getResources().getDisplayMetrics().density;
 
         updatePins();
-
-        if(!currPins.containsKey(uuid.public_code)) {
-            Pin pin = new PinBuilder(this, layout, density).config().withCoordinates(uuid.longitude, uuid.latitude).withLabel(uuid.label).build();
-            currPins.put(uuid.public_code, pin);
-            pinList.add(pin);
-            displayCircle.setPinList(pinList, new ZoomLevel(currentZoomLevel));
-        }else {
-            currPins.get(uuid.public_code).setLocation(uuid.latitude, uuid.longitude);
+        if (uuid != null){
+            if(!currPins.containsKey(uuid.public_code)) {
+                Pin pin = new PinBuilder(this, layout, density).config().withCoordinates(uuid.longitude, uuid.latitude).withLabel(uuid.label).build();
+                currPins.put(uuid.public_code, pin);
+                pinList.add(pin);
+                displayCircle.setPinList(pinList, new ZoomLevel(currentZoomLevel));
+            }else {
+                currPins.get(uuid.public_code).setLocation(uuid.latitude, uuid.longitude);
+            }
         }
     }
     
