@@ -2,12 +2,12 @@ package edu.ucsd.cse110.cse110group8_compass;
 
 import android.app.Activity;
 import android.util.Pair;
+import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
-
 
 import java.util.ArrayList;
 
@@ -98,10 +98,10 @@ public class  DisplayCircle {
                     //Double miles = distanceCalculator.calculateDistance(32.596280, -115.870056);
 
                     //miles = 0.5;
-                    System.out.println("For: " + targetPin.getName() + " miles: "+ miles);
+                    System.out.println("For: " + targetPin.getLabel() + " miles: "+ miles);
 
                     int radiusConstraint = zoomLevel.getRadius(miles);
-                    System.out.println("For: " + targetPin.getName() + " rad: "+ radiusConstraint);
+                    System.out.println("For: " + targetPin.getLabel() + " rad: "+ radiusConstraint);
                     //System.out.println("radC: " + radiusConstraint);
 
                     ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) targetPin.getPinTextView().getLayoutParams();
@@ -115,6 +115,13 @@ public class  DisplayCircle {
 
 
      private void rotatePin(Pin targetPin, LiveData<Float> targetAzimuth, Activity activity) {
+
+          ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) targetPin.getPinTextView().getLayoutParams();
+          TextView nTV = new TextView(activity);
+          nTV.setLayoutParams(layoutParams);
+          Rotator nrotator = new Rotator();
+
+          nrotator.move(nTV, 170F);
            userCoordinateLive.observe((LifecycleOwner) activity, new Observer<Pair<Double, Double>>() {
                 @Override
                 public void onChanged(Pair<Double, Double> doubleDoublePair) {
@@ -127,6 +134,8 @@ public class  DisplayCircle {
                                Float pinAngle = angleCalculator.angleOnCircle(targetPin.getLatitude(), targetPin.getLongitude(), value).floatValue();
                                Rotator rotator = new Rotator();
                                rotator.move(targetPin.getPinTextView(), pinAngle );
+
+
 
 
                           }
