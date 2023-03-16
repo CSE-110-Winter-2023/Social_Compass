@@ -95,10 +95,7 @@ public class Pin extends UUID {
     }
 
     public boolean checkValid() {
-        if(this.label == null) {
-            return false;
-        }
-        else if(this.pinTextView == null) {
+        if(this.pinTextView == null) {
             return false;
         }
         else if(this.latitude == null || this.longitude == null) {
@@ -121,6 +118,7 @@ public class Pin extends UUID {
     public String toJSON() {
         return new Gson().toJson(this);
     }
+
 
 
 }

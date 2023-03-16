@@ -13,9 +13,12 @@ public class PinBuilder {
     String label;
     Double longitude;
     Double latitude;
+
+    String PublicCode;
     Context context;
     ConstraintSet set;
     ConstraintLayout layout;
+
     float density;
 
     public PinBuilder(Context context, ConstraintLayout layout, float density){
@@ -26,6 +29,7 @@ public class PinBuilder {
         this.density = density;
     }
 
+
     public PinBuilder config(){
         this.view.setId(View.generateViewId());
         this.layout.addView(view,0);
@@ -35,9 +39,13 @@ public class PinBuilder {
 
         ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) view.getLayoutParams();
         layoutParams.circleRadius = (int) (20 * density);
+        layoutParams.width = (int) (34 * density);
+        layoutParams.height = (int) (34 * density);
         layoutParams.circleConstraint=R.id.compass;
         this.view.bringToFront();
-        // this.view.setBackgroundResource(R.drawable.pindrop);
+        //            android:layout_width="34dp"
+        //            android:layout_height="72dp"
+        //this.view.setBackgroundResource(R.drawable.pindrop);
         this.view.setLayoutParams(layoutParams);
         return this;
     }
@@ -48,6 +56,13 @@ public class PinBuilder {
         return this;
     }
 
+    public PinBuilder withPublicCode(String PublicCode){
+        this.PublicCode = PublicCode;
+        return this;
+    }
+
+
+
     public PinBuilder withCoordinates(Double longit, Double latit){
         this.longitude = longit;
         this.latitude = latit;
@@ -56,6 +71,7 @@ public class PinBuilder {
 
     public Pin build(){
         Pin pin = new Pin(label, longitude, latitude);
+        pin.setPublic_code(PublicCode);
         pin.setPinTextView(this.view);
         return pin;
     }
