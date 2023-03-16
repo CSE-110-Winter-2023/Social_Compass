@@ -77,6 +77,7 @@ public class  DisplayCircle {
                     rotatePin(pinList.getPin(i), azimuth, activity);
                }
           }
+          TextAvoidance.updateText(pinList);
      }
 
      public void setAllPinZones(ZoomLevel zoom) {
@@ -132,7 +133,6 @@ public class  DisplayCircle {
                 @Override
                 public void onChanged(Pair<Double, Double> doubleDoublePair) {
                      AngleCalculator angleCalculator = new AngleCalculator(doubleDoublePair.first, doubleDoublePair.second);
-
                      targetAzimuth.observe((LifecycleOwner) activity, new Observer<Float>() {
                           @Override
                           public void onChanged(Float value) {
@@ -140,9 +140,6 @@ public class  DisplayCircle {
                                Float pinAngle = angleCalculator.angleOnCircle(targetPin.getLatitude(), targetPin.getLongitude(), value).floatValue();
                                Rotator rotator = new Rotator();
                                rotator.move(targetPin.getPinTextView(), pinAngle );
-
-
-
 
                           }
                      });

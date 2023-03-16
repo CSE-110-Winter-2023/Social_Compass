@@ -1,6 +1,9 @@
 package edu.ucsd.cse110.cse110group8_compass;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
 
@@ -36,15 +39,23 @@ public class PinBuilder {
         ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) view.getLayoutParams();
         layoutParams.circleRadius = (int) (20 * density);
         layoutParams.circleConstraint=R.id.compass;
-        this.view.bringToFront();
-        // this.view.setBackgroundResource(R.drawable.pindrop);
+        layoutParams.height = 200;
+        layoutParams.width = 100;
+
+        this.view.setBackgroundResource(R.drawable.pindrop);
         this.view.setLayoutParams(layoutParams);
+        this.view.bringToFront();
         return this;
     }
 
     public PinBuilder withLabel(String label){
         this.label = label;
         this.view.setText(label);
+        this.view.setTextSize(14);
+        this.view.setGravity(Gravity.TOP);
+        this.view.setTextColor(Color.BLACK);
+        this.view.setSingleLine(true);
+        this.view.setEllipsize(TextUtils.TruncateAt.END);
         return this;
     }
 

@@ -98,7 +98,7 @@ public class UUIDRepository {
     // Remote Methods
     // ==============
 
-    public static int retryCount = 0;
+//    public static int retryCount = 0;
     public LiveData<UUID> getRemote(String public_code) {
         // TODO: Implement getRemote!
         // TODO: Set up polling background thread (MutableLiveData?)
@@ -118,7 +118,7 @@ public class UUIDRepository {
         var executor = Executors.newSingleThreadScheduledExecutor();
 
         Runnable getUUIDTask = () -> {
-            retryCount++;
+//            retryCount++;
             UUID n = api.get(public_code);
             realTimeData.postValue(n);
             Log.i("getRemote", "printing current location " + n.longitude);
@@ -127,14 +127,14 @@ public class UUIDRepository {
         MediatorLiveData<UUID> noteData = new MediatorLiveData<>();
         noteData.addSource(realTimeData, noteData::postValue);
 
-        while(true){
-            if (retryCount > 2){
-                System.out.println("Count is 5, cancel the scheduledFuture!");
-                poller.cancel(true);
-                executor.shutdown();
-                break;
-            }
-        }
+//        while(true){
+//            if (retryCount > 2){
+//                System.out.println("Count is 5, cancel the scheduledFuture!");
+//                poller.cancel(true);
+//                executor.shutdown();
+//                break;
+//            }
+//        }
 
         // Start by fetching the note from the server ONCE.
         // Then, set up a background thread that will poll the server every 3 seconds.
