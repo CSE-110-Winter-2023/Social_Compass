@@ -6,14 +6,12 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.location.Location;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.util.Pair;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -27,16 +25,12 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
-import java.util.HashMap;
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
@@ -58,6 +52,9 @@ public class MainActivity extends AppCompatActivity {
     MutableLiveData<Long> realTimeData = new MutableLiveData<>();
     ScheduledFuture<?> poller;
     private HashMap<String, Pin> pinHashMap = new HashMap<>();
+
+    private final String northPinPublicCode = "qtgmI&@3$zH!us*X5!YKi&b1aWhijR5HMe&ruxJ6mxG5Fx#EcL$ou" +
+            "SiaGMP*0oMGH&tnju36*K*qxaR%&iL20@5BFdpc0m^bhBoR";
 
     DisplayCircle displayCircle;
 
@@ -127,7 +124,6 @@ public class MainActivity extends AppCompatActivity {
 
 
         OrientationService orientationService = new OrientationService(this);
-        Button orientationButton = findViewById(R.id.orientation_activity_button);
 
         // if user wants to manually input orientation data
         // Float userAzimuthInput = 3.14159F;
@@ -142,6 +138,7 @@ public class MainActivity extends AppCompatActivity {
                 135.00,
                 90.00
         );
+        northPin.setPublic_code(northPinPublicCode);
         northPin.setPinTextView(findViewById(R.id.north_pin));
 
         ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.compass);
@@ -202,15 +199,18 @@ public class MainActivity extends AppCompatActivity {
         float density = activity.getResources().getDisplayMetrics().density;
 
         updatePins();
-        if (uuid != null){
-            if(!currPins.containsKey(uuid.public_code)) {
-                Pin pin = new PinBuilder(this, layout, density).config().withCoordinates(uuid.longitude, uuid.latitude).withLabel(uuid.label).build();
-                currPins.put(uuid.public_code, pin);
-                pinList.add(pin);
-                displayCircle.setPinList(pinList, new ZoomLevel(currentZoomLevel));
-            }else {
-                currPins.get(uuid.public_code).setLocation(uuid.latitude, uuid.longitude);
-            }
+
+        if(uuid == null) {
+            return;
+        }
+
+        if(!currPins.containsKey(uuid.public_code)) {
+            Pin pin = new PinBuilder(this, layout, density).config().withCoordinates(uuid.longitude, uuid.latitude).withLabel(uuid.label).build();
+            currPins.put(uuid.public_code, pin);
+            pinList.add(pin);
+            displayCircle.setPinList(pinList, new ZoomLevel(currentZoomLevel));
+        }else {
+            currPins.get(uuid.public_code).setLocation(uuid.latitude, uuid.longitude);
         }
     }
     
@@ -426,7 +426,7 @@ public class MainActivity extends AppCompatActivity {
         MutableLiveData<Integer> timeOnlineData = new MutableLiveData<>();
         poller = executor.scheduleAtFixedRate(() -> {
             long milliSecsSinceGPS = ourLocationService.lastFix();
-            System.out.println(milliSecsSinceGPS);
+            System.out.println("MS_GPS_STST" + milliSecsSinceGPS);
             int minSinceGPS = (int) milliSecsSinceGPS / 60000;
             timeOnlineData.postValue(minSinceGPS);
         }, 0, 3000, TimeUnit.MILLISECONDS);
