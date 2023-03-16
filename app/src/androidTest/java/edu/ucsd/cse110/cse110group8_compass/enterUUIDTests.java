@@ -16,40 +16,48 @@ import androidx.test.platform.app.InstrumentationRegistry;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import edu.ucsd.cse110.cse110group8_compass.model.UUID;
+
 @RunWith(AndroidJUnit4.class)
-public class GPSStatusTest {
 
+public class enterUUIDTests {
     @Test
-    public void testOnline() {
+    public void testAddValidUUID(){
+
         ActivityScenario<MainActivity> scenario = ActivityScenario.launch(MainActivity.class);
         scenario.moveToState(Lifecycle.State.CREATED);
         scenario.moveToState(Lifecycle.State.STARTED);
 
         scenario.onActivity(activity -> {
-            activity.GPSTime(0);
-            ImageView onlineButton = activity.findViewById(R.id.online);
-            ImageView offlineButton = activity.findViewById(R.id.offline);
-            assertEquals(View.VISIBLE, onlineButton.getVisibility());
-            assertEquals(View.INVISIBLE, offlineButton.getVisibility());
+            UUID forTest = new UUID("4444");
+            int initialSize = activity.pinList.size();
+            activity.pinObserver(forTest);
+            int updatedSize = activity.pinList.size();
+            assertEquals(updatedSize, initialSize + 1);
 
         });
-
     }
 
     @Test
-    public void testOffline() {
+    public void testBlankUUID(){
+
         ActivityScenario<MainActivity> scenario = ActivityScenario.launch(MainActivity.class);
         scenario.moveToState(Lifecycle.State.CREATED);
         scenario.moveToState(Lifecycle.State.STARTED);
 
         scenario.onActivity(activity -> {
-            activity.GPSTime(2);
-            ImageView onlineButton = activity.findViewById(R.id.online);
-            ImageView offlineButton = activity.findViewById(R.id.offline);
-            assertEquals(View.INVISIBLE, onlineButton.getVisibility());
-            assertEquals(View.VISIBLE, offlineButton.getVisibility());
+            UUID blank = new UUID("");
+            int initialSize = activity.pinList.size();
+            activity.pinObserver(blank);
+            int secondSize = activity.pinList.size();
+            assertEquals(secondSize, initialSize);
+
+            UUID forTest = new UUID("4444");
+            activity.pinObserver(forTest);
+            int finalSize = activity.pinList.size();
+            assertEquals(finalSize, initialSize + 1);
 
         });
-    }
 
+    }
 }
