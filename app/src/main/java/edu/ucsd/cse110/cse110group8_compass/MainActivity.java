@@ -12,6 +12,7 @@ import android.util.Log;
 import android.util.Pair;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -44,6 +45,8 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //loadName();
 
 
 
@@ -234,6 +237,19 @@ public class MainActivity extends AppCompatActivity {
         setZoomLevel();
         System.out.println("ZoomOutClick: " + currentZoomLevel);
         displayCircle.restartObservers(new ZoomLevel(currentZoomLevel));
+    }
+
+
+
+    public void onEnterNameClicked(View view) {
+        Intent intent = new Intent(this, EnterNameActivity.class);
+        startActivity(intent);
+    }
+    public void loadName() {
+        SharedPreferences preferences = getPreferences(MODE_PRIVATE);
+        @SuppressLint("WrongViewCast") EditText nameView = findViewById(R.id.nametest_textView);
+        String name = preferences.getString("name", "");
+        nameView.setText(name);
     }
 
 }
