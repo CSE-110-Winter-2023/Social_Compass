@@ -140,20 +140,29 @@ public class  DisplayCircle {
                               TextView targetPinTextView = targetPin.getPinTextView();
                               targetPinTextView.setText("");
                               targetPinTextView.setBackgroundResource(R.drawable.offline2);
+
+                              int separation = collisionPinSeparation(numOfPinsInRange(targetPin), zoomLevel, miles);
+
+                              ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) targetPin.getPinTextView().getLayoutParams();
+                              layoutParams.circleRadius = (int) ((radiusConstraint + (separation * pinPosition(targetPin))) * activity.getResources().getDisplayMetrics().density);
+                              targetPin.getPinTextView().setLayoutParams(layoutParams);
+
                          }
                          else {
                               TextView targetPinTextView = targetPin.getPinTextView();
                               targetPinTextView.setText(targetPin.label);
                               targetPinTextView.setBackgroundResource(android.R.color.transparent);
+
+                              int separation = collisionPinSeparation(numOfPinsInRange(targetPin), zoomLevel, miles);
+
+
+                              ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) targetPin.getPinTextView().getLayoutParams();
+                              layoutParams.circleRadius = (int) ((radiusConstraint + (separation * pinPosition(targetPin))) * activity.getResources().getDisplayMetrics().density);
+                              targetPin.getPinTextView().setLayoutParams(layoutParams);
                          }
 
                          //collisionPinseperation(int numOfPinsInSector, ZoomLevel zoomLevel , Double miles)
-                         int separation = collisionPinSeparation(numOfPinsInRange(targetPin), zoomLevel, miles);
 
-
-                         ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) targetPin.getPinTextView().getLayoutParams();
-                         layoutParams.circleRadius = (int) ((radiusConstraint + (separation * pinPosition(targetPin))) * activity.getResources().getDisplayMetrics().density);
-                         targetPin.getPinTextView().setLayoutParams(layoutParams);
                     }
                     else {
                          ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) targetPin.getPinTextView().getLayoutParams();
@@ -206,12 +215,21 @@ public class  DisplayCircle {
 
                                     ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) targetTextView.getLayoutParams();
 
-                                    if(truncateSizeInt > 100 ) {
-                                         layoutParams.width = ViewGroup.LayoutParams.WRAP_CONTENT;
+
+                                    if(layoutParams.circleRadius >= 170 * density) {
+                                         layoutParams.width = (int) (35 * density);
+                                         layoutParams.height = (int) (35 * density);
                                     }
                                     else {
-                                         layoutParams.width = truncateSizeInt;
+                                         if(truncateSizeInt > 100) {
+                                              layoutParams.width = ViewGroup.LayoutParams.WRAP_CONTENT;
+                                              layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+                                         }
+                                         else {
+                                              layoutParams.width = (int) (truncateSizeInt * density);
+                                         }
                                     }
+
                                     //layoutParams.width = truncateSize;
                                     targetTextView.setLayoutParams(layoutParams);
 
@@ -240,7 +258,7 @@ public class  DisplayCircle {
           int range = high - low;
           int pinSeparation = (range)/ numOfPinsInSector;
 
-          System.out.println("collisionPinSeperation: " + pinSeparation );
+          //System.out.println("collisionPinSeperation: " + pinSeparation );
           return pinSeparation;
 
      }
@@ -259,7 +277,7 @@ public class  DisplayCircle {
                     cnt++;
                }
           }
-          System.out.println("numOfPinsInRange: " + cnt);
+         // System.out.println("numOfPinsInRange: " + cnt);
           return cnt;
      }
 
@@ -300,27 +318,27 @@ public class  DisplayCircle {
                if (currentAngle > 40 && currentAngle < 140) {
 
                     if (currentAngle > 60 && currentAngle < 120) {
-                         System.out.println("truncaeSize: " + 16);
+                 //        System.out.println("truncaeSize: " + 16);
 
                          return 16;
                     }
-                    System.out.println("truncaeSize: " + 32);
+                //    System.out.println("truncaeSize: " + 32);
 
                     return 32;
                } else if (currentAngle > 40 + 180 && currentAngle < 140 + 180) {
 
                     if (currentAngle > 60 + 180 && currentAngle < 120 + 180) {
-                         System.out.println("truncaeSize: " + 16);
+                 //        System.out.println("truncaeSize: " + 16);
 
                          return 16;
                     }
-                    System.out.println("truncaeSize: " + 32);
+                  //  System.out.println("truncaeSize: " + 32);
 
                     return 32;
                }
 
           }
-          System.out.println("truncaeSize: " + 10000);
+         // System.out.println("truncaeSize: " + 10000);
           return 10000;
      }
 

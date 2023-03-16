@@ -426,7 +426,7 @@ public class MainActivity extends AppCompatActivity {
         MutableLiveData<Integer> timeOnlineData = new MutableLiveData<>();
         poller = executor.scheduleAtFixedRate(() -> {
             long milliSecsSinceGPS = ourLocationService.lastFix();
-            //System.out.println(milliSecsSinceGPS);
+            System.out.println("MS_GPS_STST" + milliSecsSinceGPS);
             int minSinceGPS = (int) milliSecsSinceGPS / 60000;
             timeOnlineData.postValue(minSinceGPS);
         }, 0, 3000, TimeUnit.MILLISECONDS);
