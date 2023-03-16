@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -26,11 +27,18 @@ public class EnterNameActivity extends AppCompatActivity {
     }
 
     public void saveName() {
-        SharedPreferences preferences = getPreferences(MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
         EditText nameView = findViewById(R.id.EnterNameText);
-        editor.putString("name", nameView.getText().toString());
-        editor.apply();
+        SharedPreferences sharedPreferences = getSharedPreferences("MySharedPref",MODE_PRIVATE);
+        SharedPreferences.Editor myEdit = sharedPreferences.edit();
+        myEdit.putString("name", nameView.getText().toString());
+        myEdit.commit();
+    /*
+        SharedPreferences appSharedPrefs = PreferenceManager
+                .getDefaultSharedPreferences(this.getApplicationContext());
+        SharedPreferences.Editor prefsEditor = appSharedPrefs.edit();
+        EditText nameView = findViewById(R.id.EnterNameText);
+        prefsEditor.putString("name", nameView.getText().toString());
+        prefsEditor.commit();*/
     }
     public void onSubmitClicked(View view) {
         finish();

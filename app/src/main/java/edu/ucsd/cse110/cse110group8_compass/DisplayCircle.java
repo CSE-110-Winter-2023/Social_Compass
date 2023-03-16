@@ -50,7 +50,7 @@ public class  DisplayCircle {
 
 
      public void setPinList(ArrayList<Pin> pinArray, ZoomLevel currentZoomLevel) {
-          pinList.setPinList( pinArray);
+          pinList.setPinList(pinArray);
           rotateAllPins();
           setAllPinZones(currentZoomLevel);
      }
