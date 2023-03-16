@@ -124,17 +124,30 @@ public class  DisplayCircle {
                     //if not northpin, normal zone,
                     //otherwise set the radius to the outside so north pin is always there
                     if(targetPin.getPublic_code() != northPinPublicCode) {
+                         if(zoomLevel.onEdge(miles)) {
+                              TextView targetPinTextView = targetPin.getPinTextView();
+                              targetPinTextView.setText("");
+                              targetPinTextView.setBackgroundResource(R.drawable.offline2);
 
-                         TextView targetPinTextView = targetPin.getPinTextView();
-                         targetPinTextView.setText(targetPin.label);
-                         targetPinTextView.setBackgroundResource(android.R.color.transparent);
+                              int separation = collisionPinSeparation(numOfPinsInRange(targetPin), zoomLevel, miles);
 
-                         int separation = collisionPinSeparation(numOfPinsInRange(targetPin), zoomLevel, miles);
+                              ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) targetPin.getPinTextView().getLayoutParams();
+                              layoutParams.circleRadius = (int) ((radiusConstraint + (separation * pinPosition(targetPin))) * activity.getResources().getDisplayMetrics().density);
+                              targetPin.getPinTextView().setLayoutParams(layoutParams);
+
+                         }
+                         else {
+                              TextView targetPinTextView = targetPin.getPinTextView();
+                              targetPinTextView.setText(targetPin.label);
+                              targetPinTextView.setBackgroundResource(android.R.color.transparent);
+
+                              int separation = collisionPinSeparation(numOfPinsInRange(targetPin), zoomLevel, miles);
 
 
-                         ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) targetPin.getPinTextView().getLayoutParams();
-                         layoutParams.circleRadius = (int) ((radiusConstraint + (separation * pinPosition(targetPin))) * activity.getResources().getDisplayMetrics().density);
-                         targetPin.getPinTextView().setLayoutParams(layoutParams);
+                              ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) targetPin.getPinTextView().getLayoutParams();
+                              layoutParams.circleRadius = (int) ((radiusConstraint + (separation * pinPosition(targetPin))) * activity.getResources().getDisplayMetrics().density);
+                              targetPin.getPinTextView().setLayoutParams(layoutParams);
+                         }
 
                          //collisionPinseperation(int numOfPinsInSector, ZoomLevel zoomLevel , Double miles)
 
@@ -186,7 +199,11 @@ public class  DisplayCircle {
 
                                    ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) targetTextView.getLayoutParams();
 
-
+                                   if(layoutParams.circleRadius >= 170 * density) {
+                                        layoutParams.width = (int) (35 * density);
+                                        layoutParams.height = (int) (35 * density);
+                                   }
+                                   else {
                                         if(truncateSizeInt > 100) {
                                              layoutParams.width = ViewGroup.LayoutParams.WRAP_CONTENT;
                                              layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT;
@@ -194,7 +211,7 @@ public class  DisplayCircle {
                                         else {
                                              layoutParams.width = (int) (truncateSizeInt * density);
                                         }
-
+                                   }
 
                                    targetTextView.setLayoutParams(layoutParams);
 
