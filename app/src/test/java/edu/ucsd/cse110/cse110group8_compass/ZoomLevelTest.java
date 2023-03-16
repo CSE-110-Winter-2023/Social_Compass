@@ -13,22 +13,22 @@ public class ZoomLevelTest {
     ZoomLevel z4 = new ZoomLevel(4);
     @Test
     public void test_getRadius1_1() {
-        assertEquals( 105, z1.getRadius(0.5));
+        assertEquals( 70, z1.getRadius(0.5));
     }
 
     @Test
     public void test_getRadius1_2() {
-        assertEquals( 140, z1.getRadius(300));
+        assertEquals( 170, z1.getRadius(300));
     }
 
     @Test
     public void test_getRadius1_3() {
-        assertEquals( 105, z1.getRadius(0.22));
+        assertEquals( 70, z1.getRadius(0.22));
     }
 
     @Test
     public void test_getRadius2_1() {
-        assertEquals( 40, z2.getRadius(0.1));
+        assertEquals( 20, z2.getRadius(0.1));
     }
 
     @Test
@@ -38,32 +38,32 @@ public class ZoomLevelTest {
 
     @Test
     public void test_getRadius2_3() {
-        assertEquals( 140, z2.getRadius(500));
+        assertEquals( 170, z2.getRadius(500));
     }
 
     @Test
     public void test_getRadius3_1() {
-        assertEquals( 30, z3.getRadius(0.545));
+        assertEquals( 25, z3.getRadius(0.545));
     }
 
     @Test
     public void test_getRadius3_2() {
-        assertEquals( 40, z3.getRadius(5));
+        assertEquals( 65, z3.getRadius(5));
     }
 
     @Test
     public void test_getRadius3_3() {
-        assertEquals( 120, z3.getRadius(15));
+        assertEquals( 125, z3.getRadius(15));
     }
 
     @Test
     public void test_getRadius3_4() {
-        assertEquals( 140, z3.getRadius(15000));
+        assertEquals( 170, z3.getRadius(15000));
     }
 
     @Test
     public void test_getRadius4_1() {
-        assertEquals( 5, z4.getRadius(0.34234));
+        assertEquals( 18, z4.getRadius(0.34234));
     }
 
     @Test
@@ -73,16 +73,16 @@ public class ZoomLevelTest {
 
     @Test
     public void test_getRadius4_3() {
-        assertEquals( 85, z4.getRadius(10));
+        assertEquals( 95, z4.getRadius(10));
     }
 
     @Test
     public void test_getRadius4_4() {
-        assertEquals( 125, z4.getRadius(600));
+        assertEquals( 140, z4.getRadius(600));
     }
 
     @Test
     public void test_getRadius4_5() {
-        assertEquals( 125, z4.getRadius(23343));
+        assertEquals( 140, z4.getRadius(23343));
     }
 }

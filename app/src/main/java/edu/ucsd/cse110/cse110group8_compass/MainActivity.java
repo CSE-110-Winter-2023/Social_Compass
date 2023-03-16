@@ -6,14 +6,12 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.location.Location;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.util.Pair;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -54,6 +52,9 @@ public class MainActivity extends AppCompatActivity {
     MutableLiveData<Long> realTimeData = new MutableLiveData<>();
     ScheduledFuture<?> poller;
     private HashMap<String, Pin> pinHashMap = new HashMap<>();
+
+    private final String northPinPublicCode = "qtgmI&@3$zH!us*X5!YKi&b1aWhijR5HMe&ruxJ6mxG5Fx#EcL$ou" +
+            "SiaGMP*0oMGH&tnju36*K*qxaR%&iL20@5BFdpc0m^bhBoR";
 
     DisplayCircle displayCircle;
 
@@ -145,7 +146,6 @@ public class MainActivity extends AppCompatActivity {
 
 
         OrientationService orientationService = new OrientationService(this);
-        Button orientationButton = findViewById(R.id.orientation_activity_button);
 
         // if user wants to manually input orientation data
         // Float userAzimuthInput = 3.14159F;
@@ -160,6 +160,7 @@ public class MainActivity extends AppCompatActivity {
                 135.00,
                 90.00
         );
+        northPin.setPublic_code(northPinPublicCode);
         northPin.setPinTextView(findViewById(R.id.north_pin));
 
         ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.compass);
@@ -219,6 +220,7 @@ public class MainActivity extends AppCompatActivity {
         float density = activity.getResources().getDisplayMetrics().density;
 
         updatePins();
+
 
         if (uuid == null) {
             return;
@@ -457,7 +459,7 @@ public class MainActivity extends AppCompatActivity {
         MutableLiveData<Integer> timeOnlineData = new MutableLiveData<>();
         poller = executor.scheduleAtFixedRate(() -> {
             long milliSecsSinceGPS = ourLocationService.lastFix();
-            System.out.println(milliSecsSinceGPS);
+            System.out.println("MS_GPS_STST" + milliSecsSinceGPS);
             int minSinceGPS = (int) milliSecsSinceGPS / 60000;
             timeOnlineData.postValue(minSinceGPS);
         }, 0, 3000, TimeUnit.MILLISECONDS);
