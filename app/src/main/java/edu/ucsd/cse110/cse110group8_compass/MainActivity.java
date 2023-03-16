@@ -29,7 +29,10 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
+import java.util.HashMap;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
@@ -54,10 +57,17 @@ public class MainActivity extends AppCompatActivity {
     private LocationService ourLocationService;
     MutableLiveData<Long> realTimeData = new MutableLiveData<>();
     ScheduledFuture<?> poller;
+    private HashMap<String, Pin> pinHashMap = new HashMap<>();
 
     DisplayCircle displayCircle;
 
-    private int currentZoomLevel = 1;
+    private int currentZoomLevel = 2;
+
+    private HashMap<String, Pin> currPins = new HashMap<String, Pin>();
+    private ArrayList<Pin> pinList = new ArrayList<>();
+    ArrayList<String> publicCodeList;
+    ArrayList<LiveData<UUID>> uuids = new ArrayList<>();
+
 
 
     @SuppressLint({"MissingInflatedId", "SetTextI18n"})
@@ -73,18 +83,30 @@ public class MainActivity extends AppCompatActivity {
         pinViewModel = new ViewModelProvider(this).get(PinViewModel.class);
 
 
-        // reset pinList
-        if (false) {
-            Gson gson = new Gson();
-            SharedPreferences appSharedPrefs = PreferenceManager
-                    .getDefaultSharedPreferences(this.getApplicationContext());
 
-            List<Pin> pinList = new ArrayList<>();
-            SharedPreferences.Editor prefsEditor = appSharedPrefs.edit();
-            String jsonToRet = gson.toJson(pinList);
-            prefsEditor.putString("pinList", jsonToRet);
-            prefsEditor.commit();
+
+        // reset pinList
+
+        Gson gson = new Gson();
+        SharedPreferences appSharedPrefs = PreferenceManager
+                .getDefaultSharedPreferences(this.getApplicationContext());
+        appSharedPrefs.getAll();
+        SharedPreferences.Editor prefsEditor = appSharedPrefs.edit();
+        String json = appSharedPrefs.getString("publicCodeList", "");
+        Type type = new TypeToken<ArrayList<String>>(){}.getType();
+        publicCodeList = gson.fromJson(json, type);
+
+        // TODO: get rid of this at the end
+        publicCodeList = new ArrayList<>();
+        String jsonToRet = gson.toJson(publicCodeList);
+        prefsEditor.putString("publicCodeList", jsonToRet);
+        prefsEditor.commit();
+
+
+        for(var public_code : publicCodeList){
+            uuids.add(pinViewModel.getUUIDFromRemote(public_code));
         }
+
 
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
@@ -144,9 +166,6 @@ public class MainActivity extends AppCompatActivity {
         view.setLayoutParams(layoutParams);
         view.setText("hello");
         view.bringToFront();
-
-
-
         Pin testPin = new Pin(
                 "Test Pin",
                 35.00,
@@ -155,25 +174,45 @@ public class MainActivity extends AppCompatActivity {
         testPin.setPinTextView(view);
         */
 
+
+
         // fetching from local database
-        LiveData<UUID> uuids = pinViewModel.getOrCreateUUID("38946729");
+        displayCircle = new DisplayCircle(findViewById(R.id.compass),northPin,  this, azimuth, userCoordinates);
+        setValidZoomLevel();
+        setZoomLevel();
+        displayCircle.restartObservers(new ZoomLevel(currentZoomLevel));
 
+        displayCircle.setAllPinZones(new ZoomLevel(1));
+        for(var uuid : uuids){
+            uuid.observe(this, this::pinObserver);
+        }
+        // Log.i("Main Activity", "live data uuid value " + pinViewModel.getUUIDFromRemote("111").getValue());
+        //Pin testPin = new PinBuilder(this, layout, density).config().withCoordinates(35.00, -70.00).withLabel("Test Pin").build();
+        //ArrayList<Pin> arrPin = new ArrayList<Pin>();
+        //arrPin.add(testPin);
+        //displayCircle.setPinList(arrPin);
 
-        Pin testPin = new PinBuilder(this, layout, density).config().withCoordinates(35.00, -70.00).withLabel("Test Pin").build();
-        displayCircle = new DisplayCircle(findViewById(R.id.compass), northPin, this, azimuth, userCoordinates);
-        ArrayList<Pin> arrPin = new ArrayList<Pin>();
-        arrPin.add(testPin);
-        displayCircle.setPinList(arrPin);
 
         //^set the pin and add it to an pinList
 
-        displayCircle.setAllPinZones(new ZoomLevel(1));
+    }
 
+    public void pinObserver(UUID uuid){
+        ConstraintLayout layout = (ConstraintLayout)findViewById(R.id.compass);
+        float density = activity.getResources().getDisplayMetrics().density;
 
         updatePins();
 
+        if(!currPins.containsKey(uuid.public_code)) {
+            Pin pin = new PinBuilder(this, layout, density).config().withCoordinates(uuid.longitude, uuid.latitude).withLabel(uuid.label).build();
+            currPins.put(uuid.public_code, pin);
+            pinList.add(pin);
+            displayCircle.setPinList(pinList, new ZoomLevel(currentZoomLevel));
+        }else {
+            currPins.get(uuid.public_code).setLocation(uuid.latitude, uuid.longitude);
+        }
     }
-
+    
     public void GPSTime(Integer offlineMins){
         TextView gpsView = findViewById(R.id.timeOffline);
 
@@ -192,8 +231,7 @@ public class MainActivity extends AppCompatActivity {
             offlineButton.setVisibility(View.VISIBLE);
         }
     }
-
-
+    
     @Override
     public void onResume() {
         super.onResume();
@@ -202,14 +240,11 @@ public class MainActivity extends AppCompatActivity {
             this.reloadData();
         }
         this.reloadNeeded = true;
-        //this.reloadNeeded = false;
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        // Yes we did! Let's allow onResume() to reload the data
         this.reloadNeeded = true;
 
     }
@@ -222,18 +257,31 @@ public class MainActivity extends AppCompatActivity {
     /**Double
      * Reads in shared preferences
      */
-    public void updatePins() {
 
-        pinViewModel.getOrCreateUUID("38946729");
-        pinViewModel.getOrCreateUUID("89347878");
-        pinViewModel.getOrCreateUUID("09393999");
-        /*SharedPreferences prefs = PreferenceManager
+    public void updatePins(){
+        ConstraintLayout layout = (ConstraintLayout)findViewById(R.id.compass);
+        float density = activity.getResources().getDisplayMetrics().density;
+
+        SharedPreferences prefs = PreferenceManager
                 .getDefaultSharedPreferences(this.getApplicationContext());
         Gson gson = new Gson();
-        String json = prefs.getString("pinList", "");
-        Type type = new TypeToken<List<Pin>>(){}.getType();
-        ArrayList<Pin> p = gson.fromJson(json, type);
+        String json = prefs.getString("publicCodeList", "");
+        Type type = new TypeToken<ArrayList<String>>(){}.getType();
+        publicCodeList = gson.fromJson(json, type);
 
+        if(publicCodeList == null){
+            publicCodeList = new ArrayList<>();
+        }
+        Log.i("updatePins", publicCodeList.toString());
+        for(var public_code : publicCodeList){
+            if(!currPins.containsKey(public_code)){
+                LiveData<UUID> uuid = pinViewModel.getUUIDFromRemote(public_code);
+                uuid.observe(this, this::pinObserver);
+                uuids.add(uuid);
+            }
+        }
+
+        /*
         if (p == null){return;}
 
         for ( int i = 0; i < p.size(); i++ ){
@@ -256,7 +304,6 @@ public class MainActivity extends AppCompatActivity {
                 curPin.getPinTextView().setText(curPin.getLabel());
             }
         }*/
-        int i = 0;
     }
 
     public void onUserOrientationClick(View view) {
@@ -294,8 +341,8 @@ public class MainActivity extends AppCompatActivity {
         // throw new UnsupportedOperationException("Not implemented yet");
     }
 
-    public void onCreateLocationClick(View view) {
-        Intent intent = new Intent(this, LocationActivity.class);
+    public void onContactCreationClick(View view) {
+        Intent intent = new Intent(this, ContactCreationActivity.class);
         startActivityForResult(intent, Activity.RESULT_OK);
     }
 

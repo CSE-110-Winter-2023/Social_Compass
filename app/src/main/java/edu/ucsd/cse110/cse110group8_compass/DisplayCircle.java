@@ -24,6 +24,8 @@ public class  DisplayCircle {
      private boolean populatedPins[];
      private int numOfPins;
 
+     private final int default_zoom_level = 2;
+
      private PinList pinList;
 
      DisplayCircle (ConstraintLayout circle_m, Pin northPin,Activity activity, LiveData<Float> azimuth, LiveData<Pair<Double, Double>> userCoordinateLive) {
@@ -43,13 +45,17 @@ public class  DisplayCircle {
           //populatedPins[0] = true;
          // numOfPins = 1;
           rotateAllPins();
+          setAllPinZones(new ZoomLevel(default_zoom_level));
      }
 
 
-     public void setPinList(ArrayList<Pin> pinArray) {
-          pinList.setPinList(pinArray);
+     public void setPinList(ArrayList<Pin> pinArray, ZoomLevel currentZoomLevel) {
+          pinList.setPinList( pinArray);
           rotateAllPins();
+          setAllPinZones(currentZoomLevel);
      }
+
+
 
      public void setPinList(PinList newPinList) {
           pinList = newPinList;
