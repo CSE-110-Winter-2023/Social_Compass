@@ -2,6 +2,7 @@ package edu.ucsd.cse110.cse110group8_compass;
 
 import android.app.Activity;
 import android.util.Pair;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -198,6 +199,30 @@ public class  DisplayCircle {
                               // curr edit
                                if(targetPin.getPublic_code() != northPinPublicCode) {
                                     angleMap.put(targetPin, pinAngle);
+
+                                    int truncateSizeInt = truncateSize(targetPin, pinAngle);
+
+                                    TextView targetTextView = targetPin.getPinTextView();
+
+                                    ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) targetTextView.getLayoutParams();
+
+                                    if(truncateSizeInt > 100 ) {
+                                         layoutParams.width = ViewGroup.LayoutParams.WRAP_CONTENT;
+                                    }
+                                    else {
+                                         layoutParams.width = truncateSizeInt;
+                                    }
+                                    //layoutParams.width = truncateSize;
+                                    targetTextView.setLayoutParams(layoutParams);
+
+
+                                   // targetTextView.setMaxWidth(truncateSize);
+                                    targetTextView.setMaxLines(1);
+
+                                    //targetPin.setPinTextView(targetTextView);
+
+
+
                                }
 
 
@@ -267,6 +292,36 @@ public class  DisplayCircle {
           }
 
           return posCnt;
+     }
+
+
+     private int truncateSize(Pin targetPin, Float currentAngle) {
+          if(numOfPinsInRange(targetPin) > 1) {
+               if (currentAngle > 40 && currentAngle < 140) {
+
+                    if (currentAngle > 60 && currentAngle < 120) {
+                         System.out.println("truncaeSize: " + 16);
+
+                         return 16;
+                    }
+                    System.out.println("truncaeSize: " + 32);
+
+                    return 32;
+               } else if (currentAngle > 40 + 180 && currentAngle < 140 + 180) {
+
+                    if (currentAngle > 60 + 180 && currentAngle < 120 + 180) {
+                         System.out.println("truncaeSize: " + 16);
+
+                         return 16;
+                    }
+                    System.out.println("truncaeSize: " + 32);
+
+                    return 32;
+               }
+
+          }
+          System.out.println("truncaeSize: " + 10000);
+          return 10000;
      }
 
 
