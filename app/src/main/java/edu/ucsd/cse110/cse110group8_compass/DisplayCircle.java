@@ -54,6 +54,7 @@ public class  DisplayCircle {
           setAllPinZones(new ZoomLevel(default_zoom_level));
      }
 
+
      private void setPositionMap() {
           for(int i = 0; i < pinList.size(); i++) {
                positionMap.put(pinList.getPin(i), i);
