@@ -24,7 +24,6 @@ public class LabelActivity extends AppCompatActivity {
     }
 
     public void onSubmitClick(View view) {
-        // Intent intent = new Intent(this, MainActivity.class);
         TextView label = findViewById(R.id.labelText);
         String newLabel = label.getText().toString();
 
@@ -37,8 +36,6 @@ public class LabelActivity extends AppCompatActivity {
 
         Intent returnIntent = new Intent();
         setResult(Activity.RESULT_OK,returnIntent);
-        // intent.putExtra("label", newLabel);
-        // startActivity(intent);
         finish();
     }
 }

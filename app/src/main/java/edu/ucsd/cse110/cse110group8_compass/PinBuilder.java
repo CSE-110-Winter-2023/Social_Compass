@@ -43,9 +43,6 @@ public class PinBuilder {
         layoutParams.height = (int) (34 * density);
         layoutParams.circleConstraint=R.id.compass;
         this.view.bringToFront();
-        //            android:layout_width="34dp"
-        //            android:layout_height="72dp"
-        //this.view.setBackgroundResource(R.drawable.pindrop);
         this.view.setLayoutParams(layoutParams);
         return this;
     }

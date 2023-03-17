@@ -78,17 +78,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         pinViewModel = new ViewModelProvider(this).get(PinViewModel.class);
-        /*
-        if (userName == null) {
-            Intent intent = new Intent(this, EnterNameActivity.class);
-            startActivity(intent);
-        }
 
-        TextView nameView = findViewById(R.id.nametest_textView);
-        SharedPreferences sh = getSharedPreferences("MySharedPref", Context.MODE_PRIVATE);
-        String s1 = sh.getString("name", "");
-        nameView.setText(s1);
-         */
         SharedPreferences prefs = getPreferences(MODE_PRIVATE);
         boolean previouslyStarted = prefs.getBoolean("first", false);
         if (!previouslyStarted) {
@@ -103,9 +93,6 @@ public class MainActivity extends AppCompatActivity {
         getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit()
                 .putBoolean("isFirstRun", false).commit();
 
-
-        // reset pinList
-
         Gson gson = new Gson();
         SharedPreferences appSharedPrefs = PreferenceManager
                 .getDefaultSharedPreferences(this.getApplicationContext());
@@ -115,9 +102,6 @@ public class MainActivity extends AppCompatActivity {
         Type type = new TypeToken<ArrayList<String>>() {
         }.getType();
         publicCodeList = gson.fromJson(json, type);
-        /*
-        String name = appSharedPrefs.getString("name", "");
-        nameView.setText(name);*/
 
         // TODO: get rid of this at the end
         publicCodeList = new ArrayList<>();
@@ -165,34 +149,6 @@ public class MainActivity extends AppCompatActivity {
 
         ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.compass);
         float density = activity.getResources().getDisplayMetrics().density;
-        /*
-        //starting dynamic pin creation
-        ConstraintLayout layout = (ConstraintLayout)findViewById(R.id.compass);
-        ConstraintSet set = new ConstraintSet();
-
-        TextView view = new TextView(this);
-
-
-        view.setId(View.generateViewId());  // cannot set id after add
-        layout.addView(view,0);
-        set.clone(layout);
-        set.connect(view.getId(), ConstraintSet.TOP, layout.getId(), ConstraintSet.TOP, 60);
-        set.applyTo(layout);
-
-        ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) view.getLayoutParams();
-        layoutParams.circleRadius = (int) (20 * activity.getResources().getDisplayMetrics().density);
-        layoutParams.circleConstraint=R.id.compass;
-        view.setLayoutParams(layoutParams);
-        view.setText("hello");
-        view.bringToFront();
-        Pin testPin = new Pin(
-                "Test Pin",
-                35.00,
-                -70.00
-        );
-        testPin.setPinTextView(view);
-        */
-
 
         // fetching from local database
         displayCircle = new DisplayCircle(findViewById(R.id.compass), northPin, this, azimuth, userCoordinates);
@@ -204,30 +160,15 @@ public class MainActivity extends AppCompatActivity {
         for (var uuid : uuids) {
             uuid.observe(this, this::pinObserver);
         }
-        // Log.i("Main Activity", "live data uuid value " + pinViewModel.getUUIDFromRemote("111").getValue());
-        //Pin testPin = new PinBuilder(this, layout, density).config().withCoordinates(35.00, -70.00).withLabel("Test Pin").build();
-        //ArrayList<Pin> arrPin = new ArrayList<Pin>();
-        //arrPin.add(testPin);
-        //displayCircle.setPinList(arrPin);
-
-
-        //^set the pin and add it to an pinList
-
     }
 
     public void pinObserver(UUID uuid) {
         ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.compass);
         float density = activity.getResources().getDisplayMetrics().density;
-
         updatePins();
-
-
-
         if (uuid == null) {
             return;
         }
-
-
         if(!currPins.containsKey(uuid.public_code)) {
             Pin pin = new PinBuilder(this, layout, density).config().withCoordinates(uuid.longitude, uuid.latitude).withLabel(uuid.label).build();
             currPins.put(uuid.public_code, pin);
@@ -259,7 +200,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        Log.i("on resume", "" + this.reloadNeeded);
         if (this.reloadNeeded) {
             this.reloadData();
         }
@@ -270,18 +210,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         this.reloadNeeded = true;
-
     }
 
     private void reloadData() {
-        Log.i("on reloaddata", "on reload data");
         updatePins();
     }
-
-    /**
-     * Double
-     * Reads in shared preferences
-     */
 
     public void updatePins() {
         ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.compass);
@@ -306,77 +239,13 @@ public class MainActivity extends AppCompatActivity {
                 uuids.add(uuid);
             }
         }
-
-        /*
-        if (p == null){return;}
-
-        for ( int i = 0; i < p.size(); i++ ){
-            if(i == 0){
-                p.get(i).setPinTextView((TextView)findViewById(R.id.pin_one));
-            }
-            if(i == 1){
-                p.get(i).setPinTextView((TextView)findViewById(R.id.pin_two));
-            }
-            if(i == 2) {
-                p.get(i).setPinTextView((TextView) findViewById(R.id.pin_three));
-            }
-        }
-
-        displayCircle.setPinList(p);
-
-        for(Pin curPin : p){
-            if (curPin.getPinTextView() != null){
-                curPin.getPinTextView().setVisibility(View.VISIBLE);
-                curPin.getPinTextView().setText(curPin.getLabel());
-            }
-        }*/
     }
 
-    public void onUserOrientationClick(View view) {
-        // Intent intent = new Intent(this, OrientationActivity.class);
-        // startActivity(intent);
-
-
-        StrictMode.ThreadPolicy gfgPolicy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(gfgPolicy);
-
-        UUIDAPI api = new UUIDAPI();
-        api.put(new UUID("this is a test bruh", 10.123, 10.123, "122-122-123"));
-
-
-
-        /*
-        UUIDAPI api = new UUIDAPI();
-        MutableLiveData<UUID> realTimeData = new MutableLiveData<>();
-        var executor = Executors.newSingleThreadScheduledExecutor();
-        poller = executor.scheduleAtFixedRate(() -> {
-            UUID n = api.get("testing");
-            realTimeData.postValue(n);
-        }, 0, 3000, TimeUnit.MILLISECONDS);
-        MediatorLiveData<UUID> noteData = new MediatorLiveData<>();
-        noteData.addSource(realTimeData, noteData::postValue);
-        Log.i("checking connection", "longitude and latitude: " + noteData.toString());
-        */
-        // Start by fetching the note from the server ONCE.
-        // Then, set up a background thread that will poll the server every 3 seconds.
-
-        // You may (but don't have to) want to cache the LiveData's for each public_code, so that
-        // you don't create a new polling thread every time you call getRemote with the same public_code.
-        // You don't need to worry about killing background threads.
-
-        // throw new UnsupportedOperationException("Not implemented yet");
-    }
 
     public void onContactCreationClick(View view) {
         Intent intent = new Intent(this, ContactCreationActivity.class);
         startActivityForResult(intent, Activity.RESULT_OK);
     }
-
-    public void onChangeLabelClick(View view) {
-        Intent intent = new Intent(this, LabelActivity.class);
-        startActivity(intent);
-    }
-
 
     public int getCurrentZoomLevel() {
         return this.currentZoomLevel;
@@ -447,13 +316,6 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, EnterNameActivity.class);
         startActivity(intent);
     }
-    /*
-    public void loadName() {
-        SharedPreferences preferences = getPreferences(MODE_PRIVATE);
-        TextView nameView = findViewById(R.id.nametest_textView);
-        String name = preferences.getString("name", "");
-        nameView.setText(name);
-    }*/
 
     public LiveData<Integer> checkGPSStatus() {
         ourLocationService = new LocationService(this);
@@ -473,38 +335,4 @@ public class MainActivity extends AppCompatActivity {
         return timeData;
 
     }
-
-    public void startLocationUpdates() {
-
-    }
-
-    /*
-    public boolean getLastLoc() {
-        boolean toReturn;
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return TODO;
-        }
-        fusedLocationClient.getLastLocation()
-                .addOnSuccessListener(this, new OnSuccessListener<Location>() {
-                    @Override
-                    public void onSuccess(Location location) {
-                        if (location != null) {
-                            toReturn = true;
-                        }
-                    }
-                });
-
-        toReturn = false;
-        return toReturn;
-    }
-
-     */
-
 }

@@ -232,7 +232,6 @@ public class  DisplayCircle {
           int range = high - low;
           int pinSeparation = (range)/ numOfPinsInSector;
 
-          //System.out.println("collisionPinSeperation: " + pinSeparation );
           return pinSeparation;
 
      }
@@ -251,7 +250,6 @@ public class  DisplayCircle {
                     cnt++;
                }
           }
-          // System.out.println("numOfPinsInRange: " + cnt);
           return cnt;
      }
 

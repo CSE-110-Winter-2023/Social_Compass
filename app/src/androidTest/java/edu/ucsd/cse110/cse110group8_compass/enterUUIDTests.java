@@ -46,7 +46,7 @@ public class enterUUIDTests {
         scenario.moveToState(Lifecycle.State.STARTED);
 
         scenario.onActivity(activity -> {
-            UUID blank = new UUID("");
+            UUID blank = new UUID(null);
             int initialSize = activity.pinList.size();
             activity.pinObserver(blank);
             int secondSize = activity.pinList.size();
