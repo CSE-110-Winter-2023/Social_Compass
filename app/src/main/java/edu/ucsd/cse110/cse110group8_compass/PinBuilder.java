@@ -58,8 +58,6 @@ public class PinBuilder {
         return this;
     }
 
-
-
     public PinBuilder withCoordinates(Double longit, Double latit){
         this.longitude = longit;
         this.latitude = latit;
@@ -72,6 +70,4 @@ public class PinBuilder {
         pin.setPinTextView(this.view);
         return pin;
     }
-
-
 }

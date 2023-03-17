@@ -147,9 +147,6 @@ public class MainActivity extends AppCompatActivity {
         northPin.setPublic_code(northPinPublicCode);
         northPin.setPinTextView(findViewById(R.id.north_pin));
 
-        ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.compass);
-        float density = activity.getResources().getDisplayMetrics().density;
-
         // fetching from local database
         displayCircle = new DisplayCircle(findViewById(R.id.compass), northPin, this, azimuth, userCoordinates);
         setValidZoomLevel();

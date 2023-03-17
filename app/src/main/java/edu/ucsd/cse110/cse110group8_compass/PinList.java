@@ -12,27 +12,9 @@ public class PinList {
     }
 
     boolean addPin(Pin pin) {
-        //if(pin.checkValid() == true) {
         pinList.add(pin);
-        //     return true;
-        // }
-        //else {
-        //     return false;
-        //}
         return true;
     }
-
-    private boolean checkNullPins() {
-        boolean valid = true;
-
-        for(int i = 0; i < pinList.size(); i++) {
-            if(pinList.get(i).checkValid() == false){
-                valid = false;
-            }
-        }
-        return valid;
-    }
-
 
     public void setPinList(ArrayList<Pin> pinArray) {
         pinList = pinArray;
