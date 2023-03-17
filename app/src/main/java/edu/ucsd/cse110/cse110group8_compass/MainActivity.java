@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
 
     private HashMap<String, Pin> currPins = new HashMap<String, Pin>();
     ArrayList<Pin> pinList = new ArrayList<>();
+    int timeWithoutGPS;
     ArrayList<String> publicCodeList;
     ArrayList<LiveData<UUID>> uuids = new ArrayList<>();
     private String userName;
@@ -71,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
+        timeWithoutGPS = 0;
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         System.out.println("BACK IN MAIN");
 
@@ -177,6 +179,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void GPSTime(Integer offlineMins) {
+        timeWithoutGPS = offlineMins;
         TextView gpsView = findViewById(R.id.timeOffline);
 
         ImageView onlineButton = findViewById(R.id.online);
@@ -188,7 +191,7 @@ public class MainActivity extends AppCompatActivity {
             offlineButton.setVisibility(View.INVISIBLE);
 
         } else {
-            gpsView.setText("" + offlineMins + " min");
+            gpsView.setText("" + timeWithoutGPS + " min");
             onlineButton.setVisibility(View.INVISIBLE);
             offlineButton.setVisibility(View.VISIBLE);
         }
