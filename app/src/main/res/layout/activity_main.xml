@@ -232,4 +232,15 @@
             android:text="-" />
     </LinearLayout>
 
+    <Button
+        android:id="@+id/enterUrl"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="73dp"
+        android:text="Enter Url"
+        android:onClick="onEnterUrlClick"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

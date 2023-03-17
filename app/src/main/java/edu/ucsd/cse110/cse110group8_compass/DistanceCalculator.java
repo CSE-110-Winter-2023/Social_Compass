@@ -29,12 +29,7 @@ public class DistanceCalculator {
         targetLocation.setLatitude(targetLatitude);
         targetLocation.setLongitude(targetLongitude);
 
-
-        System.out.println("USERLAT: " + userLocation.getLatitude());
-        System.out.println("USERLONG: " + userLocation.getLongitude());
-        System.out.println("TARGETLAT: " + targetLocation.getLatitude());
         Float distance = userLocation.distanceTo(targetLocation);
-        System.out.print("VAL:" + distance);
         return metersToMiles(distance.doubleValue());
     }
 
@@ -44,7 +39,6 @@ public class DistanceCalculator {
         targetLocation.setLongitude(targetLongitude);
 
         Float distance = userLocation.distanceTo(targetLocation);
-        System.out.print("VAL:" + distance);
         return metersToMiles(distance.doubleValue());
     }
 

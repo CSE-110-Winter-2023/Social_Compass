@@ -32,14 +32,8 @@ public class EnterNameActivity extends AppCompatActivity {
         SharedPreferences.Editor myEdit = sharedPreferences.edit();
         myEdit.putString("name", nameView.getText().toString());
         myEdit.commit();
-    /*
-        SharedPreferences appSharedPrefs = PreferenceManager
-                .getDefaultSharedPreferences(this.getApplicationContext());
-        SharedPreferences.Editor prefsEditor = appSharedPrefs.edit();
-        EditText nameView = findViewById(R.id.EnterNameText);
-        prefsEditor.putString("name", nameView.getText().toString());
-        prefsEditor.commit();*/
     }
+
     public void onSubmitClicked(View view) {
         finish();
     }

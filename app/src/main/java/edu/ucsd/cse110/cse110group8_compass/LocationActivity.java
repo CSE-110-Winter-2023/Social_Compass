@@ -35,9 +35,6 @@ public class LocationActivity extends AppCompatActivity {
     }
 
     public void onNextClick(View view) {
-        // SharedPreferences preferences = getSharedPreferences("mysettings", Context.MODE_PRIVATE);
-        // SharedPreferences.Editor editor = preferences.edit();
-
         TextView error = findViewById(R.id.ErrorText);
 
         TextView latitude = findViewById(R.id.latitudeText);

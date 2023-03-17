@@ -1,11 +1,14 @@
 package edu.ucsd.cse110.cse110group8_compass;
 
 import android.app.Activity;
+import android.text.TextUtils;
+import android.util.Log;
 import android.util.Pair;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
@@ -36,7 +39,7 @@ public class  DisplayCircle {
 
      private PinList pinList;
 
-     DisplayCircle (ConstraintLayout circle_m, Pin northPin,Activity activity, LiveData<Float> azimuth, LiveData<Pair<Double, Double>> userCoordinateLive) {
+     DisplayCircle (ConstraintLayout circle_m, Pin northPin, Activity activity, LiveData<Float> azimuth, LiveData<Pair<Double, Double>> userCoordinateLive) {
           this.circle_constraint = circle_m;
           this.activity = activity;
           this.azimuth = azimuth;
@@ -127,7 +130,8 @@ public class  DisplayCircle {
                          if(zoomLevel.onEdge(miles)) {
                               TextView targetPinTextView = targetPin.getPinTextView();
                               targetPinTextView.setText("");
-                              targetPinTextView.setBackgroundResource(R.drawable.offline2);
+                              targetPinTextView.setBackgroundResource(R.drawable.offline);
+                              targetPinTextView.setPadding(0, 0, 0, 0);
 
                               int separation = collisionPinSeparation(numOfPinsInRange(targetPin), zoomLevel, miles);
 
@@ -142,7 +146,6 @@ public class  DisplayCircle {
                               targetPinTextView.setBackgroundResource(android.R.color.transparent);
 
                               int separation = collisionPinSeparation(numOfPinsInRange(targetPin), zoomLevel, miles);
-
 
                               ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) targetPin.getPinTextView().getLayoutParams();
                               layoutParams.circleRadius = (int) ((radiusConstraint + (separation * pinPosition(targetPin))) * activity.getResources().getDisplayMetrics().density);
@@ -212,11 +215,8 @@ public class  DisplayCircle {
                                              layoutParams.width = (int) (truncateSizeInt * density);
                                         }
                                    }
-
                                    targetTextView.setLayoutParams(layoutParams);
-
                                    targetTextView.setMaxLines(1);
-
                               }
                          }
                     });
@@ -232,7 +232,6 @@ public class  DisplayCircle {
           int range = high - low;
           int pinSeparation = (range)/ numOfPinsInSector;
 
-          //System.out.println("collisionPinSeperation: " + pinSeparation );
           return pinSeparation;
 
      }
@@ -251,7 +250,6 @@ public class  DisplayCircle {
                     cnt++;
                }
           }
-          // System.out.println("numOfPinsInRange: " + cnt);
           return cnt;
      }
 
@@ -275,8 +273,6 @@ public class  DisplayCircle {
           int posCnt = 1;
           Integer targetPinPos = positionMap.get(targetPin);
 
-
-
           for(int i = 0; i < pinArr.size(); i++) {
                if(targetPinPos < positionMap.get(pinArr.get(i))) {
                     posCnt++;
@@ -286,34 +282,59 @@ public class  DisplayCircle {
           return posCnt;
      }
 
+     boolean pinsIntersect(Pin p1, Pin p2){
+          ConstraintLayout.LayoutParams p1Layout =
+                  (ConstraintLayout.LayoutParams) p1.getPinTextView().getLayoutParams();
+          ConstraintLayout.LayoutParams p2Layout =
+                  (ConstraintLayout.LayoutParams) p2.getPinTextView().getLayoutParams();
+
+          float angle1 = p1Layout.circleAngle;
+          float angle2 = p2Layout.circleAngle;
+          float rad1 = p1Layout.circleRadius;
+          float rad2 = p2Layout.circleRadius;
+
+          double x1 = rad1*Math.cos(angle1);
+          double x2 = rad2*Math.cos(angle2);
+          double y1 = rad1*Math.sin(angle1);
+          double y2 = rad2*Math.sin(angle2);
+
+          float w1 = p1Layout.width;
+          float w2 = p2Layout.width;
+          float h1 = p1Layout.height;
+          float h2 = p2Layout.height;
+
+          double intersectLength = Math.min(x1+w1/2, x2+w2/2) - Math.max(x1-w1/2,x2-w2/2);
+          double intersectWidth = Math.min(y1+h1/2, y2+h2/2) - Math.max(y1-h1/2, y2-h2/2);
+
+          return intersectLength*intersectWidth > 0;
+     }
 
      private int truncateSize(Pin targetPin, Float currentAngle) {
-          if(numOfPinsInRange(targetPin) > 1) {
-               if (currentAngle > 40 && currentAngle < 140) {
-
-                    if (currentAngle > 60 && currentAngle < 120) {
-                         //        System.out.println("truncaeSize: " + 16);
-
-                         return 16;
+          Pin p;
+          double longestIntersection = 0;
+          for ( int i = 0; i < pinList.size(); i++ ){
+               p = pinList.getPin(i);
+               if (pinsIntersect(targetPin, p)){
+                    Log.i("Gavin Intersect", "INTERSECT!!");
+                    ConstraintLayout.LayoutParams p1Layout =
+                            (ConstraintLayout.LayoutParams) targetPin.getPinTextView().getLayoutParams();
+                    ConstraintLayout.LayoutParams p2Layout =
+                            (ConstraintLayout.LayoutParams) p.getPinTextView().getLayoutParams();
+                    float angle1 = p1Layout.circleAngle;
+                    float angle2 = p2Layout.circleAngle;
+                    float rad1 = p1Layout.circleRadius;
+                    float rad2 = p2Layout.circleRadius;
+                    float w1 = p1Layout.width;
+                    float w2 = p2Layout.width;
+                    double intersectionLength =
+                            Math.min(rad1*Math.cos(angle1)+w1/2, rad2*Math.cos(angle2)+w2/2) -
+                            Math.max(rad1*Math.cos(angle1)-w1/2,rad2*Math.cos(angle2)-w2/2);
+                    if (intersectionLength > longestIntersection){
+                         longestIntersection = intersectionLength;
                     }
-                    //    System.out.println("truncaeSize: " + 32);
-
-                    return 32;
-               } else if (currentAngle > 40 + 180 && currentAngle < 140 + 180) {
-
-                    if (currentAngle > 60 + 180 && currentAngle < 120 + 180) {
-                         //        System.out.println("truncaeSize: " + 16);
-
-                         return 16;
-                    }
-                    //  System.out.println("truncaeSize: " + 32);
-
-                    return 32;
                }
-
           }
-          // System.out.println("truncaeSize: " + 10000);
-          return 10000;
+          return (int) (targetPin.getPinTextView().getLayoutParams().width - longestIntersection);
      }
 
 
@@ -333,7 +354,7 @@ public class  DisplayCircle {
                          if(zoomLevel.onEdge(miles)) {
                               TextView targetPinTextView = targetPin.getPinTextView();
                               targetPinTextView.setText("");
-                              targetPinTextView.setBackgroundResource(R.drawable.offline2);
+                              targetPinTextView.setBackgroundResource(R.drawable.offline);
                          }
                          else {
                               TextView targetPinTextView = targetPin.getPinTextView();
@@ -350,10 +371,6 @@ public class  DisplayCircle {
                          layoutParams.circleRadius = (int) (180 * activity.getResources().getDisplayMetrics().density);
                          targetPin.getPinTextView().setLayoutParams(layoutParams);
                     }
-
-
-
-
 
                }
           });

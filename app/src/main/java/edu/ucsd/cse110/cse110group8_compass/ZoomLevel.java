@@ -28,7 +28,6 @@ public class ZoomLevel {
 
     private int getZone(Double miles) {
         if (miles < 0) {
-            System.out.println("getRange(): negative mile value");
             return -9999;
         }
 
@@ -47,7 +46,6 @@ public class ZoomLevel {
     public Pair<Integer, Integer>  stackZone(double miles) {
         int distanceZone = getZone(miles);
         if(zoomNum == 1) {
-            System.out.println("1");
             switch(distanceZone) {
                 case 1:
                     return Pair.create(zoomOne.ZONE_ONE, zoomOne.ZONE_ONE_STACK);
@@ -56,7 +54,6 @@ public class ZoomLevel {
             }
         }
         else if(zoomNum == 2) {
-            System.out.println("2");
             switch(distanceZone) {
                 case 1:
                     return Pair.create(zoomTwo.ZONE_ONE, zoomTwo.ZONE_ONE_STACK);
@@ -67,7 +64,6 @@ public class ZoomLevel {
             }
         }
         else if(zoomNum == 3){
-            System.out.println("3");
             switch(distanceZone) {
                 case 1:
                     return Pair.create(zoomThree.ZONE_ONE, zoomThree.ZONE_ONE_STACK);
@@ -80,7 +76,6 @@ public class ZoomLevel {
             }
         }
         else if(zoomNum == 4) {
-            System.out.println("4");
             switch(distanceZone) {
                 case 1:
                     return Pair.create(zoomFour.ZONE_ONE, zoomFour.ZONE_ONE_STACK);
@@ -181,7 +176,6 @@ public class ZoomLevel {
         }
         else {
             System.out.println("ZoomLevel: invalid zoom num");
-
             return -99;
         }
     }
