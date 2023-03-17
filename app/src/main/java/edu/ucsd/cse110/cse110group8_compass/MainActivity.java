@@ -106,12 +106,6 @@ public class MainActivity extends AppCompatActivity {
         }.getType();
         publicCodeList = gson.fromJson(json, type);
 
-        // TODO: get rid of this at the end
-        publicCodeList = new ArrayList<>();
-        String jsonToRet = gson.toJson(publicCodeList);
-        prefsEditor.putString("publicCodeList", jsonToRet);
-        prefsEditor.commit();
-
 
         for (var public_code : publicCodeList) {
             uuids.add(pinViewModel.getUUIDFromRemote(public_code));
