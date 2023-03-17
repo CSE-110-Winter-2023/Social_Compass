@@ -81,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
 
         pinViewModel = new ViewModelProvider(this).get(PinViewModel.class);
 
+
         SharedPreferences prefs = getPreferences(MODE_PRIVATE);
         boolean previouslyStarted = prefs.getBoolean("first", false);
         if (!previouslyStarted) {
@@ -337,5 +338,10 @@ public class MainActivity extends AppCompatActivity {
 
         return timeData;
 
+    }
+
+    public void onEnterUrlClick(View view) {
+        Intent intent = new Intent(this, EnterUrlActivity.class);
+        startActivity(intent);
     }
 }

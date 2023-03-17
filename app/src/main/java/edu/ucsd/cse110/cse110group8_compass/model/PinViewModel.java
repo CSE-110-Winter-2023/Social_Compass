@@ -16,6 +16,7 @@ public class PinViewModel extends AndroidViewModel {
     private LiveData<List<UUID>> uuids;
     private final UUIDRepository repo;
 
+
     public PinViewModel(@NonNull Application application) {
         super(application);
         var context = application.getApplicationContext();
