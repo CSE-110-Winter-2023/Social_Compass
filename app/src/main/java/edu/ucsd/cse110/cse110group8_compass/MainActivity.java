@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
     private int currentZoomLevel = 2;
 
     private HashMap<String, Pin> currPins = new HashMap<String, Pin>();
-    private ArrayList<Pin> pinList = new ArrayList<>();
+    ArrayList<Pin> pinList = new ArrayList<>();
     ArrayList<String> publicCodeList;
     ArrayList<LiveData<UUID>> uuids = new ArrayList<>();
     private String userName;
@@ -222,10 +222,13 @@ public class MainActivity extends AppCompatActivity {
         updatePins();
 
 
+
         if (uuid == null) {
             return;
         }
-        if (!currPins.containsKey(uuid.public_code)) {
+
+
+        if(!currPins.containsKey(uuid.public_code)) {
             Pin pin = new PinBuilder(this, layout, density).config().withCoordinates(uuid.longitude, uuid.latitude).withLabel(uuid.label).build();
             currPins.put(uuid.public_code, pin);
             pinList.add(pin);
