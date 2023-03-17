@@ -16,7 +16,7 @@ import edu.ucsd.cse110.cse110group8_compass.model.UUID;
 
 public class PinBuilderTest {
     @Test
-    public void test_entering_invalid_location() {
+    public void testValidPinBuilder() {
         ActivityScenario<MainActivity> scenario = ActivityScenario.launch(MainActivity.class);
         scenario.moveToState(Lifecycle.State.CREATED);
         scenario.moveToState(Lifecycle.State.STARTED);
