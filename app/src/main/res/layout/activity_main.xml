@@ -42,24 +42,22 @@
         android:id="@+id/location"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="48dp"
         android:onClick="onContactCreationClick"
         android:text="Add a Contact"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.319"
+        app:layout_constraintEnd_toStartOf="@+id/linearLayout"
+        app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.843" />
+        app:layout_constraintTop_toBottomOf="@+id/compass"
+        app:layout_constraintVertical_bias="0.453" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/compass"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="457dp"
+        android:layout_height="468dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintCircleRadius="140dp"
         app:layout_constraintDimensionRatio="1"
@@ -67,14 +65,15 @@
         app:layout_constraintHorizontal_bias="0.562"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.32999998"
         tools:layout_constraintCircleAngle="90">
 
         <ImageView
             android:id="@+id/compass_background"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:srcCompat="@drawable/compass_background"
             android:visibility="invisible"
+            app:srcCompat="@drawable/compass_background"
             tools:layout_editor_absoluteX="0dp"
             tools:layout_editor_absoluteY="0dp" />
 
@@ -82,8 +81,8 @@
             android:id="@+id/compass_background_2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:srcCompat="@drawable/compass_background_2"
             android:visibility="invisible"
+            app:srcCompat="@drawable/compass_background_2"
             tools:layout_editor_absoluteX="0dp"
             tools:layout_editor_absoluteY="0dp" />
 
@@ -91,8 +90,8 @@
             android:id="@+id/compass_background_3"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:visibility="visible"
             app:srcCompat="@drawable/compass_background_3"
-            android:visibility="invisible"
             tools:layout_editor_absoluteX="0dp"
             tools:layout_editor_absoluteY="0dp" />
 
@@ -100,10 +99,10 @@
             android:id="@+id/compass_background_4"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:visibility="invisible"
+            app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/compass_background_4"
-            android:visibility="visible"
-            tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="0dp" />
+            tools:layout_editor_absoluteX="0dp" />
 
         <TextView
             android:id="@+id/north_pin"
@@ -118,7 +117,7 @@
             tools:layout_editor_absoluteX="111dp"
             tools:layout_editor_absoluteY="170dp" />
 
-       <!-- <ImageView
+        <!-- <ImageView
             android:id="@+id/friend_pin"
             android:layout_width="34dp"
             android:layout_height="72dp"
@@ -133,88 +132,47 @@
 
         <TextView
             android:id="@+id/pin_one"
-            android:text="null"
             android:layout_width="34dp"
             android:layout_height="72dp"
-            android:visibility="visible"
+            android:background="@drawable/pindrop_purple"
+            android:text="null"
+            android:visibility="invisible"
             app:layout_constraintCircle="@+id/compass"
             app:layout_constraintCircleAngle="90"
             app:layout_constraintCircleRadius="140dp"
-            android:background="@drawable/pindrop_purple"
             tools:layout_constraintCircleAngle="125"
             tools:layout_editor_absoluteX="111dp"
             tools:layout_editor_absoluteY="170dp" />
 
         <TextView
             android:id="@+id/pin_two"
-            android:visibility="gone"
-            android:text="null"
-            android:layout_width="34dp"
-            android:layout_height="72dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:maxWidth="32dp"
+            android:maxLines= "1"
+            android:text="654321v123456"
+            android:visibility="invisible"
             app:layout_constraintCircle="@+id/compass"
             app:layout_constraintCircleAngle="90"
-            app:layout_constraintCircleRadius="140dp"
-            android:background="@drawable/pindrop_orange"
-            tools:layout_constraintCircleAngle="120"
+            app:layout_constraintCircleRadius="25dp"
+            tools:layout_constraintCircleAngle="90"
             tools:layout_editor_absoluteX="111dp"
             tools:layout_editor_absoluteY="170dp" />
 
         <TextView
             android:id="@+id/pin_three"
-            android:layout_width="34dp"
-            android:layout_height="72dp"
-            android:background="@drawable/pindrop"
-            android:text="null"
-            android:visibility="gone"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="654321n123456"
+            android:visibility="invisible"
             app:layout_constraintCircle="@+id/compass"
             app:layout_constraintCircleAngle="90"
-            app:layout_constraintCircleRadius="140dp"
-            tools:layout_constraintCircleAngle="140"
+            app:layout_constraintCircleRadius="45dp"
+            tools:layout_constraintCircleAngle="77"
             tools:layout_editor_absoluteX="111dp"
             tools:layout_editor_absoluteY="170dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <Button
-        android:id="@+id/orientation_activity_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="onUserOrientationClick"
-        android:text="Change Orientation"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.153"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/location"
-        app:layout_constraintVertical_bias="0.44" />
-
-    <Button
-        android:id="@+id/zoom_in_button"
-        android:layout_width="37dp"
-        android:layout_height="45dp"
-        android:layout_marginStart="109dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="32dp"
-        android:text="+"
-        android:onClick="ZoomInClick"
-        app:layout_constraintBottom_toTopOf="@+id/zoom_out_button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/location"
-        app:layout_constraintTop_toBottomOf="@+id/compass" />
-
-    <Button
-        android:id="@+id/zoom_out_button"
-        android:layout_width="36dp"
-        android:layout_height="41dp"
-        android:layout_marginStart="107dp"
-        android:layout_marginEnd="33dp"
-        android:layout_marginBottom="66dp"
-        android:text="-"
-        android:onClick="ZoomOutClick"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/orientation_activity_button"
-        app:layout_constraintTop_toBottomOf="@+id/zoom_in_button" />
 
     <TextView
         android:id="@+id/timeOffline"
@@ -246,5 +204,32 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/offline2" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="57dp"
+        android:layout_height="94dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.816"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/compass"
+        app:layout_constraintVertical_bias="0.448">
+
+        <Button
+            android:id="@+id/zoom_in_button"
+            android:layout_width="37dp"
+            android:layout_height="45dp"
+            android:onClick="ZoomInClick"
+            android:text="+" />
+
+        <Button
+            android:id="@+id/zoom_out_button"
+            android:layout_width="36dp"
+            android:layout_height="41dp"
+            android:onClick="ZoomOutClick"
+            android:text="-" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

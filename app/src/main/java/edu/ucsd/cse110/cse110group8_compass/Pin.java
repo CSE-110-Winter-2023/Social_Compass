@@ -15,7 +15,7 @@ import edu.ucsd.cse110.cse110group8_compass.model.UUID;
 
 public class Pin extends UUID {
 
-   //private String label;
+    //private String label;
     //private Double latitude;
     //private Double longitude;
     private TextView pinTextView;
@@ -95,10 +95,7 @@ public class Pin extends UUID {
     }
 
     public boolean checkValid() {
-        if(this.label == null) {
-            return false;
-        }
-        else if(this.pinTextView == null) {
+        if(this.pinTextView == null) {
             return false;
         }
         else if(this.latitude == null || this.longitude == null) {
@@ -121,6 +118,7 @@ public class Pin extends UUID {
     public String toJSON() {
         return new Gson().toJson(this);
     }
+
 
 
 }

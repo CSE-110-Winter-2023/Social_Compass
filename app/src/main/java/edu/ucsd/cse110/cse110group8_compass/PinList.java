@@ -12,13 +12,14 @@ public class PinList {
     }
 
     boolean addPin(Pin pin) {
-        if(pin.checkValid() == true) {
-            pinList.add(pin);
-            return true;
-        }
-        else {
-            return false;
-        }
+        //if(pin.checkValid() == true) {
+        pinList.add(pin);
+        //     return true;
+        // }
+        //else {
+        //     return false;
+        //}
+        return true;
     }
 
     private boolean checkNullPins() {
