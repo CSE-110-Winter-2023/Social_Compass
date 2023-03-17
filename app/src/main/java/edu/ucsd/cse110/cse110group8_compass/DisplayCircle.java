@@ -36,7 +36,7 @@ public class  DisplayCircle {
 
      private PinList pinList;
 
-     DisplayCircle (ConstraintLayout circle_m, Pin northPin,Activity activity, LiveData<Float> azimuth, LiveData<Pair<Double, Double>> userCoordinateLive) {
+     DisplayCircle (ConstraintLayout circle_m, Pin northPin, Activity activity, LiveData<Float> azimuth, LiveData<Pair<Double, Double>> userCoordinateLive) {
           this.circle_constraint = circle_m;
           this.activity = activity;
           this.azimuth = azimuth;
