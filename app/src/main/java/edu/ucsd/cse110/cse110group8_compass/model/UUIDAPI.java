@@ -24,6 +24,7 @@ public class UUIDAPI {
             = MediaType.parse("application/json");
 
     private OkHttpClient client;
+    public String url = "https://socialcompass.goto.ucsd.edu/";
 
     public UUIDAPI() {
         this.client = new OkHttpClient();
@@ -50,7 +51,7 @@ public class UUIDAPI {
         String encodedMsg = msg.replace(" ", "%20");
 
         var request = new Request.Builder()
-                .url("https://sharednotes.goto.ucsd.edu/echo/" + encodedMsg)
+                .url(url + "echo/" + encodedMsg)
                 .method("GET", null)
                 .build();
 
@@ -99,7 +100,7 @@ public class UUIDAPI {
                 )));
         Log.i("put", "requestbody "+body);
         Request request = new Request.Builder()
-                .url("https://socialcompass.goto.ucsd.edu/location/" + pin.public_code)
+                .url(url + "location/" + pin.public_code)
                 .put(body)
                 .build();
         try (Response response = client.newCall(request).execute()) {
@@ -130,7 +131,6 @@ public class UUIDAPI {
         // We can use future.get(1, SECONDS) to wait for the result.
         return future;
     }
-
 
     @AnyThread
     public Future<String> echoAsync(String msg) {

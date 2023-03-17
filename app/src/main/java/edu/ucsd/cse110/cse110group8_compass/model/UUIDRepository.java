@@ -17,7 +17,7 @@ public class UUIDRepository {
 
     private final UUIDDao dao;
     private ScheduledFuture<?> poller; // what could this be for... hmm?
-    UUIDAPI api = new UUIDAPI();
+    public UUIDAPI api = new UUIDAPI();
 
 
     public UUIDRepository(UUIDDao dao) {
