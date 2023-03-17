@@ -106,12 +106,6 @@ public class MainActivity extends AppCompatActivity {
         }.getType();
         publicCodeList = gson.fromJson(json, type);
 
-        // TODO: get rid of this at the end
-        publicCodeList = new ArrayList<>();
-        String jsonToRet = gson.toJson(publicCodeList);
-        prefsEditor.putString("publicCodeList", jsonToRet);
-        prefsEditor.commit();
-
 
         for (var public_code : publicCodeList) {
             uuids.add(pinViewModel.getUUIDFromRemote(public_code));
@@ -215,6 +209,12 @@ public class MainActivity extends AppCompatActivity {
 
     private void reloadData() {
         updatePins();
+        SharedPreferences prefs = getSharedPreferences("PREFERENCES", MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        pinViewModel.repo.api.url = prefs.getString("mockUrl", "https://socialcompass.goto.ucsd.edu/");
+        // Log.i("pinViewModel: ", ""+pinViewModel.repo.api.url);
+
+
     }
 
     public void updatePins() {

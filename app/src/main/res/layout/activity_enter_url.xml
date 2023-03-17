@@ -6,17 +6,25 @@
     android:layout_height="match_parent"
     tools:context=".EnterUrlActivity">
 
+
+    <Button
+        android:id="@+id/submitUrlButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="150dp"
+        android:layout_marginTop="76dp"
+        android:text="Submit"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        android:onClick="onsubmitUrlClick"
+        app:layout_constraintTop_toBottomOf="@+id/mockUrl" />
+
     <EditText
         android:id="@+id/mockUrl"
-        android:layout_width="252dp"
-        android:layout_height="74dp"
-        android:layout_marginTop="308dp"
-        android:layout_marginBottom="378dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:visibility="visible"
-        android:text="Name"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

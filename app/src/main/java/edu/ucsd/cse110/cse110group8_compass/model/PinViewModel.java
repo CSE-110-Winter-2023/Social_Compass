@@ -14,7 +14,7 @@ import edu.ucsd.cse110.cse110group8_compass.Pin;
 
 public class PinViewModel extends AndroidViewModel {
     private LiveData<List<UUID>> uuids;
-    private final UUIDRepository repo;
+    public UUIDRepository repo;
 
 
     public PinViewModel(@NonNull Application application) {
