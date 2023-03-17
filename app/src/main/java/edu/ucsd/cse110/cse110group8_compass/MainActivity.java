@@ -105,7 +105,10 @@ public class MainActivity extends AppCompatActivity {
         Type type = new TypeToken<ArrayList<String>>() {
         }.getType();
         publicCodeList = gson.fromJson(json, type);
-
+        
+        if(publicCodeList == null){
+            publicCodeList = new ArrayList<>();
+        }
 
         for (var public_code : publicCodeList) {
             uuids.add(pinViewModel.getUUIDFromRemote(public_code));
