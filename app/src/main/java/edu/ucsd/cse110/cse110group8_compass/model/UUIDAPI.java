@@ -72,7 +72,7 @@ public class UUIDAPI {
 
         public_code = public_code.replace(" ", "%20");
         var request = new Request.Builder()
-                .url("https://socialcompass.goto.ucsd.edu/location/" + public_code)
+                .url(url+"location/" + public_code)
                 .method("GET", null)
                 .build();
 

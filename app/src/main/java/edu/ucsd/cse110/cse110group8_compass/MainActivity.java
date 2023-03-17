@@ -218,6 +218,8 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences prefs = getSharedPreferences("PREFERENCES", MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         pinViewModel.repo.api.url = prefs.getString("mockUrl", "https://socialcompass.goto.ucsd.edu/");
+        // Log.i("pinViewModel: ", ""+pinViewModel.repo.api.url);
+
 
     }
 
