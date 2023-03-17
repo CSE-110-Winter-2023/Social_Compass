@@ -52,4 +52,21 @@ public class GPSStatusTest {
         });
     }
 
+    @Test
+    public void testOfflineShowMins() {
+        ActivityScenario<MainActivity> scenario = ActivityScenario.launch(MainActivity.class);
+        scenario.moveToState(Lifecycle.State.CREATED);
+        scenario.moveToState(Lifecycle.State.STARTED);
+
+        scenario.onActivity(activity -> {
+            activity.GPSTime(2);
+            ImageView offlineButton = activity.findViewById(R.id.offline);
+            assertEquals(View.VISIBLE, offlineButton.getVisibility());
+
+            TextView offlineIndicator = activity.findViewById(R.id.timeOffline);
+            assertEquals(offlineIndicator.getText().toString(),
+                    "" + activity.timeWithoutGPS + " min" );
+        });
+    }
+
 }
