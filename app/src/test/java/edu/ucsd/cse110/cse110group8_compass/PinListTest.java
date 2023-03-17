@@ -24,5 +24,4 @@ public class PinListTest {
 
         assertEquals(pl.size(), sizeBefore + 1);
     }
-
 }

@@ -107,13 +107,21 @@
             </AndroidTestResultsTableState>
           </value>
         </entry>
+<<<<<<< HEAD
         <entry key="1222285494">
+=======
+        <entry key="1302830304">
+>>>>>>> e13467c7f8c1933565325aea4e800cb8a9d3261f
           <value>
             <AndroidTestResultsTableState>
               <option name="preferredColumnWidths">
                 <map>
                   <entry key="Duration" value="90" />
+<<<<<<< HEAD
                   <entry key="Pixel_4_API_32" value="120" />
+=======
+                  <entry key="Pixel_XL_API_33" value="120" />
+>>>>>>> e13467c7f8c1933565325aea4e800cb8a9d3261f
                   <entry key="Tests" value="360" />
                 </map>
               </option>
